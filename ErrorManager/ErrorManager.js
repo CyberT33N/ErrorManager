@@ -95,7 +95,7 @@ class RuntimeError extends BaseError {
 }
 
 
-// eslint-disable-next-line no-use-before-define
+//  eslint-disable-next-line no-use-before-define
 global.BaseError = BaseError
 //  eslint-disable-next-line no-use-before-define
 global.RuntimeError = RuntimeError
