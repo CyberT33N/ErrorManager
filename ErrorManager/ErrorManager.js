@@ -89,6 +89,7 @@ class RuntimeError extends BaseError {
      */
     constructor(e, msg, httpStatus) {
         super(e, msg, httpStatus)
+        httpStatus = httpStatus ? httpStatus : this.httpStatus
         this.res.status(httpStatus).send(this.fullError)
     }
 }
