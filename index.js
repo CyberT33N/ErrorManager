@@ -14,5 +14,5 @@
 */
 'use strict'
 
-const ErrorManager = require('./ErrorManager')
+const ErrorManager = require('./ErrorManager/ErrorManager')
 module.exports = ErrorManager
