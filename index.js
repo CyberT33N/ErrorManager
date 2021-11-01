@@ -12,7 +12,6 @@
 ███████████████████████████████████████████████████████████████████████████████
 ███████████████████████████████████████████████████████████████████████████████
 */
-'use strict'
 
-const ErrorManager = require('./ErrorManager/ErrorManager')
-module.exports = ErrorManager
+import ErrorManager from './ErrorManager/ErrorManager'
+export default ErrorManager

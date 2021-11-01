@@ -12,7 +12,6 @@
 ███████████████████████████████████████████████████████████████████████████████
 ███████████████████████████████████████████████████████████████████████████████
 */
-'use strict'
 
 /**
  * Handle errors
@@ -100,6 +99,6 @@ global.BaseError = BaseError
 // eslint-disable-next-line no-use-before-define
 global.RuntimeError = RuntimeError
 
-module.exports = ErrorManager
+export default ErrorManager
 
 
