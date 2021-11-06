@@ -13,5 +13,5 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import ErrorManager from './ErrorManager/ErrorManager'
+import ErrorManager from './ErrorManager/ErrorManager.js'
 export default ErrorManager

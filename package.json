@@ -1,5 +1,6 @@
 {
   "name": "ErrorManager",
+  "type": "module",
   "version": "1.0.0",
   "description": "Error middleware for compelex error handling",
   "main": "index.js",
