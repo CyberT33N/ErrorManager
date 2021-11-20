@@ -34,8 +34,9 @@ class ErrorManager {
             ErrorManager.instance = this
         }
 
-        // Default status code
-        this.httpStatus = 400
+        // Default values
+        this.httpStatus = 500
+        this.offline = true
 
         return ErrorManager.instance
     }
@@ -47,9 +48,8 @@ class ErrorManager {
      * @param {Function} next - next
      * @returns {Promise<void>} - void
      */
-    static middleware = (req, res, next) => {
+    static middleware = (req, res) => {
         new ErrorManager(req, res)
-        next()
     }
 }
 
@@ -64,13 +64,21 @@ class BaseError extends ErrorManager {
      * @param {string} httpStatus - HTTP status code
      * @returns {Promise<*[]>} - void
      */
-    constructor(e, msg, httpStatus) {
+    constructor(e, msg, offline) {
         super()
+
+        this.offline = offline ? true : false
 
         this.fullError = {
             title: msg,
-            errorMessage: e.message,
-            stack: e.stack
+            errorMessage: e.message ? e.message : e,
+            stack: e.stack ? e.stack : undefined
+        }
+
+        if(this.res && !this.offline) {
+            this.res.status(this.httpStatus).send(this.fullError)
+        } else {
+            throw new Error(JSON.stringify(this.fullError, null, 4))
         }
     }
 }
@@ -87,9 +95,9 @@ class RuntimeError extends BaseError {
      * @returns {Promise<*[]>} - void
      */
     constructor(e, msg, httpStatus) {
-        super(e, msg, httpStatus)
-        httpStatus = httpStatus ? httpStatus : this.httpStatus
-        this.res.status(httpStatus).send(this.fullError)
+        this.offline = false
+        this.httpStatus = httpStatus ? httpStatus : this.httpStatus
+        super(e, msg, httpStatus, defaultError)
     }
 }
 
@@ -100,5 +108,3 @@ global.BaseError = BaseError
 global.RuntimeError = RuntimeError
 
 export default ErrorManager
-
-
