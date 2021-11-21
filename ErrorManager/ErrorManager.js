@@ -37,6 +37,7 @@ class ErrorManager {
         // Default values
         this.httpStatus = 500
         this.offline = true
+        this.sended = false
 
         return ErrorManager.instance
     }
@@ -67,16 +68,23 @@ class BaseError extends ErrorManager {
     constructor(e, msg, offline) {
         super()
 
+        let errorMessage = e.message ? e.message : (e ? e : msg)
+
+        if(!errorMessage){
+            throw new Error('Error or message missing')
+        }
+
         this.offline = offline ? true : false
 
         this.fullError = {
             title: msg,
-            errorMessage: e.message ? e.message : e,
+            errorMessage: errorMessage,
             stack: e.stack ? e.stack : undefined
         }
 
         if(this.res && !this.offline) {
             this.res.status(this.httpStatus).send(this.fullError)
+            this.sended = true
         } else {
             throw new Error(JSON.stringify(this.fullError, null, 4))
         }
@@ -95,9 +103,13 @@ class RuntimeError extends BaseError {
      * @returns {Promise<*[]>} - void
      */
     constructor(e, msg, httpStatus) {
-        this.offline = false
-        this.httpStatus = httpStatus ? httpStatus : this.httpStatus
-        super(e, msg, httpStatus, defaultError)
+        super(e, msg)
+
+        httpStatus ? httpStatus : this.httpStatus
+
+        if(!this.sended) {
+            this.res.status(httpStatus).send(this.fullError)
+        }
     }
 }
 
@@ -108,3 +120,5 @@ global.BaseError = BaseError
 global.RuntimeError = RuntimeError
 
 export default ErrorManager
+
+
