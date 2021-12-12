@@ -65,25 +65,32 @@ class BaseError extends ErrorManager {
      * @param {string} httpStatus - HTTP status code
      * @returns {Promise<*[]>} - void
      */
-    constructor(e, msg, offline) {
+    constructor(msg, e, offline = true) {
         super()
 
-        let errorMessage = e.message ? e.message : (e ? e : msg)
+        let errorMessage
 
-        if(!errorMessage){
+        if(e) {
+            errorMessage = e.message ? e.message : (e ? e : msg)
+        } else {
+            errorMessage = 'No error provided'
+        }
+
+
+        if(!errorMessage && !msg){
             throw new Error('Error or message missing')
         }
 
-        this.offline = offline ? true : false
+        this.offline = offline
 
         this.fullError = {
             title: msg,
-            errorMessage: errorMessage,
-            stack: e.stack ? e.stack : undefined
+            errorMessage: process.env.npm_lifecycle_event === 'start' ? null : errorMessage,
+            stack: process.env.npm_lifecycle_event === 'start' ? null : e.stack
         }
 
         if(this.res && !this.offline) {
-            this.res.status(this.httpStatus).send(this.fullError)
+            this.res.status(this.httpStatus).json(this.fullError)
             this.sended = true
         } else {
             throw new Error(JSON.stringify(this.fullError, null, 4))
@@ -102,8 +109,8 @@ class RuntimeError extends BaseError {
      * @param {string} httpStatus - HTTP status code
      * @returns {Promise<*[]>} - void
      */
-    constructor(e, msg, httpStatus) {
-        super(e, msg)
+    constructor(msg, e, httpStatus) {
+        super(msg, e, false)
 
         httpStatus ? httpStatus : this.httpStatus
 
@@ -120,5 +127,3 @@ global.BaseError = BaseError
 global.RuntimeError = RuntimeError
 
 export default ErrorManager
-
-
