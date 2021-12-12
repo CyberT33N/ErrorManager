@@ -34,7 +34,7 @@ class ErrorManager {
             ErrorManager.instance = this
         }
 
-        // Default values
+        //- Default values
         this.httpStatus = 500
         this.offline = true
         this.sended = false
