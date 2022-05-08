@@ -102,7 +102,6 @@ class BaseError extends ErrorManager {
      * constructor
      * @param {object} msg - Error message
      * @param {string} e - Error
-     * @param {string} httpStatus - HTTP status code
      * @returns {Promise<*[]>} - void
      */
     constructor(msg, e) {
@@ -124,7 +123,7 @@ class ValidationError extends ErrorManager {
      * constructor
      * @param {object} msg - Error message
      * @param {string} e - Error
-     * @param {string} httpStatus - HTTP status code
+     * @param {object} data - Data where validation failed
      * @returns {Promise<*[]>} - void
      */
     constructor(msg, e, data) {
@@ -139,11 +138,36 @@ class ValidationError extends ErrorManager {
     }
 }
 
+/**
+ * Runtime Error - Custom HTTP Status
+ */
+class RuntimeError extends ErrorManager {
+    /**
+     * constructor
+     * @param {object} msg - Error message
+     * @param {string} e - Error
+     * @param {string} httpStatus - HTTP status code
+     * @returns {Promise<*[]>} - void
+     */
+    constructor(msg, e, httpStatus = 500) {
+        super()
+
+        this.msg = msg
+        this.e = e
+        this.httpStatus = httpStatus
+
+        this.sendError()
+    }
+}
+
 // eslint-disable-next-line no-use-before-define
 global.BaseError = BaseError
 
 // eslint-disable-next-line no-use-before-define
 global.ValidationError = ValidationError
+
+// eslint-disable-next-line no-use-before-define
+global.RuntimeError = RuntimeError
 
 export default ErrorManager
 
