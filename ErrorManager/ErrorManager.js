@@ -21,24 +21,25 @@ const sendError = function() {
         throw new Error('ErrorManager - Can not find this.res')
     }
 
-    const { e, msg, data, httpStatus } = this
+    const { e, title, data, httpStatus } = this
 
     // If e.message use e.message
     // If e.message not exist check if e exist
     // If e not exist check if msg exist
-    // If msg not exist use fallback
-    const errorMessage = e?.message ? e?.message : (e ? e : (msg ? msg : undefined))
+    // If title not exist use fallback
+    const error = e ? e : (title ? title : undefined)
 
-    if(!errorMessage){
-        throw new Error('errorMessage is missing')
+    if(!error){
+        throw new Error('error and title is missing')
     }
 
-    const base = { environment: process.env.npm_lifecycle_event, title: msg }
+    // Base will be always there does not matter which npm_lifecycle_event
+    const base = { environment: process.env.npm_lifecycle_event, title }
 
     // Full error with error message and stack
     const fullError = {
         ...base,
-        errorMessage,
+        error,
         stack: e?.stack,
         ...(data ? { data } : {})
     }
@@ -46,7 +47,7 @@ const sendError = function() {
     // If npm_lifecycle_event is start we sanitize the error message and stacktrace
     const fullErrorSanitized = {
         ...base,
-        errorMessage: process.env.npm_lifecycle_event === 'start' ? null : errorMessage,
+        error: process.env.npm_lifecycle_event === 'start' ? null : error,
         stack: process.env.npm_lifecycle_event === 'start' ? null : e?.stack,
         ...(data ? { data: process.env.npm_lifecycle_event === 'start' ? null : data } : {})
     }
@@ -100,14 +101,14 @@ class ErrorManager {
 class BaseError extends ErrorManager {
     /**
      * constructor
-     * @param {object} msg - Error message
+     * @param {object} title - Error title
      * @param {string} e - Error
      * @returns {Promise<*[]>} - void
      */
-    constructor(msg, e) {
+    constructor(title, e) {
         super()
 
-        this.msg = msg
+        this.title = title
         this.e = e
         this.httpStatus = 500
 
@@ -121,15 +122,15 @@ class BaseError extends ErrorManager {
 class ValidationError extends ErrorManager {
     /**
      * constructor
-     * @param {object} msg - Error message
+     * @param {object} title - Error title
      * @param {string} e - Error
      * @param {object} data - Data where validation failed
      * @returns {Promise<*[]>} - void
      */
-    constructor(msg, e, data) {
+    constructor(title, e, data) {
         super()
 
-        this.msg = msg
+        this.title = title
         this.e = e
         this.data = data
         this.httpStatus = 400
@@ -144,15 +145,15 @@ class ValidationError extends ErrorManager {
 class RuntimeError extends ErrorManager {
     /**
      * constructor
-     * @param {object} msg - Error message
+     * @param {object} title - Error title
      * @param {string} e - Error
      * @param {string} httpStatus - HTTP status code
      * @returns {Promise<*[]>} - void
      */
-    constructor(msg, e, httpStatus = 500) {
+    constructor(title, e, httpStatus = 500) {
         super()
 
-        this.msg = msg
+        this.title = title
         this.e = e
         this.httpStatus = httpStatus
 
