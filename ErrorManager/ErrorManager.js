@@ -38,16 +38,16 @@ const sendError = function() {
     const fullError = {
         ...base,
         ...(e ? { error: e } : {}),
-        stack: e?.stack,
-        ...(data ? { data } : {})
+        ...(data ? { data } : {}),
+        stack: e?.stack
     }
 
     // If npm_lifecycle_event is start we sanitize the error message and stacktrace
     const fullErrorSanitized = {
         ...base,
-        ...(e ? { error: process.env.npm_lifecycle_event === 'start' ? null : e } : {}),
-        stack: process.env.npm_lifecycle_event === 'start' ? null : e?.stack,
-        ...(data ? { data: process.env.npm_lifecycle_event === 'start' ? null : data } : {})
+        ...(e ? { error: process.env.npm_lifecycle_event === 'start' ? null : e.toString() } : {}),
+        ...(data ? { data: process.env.npm_lifecycle_event === 'start' ? null : data } : {}),
+        stack: process.env.npm_lifecycle_event === 'start' ? null : e?.stack
     }
 
     this.res.status(httpStatus).json(fullErrorSanitized)
