@@ -27,19 +27,17 @@ const sendError = function() {
     // If e.message not exist check if e exist
     // If e not exist check if msg exist
     // If title not exist use fallback
-    const error = e ? e : (title ? title : undefined)
-
-    if(!error){
+    if(!e && !title){
         throw new Error('error and title is missing')
     }
 
     // Base will be always there does not matter which npm_lifecycle_event
-    const base = { environment: process.env.npm_lifecycle_event, title }
+    const base = { environment: process.env.npm_lifecycle_event, timestamp: new Date().toISOString(), title }
 
     // Full error with error message and stack
     const fullError = {
         ...base,
-        error,
+        ...(e ? { error: e } : {}),
         stack: e?.stack,
         ...(data ? { data } : {})
     }
@@ -47,7 +45,7 @@ const sendError = function() {
     // If npm_lifecycle_event is start we sanitize the error message and stacktrace
     const fullErrorSanitized = {
         ...base,
-        error: process.env.npm_lifecycle_event === 'start' ? null : error,
+        ...(e ? { error: process.env.npm_lifecycle_event === 'start' ? null : e } : {}),
         stack: process.env.npm_lifecycle_event === 'start' ? null : e?.stack,
         ...(data ? { data: process.env.npm_lifecycle_event === 'start' ? null : data } : {})
     }
