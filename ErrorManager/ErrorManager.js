@@ -18,7 +18,8 @@
  */
 const sendError = function() {
     if(!this.res) {
-        throw new Error('ErrorManager - Can not find this.res')
+        // throw new Error('ErrorManager - Can not find this.res')
+        console.log('ErrorManager - Can not find this.res')
     }
 
     const { e, title, data, httpStatus } = this
@@ -50,7 +51,7 @@ const sendError = function() {
         stack: process.env.npm_lifecycle_event === 'start' ? null : e?.stack
     }
 
-    this.res.status(httpStatus).json(fullErrorSanitized)
+    this.res?.status(httpStatus).json(fullErrorSanitized)
     throw new Error(JSON.stringify(fullError, null, 4))
 }
 
