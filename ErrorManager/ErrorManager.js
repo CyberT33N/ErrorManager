@@ -22,7 +22,7 @@ const sendError = function() {
         console.log('ErrorManager - Can not find this.res')
     }
 
-    const { e, title, data, httpStatus } = this
+    const { e, title, data, httpStatus, name } = this
 
     // If e.message use e.message
     // If e.message not exist check if e exist
@@ -33,7 +33,12 @@ const sendError = function() {
     }
 
     // Base will be always there does not matter which npm_lifecycle_event
-    const base = { environment: process.env.npm_lifecycle_event, timestamp: new Date().toISOString(), title }
+    const base = {
+        name,
+        environment: process.env.npm_lifecycle_event,
+        timestamp: new Date().toISOString(),
+        title
+    }
 
     // Full error with error message and stack
     const fullError = {
@@ -110,6 +115,7 @@ class BaseError extends ErrorManager {
         this.title = title
         this.e = e
         this.httpStatus = 500
+        this.name = 'BaseError'
 
         this.sendError()
     }
@@ -133,6 +139,7 @@ class ValidationError extends ErrorManager {
         this.e = e
         this.data = data
         this.httpStatus = 400
+        this.name = 'ValidationError'
 
         this.sendError()
     }
@@ -155,6 +162,7 @@ class RuntimeError extends ErrorManager {
         this.title = title
         this.e = e
         this.httpStatus = httpStatus
+        this.name = 'RuntimeError'
 
         this.sendError()
     }
