@@ -9,11 +9,6 @@
     "integration-test": "mocha 'test/integration/**/*.test.js' --recursive --timeout 30000 --exit --parallel --reporter mochawesome --reporter-options reportDir=./website/report",
     "test": "npm run integration-test && npm run unit-test"
   },
-  "nodemonConfig": {
-    "ignore": [
-      "mochawesome-report/*"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@gitlab.com/CyberT33N/errormanager.git"
@@ -34,7 +29,6 @@
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
     "mocha": "^9.1.2",
-    "nodemon": "^2.0.13",
     "nyc": "^15.1.0"
   }
 }

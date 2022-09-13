@@ -23,6 +23,9 @@ const sendError = function() {
     }
 
     const { e, title, data, httpStatus, name } = this
+    console.log('e: ', e)
+    console.log('data: ', data)
+    console.log('httpStatus: ', httpStatus)
 
     // If e.message use e.message
     // If e.message not exist check if e exist
@@ -39,6 +42,7 @@ const sendError = function() {
         timestamp: new Date().toISOString(),
         title
     }
+    console.log('base: ', base)
 
     // Full error with error message and stack
     const fullError = {
@@ -47,6 +51,7 @@ const sendError = function() {
         ...(data ? { data } : {}),
         stack: e?.stack
     }
+    console.log('fullError: ', fullError)
 
     // If npm_lifecycle_event is start we sanitize the error message and stacktrace
     const fullErrorSanitized = {
@@ -56,6 +61,7 @@ const sendError = function() {
         stack: process.env.npm_lifecycle_event === 'start' ? null : e?.stack
     }
 
+    console.log('fullErrorSanitized: ', fullErrorSanitized)
     this.res?.status(httpStatus).json(fullErrorSanitized)
     throw new Error(JSON.stringify(fullError, null, 4))
 }
