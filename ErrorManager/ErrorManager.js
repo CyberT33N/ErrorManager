@@ -16,7 +16,7 @@
 /**
  *
  */
-const sendError = function() {
+const _sendError = function() {
     if(!this.res) {
         // throw new Error('ErrorManager - Can not find this.res')
         console.log('ErrorManager - Can not find this.res')
@@ -61,7 +61,7 @@ const sendError = function() {
         stack: process.env.npm_lifecycle_event === 'start' ? null : e?.stack
     }
 
-    console.log('fullErrorSanitized: ', fullErrorSanitized)
+    // console.log('fullErrorSanitized: ', fullErrorSanitized)
     this.res?.status(httpStatus).json(fullErrorSanitized)
     throw new Error(JSON.stringify(fullError, null, 4))
 }
@@ -87,7 +87,7 @@ class ErrorManager {
             ErrorManager.instance = this
         }
 
-        this.sendError = sendError.bind(this)
+        this.sendError = _sendError.bind(this)
 
         return ErrorManager.instance
     }
@@ -152,6 +152,30 @@ class ValidationError extends ErrorManager {
 }
 
 /**
+ * Validation Error - Default HTTP Status 400 - Additional with data object
+ */
+class ResourceNotFoundError extends ErrorManager {
+    /**
+     * constructor
+     * @param {object} title - Error title
+     * @param {string} e - Error
+     * @param {object} data - Data where validation failed
+     * @returns {Promise<*[]>} - void
+     */
+    constructor(title, data, e) {
+        super()
+
+        this.title = title
+        this.e = e
+        this.data = data
+        this.httpStatus = 404
+        this.name = 'ResourceNotFoundError'
+
+        this.sendError()
+    }
+}
+
+/**
  * Runtime Error - Custom HTTP Status
  */
 class RuntimeError extends ErrorManager {
@@ -182,6 +206,9 @@ global.ValidationError = ValidationError
 
 // eslint-disable-next-line no-use-before-define
 global.RuntimeError = RuntimeError
+
+// eslint-disable-next-line no-use-before-define
+global.ResourceNotFoundError = ResourceNotFoundError
 
 export default ErrorManager
 
