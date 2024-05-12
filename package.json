@@ -4,9 +4,6 @@
   "version": "1.0.0",
   "description": "Error middleware for compelex error handling",
   "main": "dist/index.cjs",
-  "files": [
-    "dist/"
-  ],
   "scripts": {
     "build": "tsc --build",
     "build:dts": "tsup src/index.ts src/ErrorManager.ts",
