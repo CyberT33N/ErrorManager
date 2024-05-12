@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "description": "Error middleware for compelex error handling",
-  "main": "index.js",
+  "main": "index",
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean",
