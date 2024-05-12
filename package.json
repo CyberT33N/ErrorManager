@@ -1,10 +1,12 @@
 {
-  "name": "ErrorManager",
+  "name": "errormanager",
   "type": "module",
   "version": "1.0.0",
   "description": "Error middleware for compelex error handling",
   "main": "index.js",
   "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
     "unit-test": "mocha 'test/unit/**/*.test.js' --recursive --timeout 30000 --exit --parallel --reporter mochawesome --reporter-options reportDir=./website/report",
     "integration-test": "mocha 'test/integration/**/*.test.js' --recursive --timeout 30000 --exit --parallel --reporter mochawesome --reporter-options reportDir=./website/report",
     "test": "npm run integration-test && npm run unit-test"
@@ -24,11 +26,16 @@
   },
   "homepage": "https://gitlab.com/CyberT33N/errormanager#readme",
   "devDependencies": {
+    "@types/node": "^20.12.11",
     "babel-eslint": "^10.1.0",
     "chai": "^4.3.4",
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
