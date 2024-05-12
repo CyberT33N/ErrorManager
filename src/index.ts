@@ -13,7 +13,7 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import obj from './src/ErrorManager'
+import obj from './ErrorManager'
 
 const {
      ErrorManager,
@@ -23,7 +23,7 @@ const {
      ResourceNotFoundError
 } = obj
 
-export default {
+export {
      ErrorManager,
      BaseError,
      ValidationError,

@@ -16,10 +16,10 @@
 /**
  *
  */
-const _sendError = function(this: any) {
+function _sendError (this: any) {
     if(!this.res) {
-        // throw new Error('ErrorManager - Can not find this.res')
-        console.log('ErrorManager - Can not find this.res')
+        // throw new Error('ErrorManager - Can not find _this.res')
+        console.log('ErrorManager - Can not find _this.res')
     }
 
     const { e, title, data, httpStatus, name } = this
@@ -105,7 +105,7 @@ class BaseError extends ErrorManager {
     e: Error
     httpStatus: number
     name: string
-    
+
     constructor(title: string, e: Error) {
         super()
 
@@ -114,7 +114,7 @@ class BaseError extends ErrorManager {
         this.httpStatus = 500
         this.name = 'BaseError'
 
-        this.sendError()
+        this.sendError(this)
     }
 }
 
@@ -137,7 +137,7 @@ class ValidationError extends ErrorManager {
         this.httpStatus = 400
         this.name = 'ValidationError'
 
-        this.sendError()
+        this.sendError(this)
     }
 }
 
@@ -160,7 +160,7 @@ class ResourceNotFoundError extends ErrorManager {
         this.httpStatus = 404
         this.name = 'ResourceNotFoundError'
 
-        this.sendError()
+        this.sendError(this)
     }
 }
 
@@ -181,7 +181,7 @@ class RuntimeError extends ErrorManager {
         this.httpStatus = httpStatus
         this.name = 'RuntimeError'
 
-        this.sendError()
+        this.sendError(this)
     }
 }
 
@@ -192,5 +192,3 @@ export default {
     RuntimeError,
     ResourceNotFoundError
 }
-
-
