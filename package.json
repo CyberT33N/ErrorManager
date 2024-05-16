@@ -6,8 +6,8 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
-      "dist"
-   ],
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "unit-test": "mocha 'test/unit/**/*.test.js' --recursive --timeout 30000 --exit --parallel --reporter mochawesome --reporter-options reportDir=./website/report",
@@ -42,5 +42,8 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "glob": "^10.3.15"
   }
 }
