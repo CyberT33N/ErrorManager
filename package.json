@@ -1,6 +1,6 @@
 {
   "name": "error-manager-helper",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Error middleware for complex error handling",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
