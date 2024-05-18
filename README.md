@@ -17,30 +17,7 @@ const {
 
 const app = express()
 
-// Sample route to trigger BaseError
-app.get('/base-error', (req, res) => {
-    throw new BaseError(errorTitle, new Error(errorMessage))
-})
-
-// Sample route to trigger BaseError
-app.get('/base-error-only-msg', (req, res) => {
-    throw new BaseError(errorTitle)
-})
-
-// Sample route to trigger ValidationError
-app.get('/validation-error', (req, res) => {
-    throw new ValidationError(errorTitle, new Error(errorMessage), errorData)
-})
-
-// Sample route to trigger ResourceNotFoundError
-app.get('/resource-not-found', (req, res) => {
-    throw new ResourceNotFoundError(errorTitle, errorData, new Error(errorMessage))
-})
-
-// Sample route to trigger RunTimeError
-app.get('/runtime-error', (req, res) => {
-    throw new RunTimeError(errorTitle, new Error(errorMessage))
-})
+// Define your routes here..
 
 // errorMiddleware is error handle middleware which will be triggered when you throw error.
 app.use(errorMiddleware)
