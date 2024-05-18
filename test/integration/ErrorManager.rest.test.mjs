@@ -1,5 +1,7 @@
 // ==== DEPENDENCIES ====
 import express from 'express'
+import 'express-async-errors'
+
 import { expect } from 'chai'
 import { describe, it, before } from 'mocha'
 import axios from 'axios'
@@ -8,7 +10,11 @@ import axios from 'axios'
 import errorMiddleware from '../../dist/middleware.mjs'
 import errors from '../../dist/errors.mjs'
 const {
-     BaseError, ValidationError, RuntimeError, ResourceNotFoundError
+     BaseError,
+     ValidationError,
+     RunTimeError,
+     ResourceNotFoundError,
+     HttpClientError
 } = errors
 
 describe('[INT TESTS] - ErrorManager.js', () => {
@@ -23,17 +29,25 @@ describe('[INT TESTS] - ErrorManager.js', () => {
 
           // Sample route to trigger BaseError
           app.get('/base-error', (req, res) => {
-               throw new BaseError(errorTitle, new Error(errorMessage))
+               if (req.query.error) {
+                   throw new BaseError(errorTitle, new Error(errorMessage))
+               } else {
+                   throw new BaseError(errorTitle)
+               }
           })
 
-          // Sample route to trigger BaseError
-          app.get('/base-error-only-msg', (req, res) => {
-               throw new BaseError(errorTitle)
-          })
-          
           // Sample route to trigger ValidationError
           app.get('/validation-error', (req, res) => {
-               throw new ValidationError(errorTitle, new Error(errorMessage), errorData)
+            throw new ValidationError(errorTitle, errorData)
+          })
+
+          // Sample route to trigger HttpClientError
+          app.get('/httpclient-error', async (req, res) => {
+               try {
+                    await axios.get(`${BASE_URL}/notFound`)
+               } catch (e) {
+                    throw new HttpClientError(errorTitle, e)
+               }
           })
           
           // Sample route to trigger ResourceNotFoundError
@@ -41,9 +55,9 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                throw new ResourceNotFoundError(errorTitle, errorData, new Error(errorMessage))
           })
           
-          // Sample route to trigger RuntimeError
+          // Sample route to trigger RunTimeError
           app.get('/runtime-error', (req, res) => {
-               throw new RuntimeError(errorTitle, new Error(errorMessage))
+               throw new RunTimeError(errorTitle, new Error(errorMessage))
           })
           
           // Middleware should be the last of all..
@@ -60,7 +74,7 @@ describe('[INT TESTS] - ErrorManager.js', () => {
      describe('GET /base-error', () => {
           it('should return 500 with BaseError details - error passed', async () => {
                try {
-                    await axios.get(`${BASE_URL}/base-error`)
+                    await axios.get(`${BASE_URL}/base-error?error=true`)
                     throw new Error('Base Error Test - This should not be called')
                } catch (e) {
                     const { response } = e
@@ -79,7 +93,7 @@ describe('[INT TESTS] - ErrorManager.js', () => {
 
           it('should return 500 with BaseError details - no error passed', async () => {
                try {
-                    await axios.get(`${BASE_URL}/base-error-only-msg`)
+                    await axios.get(`${BASE_URL}/base-error`)
                     throw new Error('Base Error Test - This should not be called')
                } catch (e) {
                     const { response } = e
@@ -96,8 +110,34 @@ describe('[INT TESTS] - ErrorManager.js', () => {
           })
      })
 
+     describe('GET /httpclient-error', () => {
+          it('should return 404 with HttpClientError details', async () => {
+               try {
+                    await axios.get(`${BASE_URL}/httpclient-error`)
+                    throw new Error('HttpClient Error Test - This should not be called')
+               } catch (error) {
+                    const { response } = error
+                    expect(response.status).to.equal(404)
+                    expect(response.data).to.include({
+                         title: errorTitle,
+                         environment: process.env.npm_lifecycle_event,
+                         name: 'HttpClientError'
+                    })
+
+                    expect(response.data.data.additional).to.exists
+                    expect(response.data.data.config).to.exists
+                    expect(response.data.data.e).to.exists
+                    expect(response.data.data.errorMessage).to.exists
+                    expect(response.data.data.headers).to.exists
+                    expect(response.data.data.method).to.be.equal('get')
+                    expect(response.data.data.responseData).to.exists
+                    expect(response.data.data.url).to.exists
+               }
+          })
+     })
+
      describe('GET /validation-error', () => {
-          it('should return 400 with ValidationError details', async () => {
+          it('should return 400 with ValidationError details - no error passed', async () => {
                try {
                     await axios.get(`${BASE_URL}/validation-error`)
                     throw new Error('Validation Error Test - This should not be called')
@@ -107,9 +147,10 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                     expect(response.data).to.include({
                          title: errorTitle,
                          environment: process.env.npm_lifecycle_event,
-                         name: 'ValidationError',
-                         error: `Error: ${errorMessage}`,
+                         name: 'ValidationError'
                     })
+
+                    expect(response.data.error).to.be.undefined
                     expect(response.data.data).to.be.deep.equal(errorData)
                }
           })
@@ -138,7 +179,7 @@ describe('[INT TESTS] - ErrorManager.js', () => {
      })
 
      describe('GET /runtime-error', () => {
-          it('should return 500 with RuntimeError details', async () => {
+          it('should return 500 with RunTimeError details', async () => {
                try {
                     await axios.get(`${BASE_URL}/runtime-error`)
                     throw new Error('Runtime Error Test - This should not be called')
@@ -149,7 +190,7 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                     expect(response.data).to.include({
                          title: errorTitle,
                          environment: process.env.npm_lifecycle_event,
-                         name: 'RuntimeError',
+                         name: 'RunTimeError',
                          error: `Error: ${errorMessage}`,
                     })
 

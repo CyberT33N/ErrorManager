@@ -19,14 +19,16 @@ import errorMiddleware from './middleware'
 const {
      BaseError,
      ValidationError,
-     RuntimeError,
-     ResourceNotFoundError
+     RunTimeError,
+     ResourceNotFoundError,
+     HttpClientError
 } = errors
 
 export {
      errorMiddleware,
      BaseError,
      ValidationError,
-     RuntimeError,
-     ResourceNotFoundError
+     RunTimeError,
+     ResourceNotFoundError,
+     HttpClientError
 }
