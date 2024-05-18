@@ -1,4 +1,13 @@
-# 2.3.0 (2024-05-18)
+# [2.6.0](https://gitlab.com/CyberT33N/errormanager/compare/v2.3.0...v2.6.0) (2024-05-18)
+
+
+### Features
+
+* **CCS-004:** Updated to 2.5.0 ([b10203e](https://gitlab.com/CyberT33N/errormanager/commit/b10203e552eb343497cf8af6f7d7abe66ca920c2))
+
+
+
+# [2.3.0](https://gitlab.com/CyberT33N/errormanager/compare/9a94681a14826767d1398817378750a454e0171e...v2.3.0) (2024-05-18)
 
 
 ### Bug Fixes
