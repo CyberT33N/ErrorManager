@@ -1,18 +1,19 @@
 # ErrorManager
-- This module provides you with custom Errors for your Express APP and helps you to integrate them easily.
+- This module provides you with custom Errors for your Express app and helps you to integrate them easily.
 
 <br><br>
 
-This is how your APP express server file would look like:
+This is how your express server file would look like:
 ```javascript
 import express from 'express'
 
 // ==== ErrorManager() ====
-import errorHelper from '../../dist/ErrorManager.mjs'
+import errorManager from 'error-manager-helper'
+
 const {
-     ErrorManager,
+     errorMiddleware,
      BaseError, ValidationError, RuntimeError, ResourceNotFoundError
-} = errorHelper
+} = errorManager
 
 const app = express()
 
@@ -41,7 +42,7 @@ app.get('/runtime-error', (req, res) => {
     throw new RuntimeError(errorTitle, new Error(errorMessage))
 })
 
-// Middleware should be the last of all..
+// errorMiddleware is error handle middleware which will be triggered when you throw error.
 app.use(errorMiddleware)
 
 this.server = app.listen(port)
