@@ -5,94 +5,47 @@
 
 This is how your APP express server file would look like:
 ```javascript
-// ---- External Dependencies ----
-import fs from 'fs-extra'
 import express from 'express'
-import log from 'fancy-log'
-import('express-async-errors')
 
-// ---- Internal Dependencies ----
-import { loadEnvironmentVariables, __dirname } from './utils.js'
+// ==== ErrorManager() ====
+import errorHelper from '../../dist/ErrorManager.mjs'
+const {
+     ErrorManager,
+     BaseError, ValidationError, RuntimeError, ResourceNotFoundError
+} = errorHelper
 
-import ErrorManager from 'ErrorManager'
-const ErrorManagerMiddleware = ErrorManager.middleware
+const app = express()
 
-// ---- Variables ----
-const port = process.env.PORT
-
-const bootstrap = async app => {
-    try {
-        app.use((req, res, next) => {
-            ErrorManagerMiddleware(req, res)
-            next()
-        })
-        
-        const masterRouter = express.Router()
-        const routers = await _getRouters('src/**/routes.js')
-
-        // load all router
-        for (const router of routers) {
-            router(masterRouter)
-        }
-
-        app.use(masterRouter)
-
-        return app
-    } catch (e) {
-        throw new Error('Bootstrap failed', e)
-    }
-}
-
-loadEnvironmentVariables()
-
-// set ui..
-const server = express()
-server.use(express.static(__dirname() + '/ui'))
-
-// bootstrap..
-await bootstrap(server)
-
-// Example routes for simulate error
-server.get('/simulateError/BaseError', () => {
-    console.log('/simulateError/BaseError')
-
-    try {
-        simulate.error
-    } catch (e) {
-        throw new BaseError('Test', e)
-    }
+// Sample route to trigger BaseError
+app.get('/base-error', (req, res) => {
+    throw new BaseError(errorTitle, new Error(errorMessage))
 })
 
-server.get('/simulateError/ValidationError', () => {
-    console.log('/simulateError/ValidationError')
-
-    try {
-        simulate.error
-    } catch (e) {
-        throw new ValidationError('Test', e, { test: true, apple: false })
-    }
+// Sample route to trigger BaseError
+app.get('/base-error-only-msg', (req, res) => {
+    throw new BaseError(errorTitle)
 })
 
-server.get('/simulateError/RuntimeError', () => {
-    console.log('/simulateError/RuntimeError')
-
-    try {
-        simulate.error
-    } catch (e) {
-        throw new RuntimeError('Test', e, 300)
-    }
+// Sample route to trigger ValidationError
+app.get('/validation-error', (req, res) => {
+    throw new ValidationError(errorTitle, new Error(errorMessage), errorData)
 })
 
-// Init server
-log('Start server on port: ', port); await server.listen(port); log('Server successfully started...')
-
-/**
- *
- */
-process.on('uncaughtException', async e => {
-    console.log('Caught exception: ' + e)
-    await fs.outputFile(`logs/${new Date().toISOString()}.txt`, e)
+// Sample route to trigger ResourceNotFoundError
+app.get('/resource-not-found', (req, res) => {
+    throw new ResourceNotFoundError(errorTitle, errorData, new Error(errorMessage))
 })
+
+// Sample route to trigger RuntimeError
+app.get('/runtime-error', (req, res) => {
+    throw new RuntimeError(errorTitle, new Error(errorMessage))
+})
+
+// Middleware should be the last of all..
+app.use(errorMiddleware)
+
+this.server = app.listen(port)
+console.log(`Server is running on port ${port}`)
 ```
 
 
@@ -151,6 +104,9 @@ _________________________________________
 - Will be always HTTP Status 500
 ```javascript
 throw new BaseError('Your Error Title', errorHere)
+
+// Throw Error with error as second arg
+throw new BaseError('Your Error Title')
 ```
 
 
@@ -160,8 +116,18 @@ throw new BaseError('Your Error Title', errorHere)
 ## ValidationError
 - Will be always HTTP Status 400
 ```javascript
-throw new ValidationError('Your Error Title', errorHere, dataThatFailed)
+throw new ValidationError('Your Error Title', errorHere, dataThatNotValid)
 ```
+
+<br><br>
+<br><br>
+
+## ResourceNotFoundError
+- Will be always HTTP Status 404
+```javascript
+throw new ValidationError('Your Error Title', errorHere, dataThatMissed)
+```
+
 
 
 <br><br>
