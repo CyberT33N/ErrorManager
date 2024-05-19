@@ -44,7 +44,7 @@ _________________________________________
 
 ## 𝑩𝒂𝒔𝒆𝑬𝒓𝒓𝒐𝒓 🚨
 - Will be always HTTP Status 500
-- Works with error as second argument and without
+- Passing error is optional
 ```javascript
 throw new BaseError('Your Error Title', new Error('Any Error'))
 ```
@@ -70,8 +70,9 @@ try {
 
 ## 𝑽𝒂𝒍𝒊𝒅𝒂𝒕𝒊𝒐𝒏𝑬𝒓𝒓𝒐𝒓 ❌
 - Will be always HTTP Status 400
+- Passing error is optional
 ```javascript
-throw new ValidationError('Your Error Title', dataThatNotValid)
+throw new ValidationError('Your Error Title', dataThatNotValid, new Error('Any Error'))
 ```
 
 <br><br>
@@ -79,7 +80,7 @@ throw new ValidationError('Your Error Title', dataThatNotValid)
 
 ## 𝑹𝒆𝒔𝒐𝒖𝒓𝒄𝒆𝑵𝒐𝒕𝑭𝒐𝒖𝒏𝒅𝑬𝒓𝒓𝒐𝒓 🔍
 - Will be always HTTP Status 404
-- Works with error as third argument and without
+- Passing error is optional
 ```javascript
 
 throw new ResourceNotError('Your Error Title', dataThatMissed, new Error('Any Error'))

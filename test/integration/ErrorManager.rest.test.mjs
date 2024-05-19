@@ -38,7 +38,11 @@ describe('[INT TESTS] - ErrorManager.js', () => {
 
           // Sample route to trigger ValidationError
           app.get('/validation-error', (req, res) => {
-            throw new ValidationError(errorTitle, errorData)
+               if (req.query.error) {
+                   throw new ValidationError(errorTitle, errorData, new Error(errorMessage))
+               } else {
+                    throw new ValidationError(errorTitle, errorData)
+               }
           })
 
           // Sample route to trigger HttpClientError
@@ -141,6 +145,24 @@ describe('[INT TESTS] - ErrorManager.js', () => {
      })
 
      describe('GET /validation-error', () => {
+          it('should return 400 with ValidationError details - error passed', async () => {
+               try {
+                    await axios.get(`${BASE_URL}/validation-error?error=true`)
+                    throw new Error('Validation Error Test - This should not be called')
+               } catch (error) {
+                    const { response } = error
+                    expect(response.status).to.equal(400)
+                    expect(response.data).to.include({
+                         title: errorTitle,
+                         environment: process.env.npm_lifecycle_event,
+                         name: 'ValidationError',
+                         error: `Error: ${errorMessage}`
+                    })
+
+                    expect(response.data.data).to.be.deep.equal(errorData)
+               }
+          })
+
           it('should return 400 with ValidationError details - no error passed', async () => {
                try {
                     await axios.get(`${BASE_URL}/validation-error`)

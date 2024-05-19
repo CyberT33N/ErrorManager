@@ -40,8 +40,8 @@ class ValidationError extends BaseError {
     data: object
     httpStatus: number
 
-    constructor(title: string, data: object) {
-        super(title)
+    constructor(title: string, data: object, e: Error) {
+        super(title, e)
  
         this.name = 'ValidationError'
         this.data = data
