@@ -91,6 +91,7 @@ throw new ResourceNotError('Your Error Title', dataThatMissed, new Error('Any Er
 
 ## 𝑹𝒖𝒏𝑻𝒊𝒎𝒆𝑬𝒓𝒓𝒐𝒓 ⏳
 - You can define custom HTTP status
+- Passing error is not optional
 ```javascript
 throw new RunTimeError('Your Error Title', errorHere, customHttpStatus)
 ```
