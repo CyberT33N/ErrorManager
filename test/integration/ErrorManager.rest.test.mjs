@@ -52,7 +52,11 @@ describe('[INT TESTS] - ErrorManager.js', () => {
           
           // Sample route to trigger ResourceNotFoundError
           app.get('/resource-not-found', (req, res) => {
-               throw new ResourceNotFoundError(errorTitle, errorData, new Error(errorMessage))
+               if (req.query.error) {
+                   throw new ResourceNotFoundError(errorTitle, errorData, new Error(errorMessage))
+               } else {
+                   throw new ResourceNotFoundError(errorTitle, errorData)
+               }
           })
           
           // Sample route to trigger RunTimeError
@@ -157,9 +161,9 @@ describe('[INT TESTS] - ErrorManager.js', () => {
      })
 
      describe('GET /resource-not-found', () => {
-          it('should return 404 with ResourceNotFoundError details', async () => {
+          it('should return 404 with ResourceNotFoundError details - with error', async () => {
                try {
-                    await axios.get(`${BASE_URL}/resource-not-found`)
+                    await axios.get(`${BASE_URL}/resource-not-found?error=true`)
                     throw new Error('Resource Error Test - This should not be called')
                } catch (error) {
                     const { response } = error
@@ -173,6 +177,26 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                          error: `Error: ${errorMessage}`,
                     })
 
+                    expect(response.data.data).to.be.deep.equal(errorData)
+               }
+          })
+
+          it('should return 404 with ResourceNotFoundError details - without error', async () => {
+               try {
+                    await axios.get(`${BASE_URL}/resource-not-found`)
+                    throw new Error('Resource Error Test - This should not be called')
+               } catch (error) {
+                    const { response } = error
+
+                    expect(response.status).to.equal(404)
+
+                    expect(response.data).to.include({
+                         title: errorTitle,
+                         environment: process.env.npm_lifecycle_event,
+                         name: 'ResourceNotFoundError'
+                    })
+
+                    expect(response.data.error).to.be.undefined
                     expect(response.data.data).to.be.deep.equal(errorData)
                }
           })

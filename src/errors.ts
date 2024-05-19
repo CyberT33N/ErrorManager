@@ -123,7 +123,6 @@ class HttpClientError extends BaseError {
     }
 }
 
-
 /**
  * Runtime Error - Custom HTTP Status
  */
