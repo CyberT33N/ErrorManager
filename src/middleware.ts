@@ -13,8 +13,6 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import chalk from 'chalk'
-
 const errorHandler = (
     err: any,
     req: object,
@@ -57,7 +55,7 @@ const errorHandler = (
         stack: process.env.npm_lifecycle_event === 'start' ? null : e?.stack
     }
 
-    console.error(chalk.bgRed.white('\u2716', '[ErrorManager] Full Error: '), fullError)
+    console.error('[ErrorManager] Full Error: ', fullError)
     res.status(httpStatus).json(fullErrorSanitized)
 }
 
