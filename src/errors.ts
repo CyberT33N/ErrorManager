@@ -19,7 +19,7 @@
 class BaseError extends Error {
     name: string
     title: string
-    e: Error | null
+    e?: Error | null
     httpStatus: number
 
     constructor(title: string, e?: Error) {
