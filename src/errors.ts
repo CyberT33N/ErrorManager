@@ -22,12 +22,16 @@ class BaseError extends Error {
     e: Error | null
     httpStatus: number
 
-    constructor(title: string, e: Error | null = null) {
+    constructor(title: string, e?: Error) {
         super(title)
 
         this.name = 'BaseError'
         this.title = title
-        this.e = e
+
+        if (e) {
+            this.e = e
+        }
+
         this.httpStatus = 500
     }
 }
@@ -40,7 +44,7 @@ class ValidationError extends BaseError {
     data: object
     httpStatus: number
 
-    constructor(title: string, data: object, e: Error) {
+    constructor(title: string, data: object, e?: Error) {
         super(title, e)
  
         this.name = 'ValidationError'
@@ -57,7 +61,7 @@ class ResourceNotFoundError extends BaseError {
     data: object
     httpStatus: number
 
-    constructor(title: string, data: object, e: Error) {
+    constructor(title: string, data: object, e?: Error) {
         super(title, e)
 
         this.name = 'ResourceNotFoundError'
