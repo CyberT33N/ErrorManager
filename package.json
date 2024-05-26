@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/CyberT33N/errormanager.git"
+    "url": "https://github.com/CyberT33N/ErrorManager.git"
   },
   "keywords": [
     "error",
