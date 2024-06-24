@@ -102,7 +102,7 @@ throw new ValidationError('Your Error Title', { dataThatNotValid }, new Error('A
 - Passing error is optional
 ```javascript
 
-throw new ResourceNotError('Your Error Title', dataThatMissed, new Error('Any Error'))
+throw new ResourceNotFoundError('Your Error Title', dataThatMissed, new Error('Any Error'))
 ```
 
 <br><br>
