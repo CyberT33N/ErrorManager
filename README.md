@@ -30,12 +30,12 @@ console.log(`Server is running on port ${port}`)
 
 ## Without express
 - If you are not using express then you can still require the error types. But then they will only throw the error and not send it to the client
-```typescript
+```javascript
 import { ValidationError } from 'error-manager-helper'
 
 export default class Manager {
-    constructor(chain: string) {
-        if (!chain) {
+    constructor(chain) {
+        if (chain !== 'anyValue') {
             throw new ValidationError('Manager() - Argument chain is invalid', { chain })
         }
     }
