@@ -13,14 +13,26 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-/**
- * Base Error - Default HTTP Status 500
- */
-class BaseError extends Error {
+import { AxiosError } from 'axios'
+
+export interface BaseErrorInterface {
     name: string
     title: string
     e?: Error | null
     httpStatus: number
+}
+
+export interface DataInterface extends BaseErrorInterface {
+    data: object
+}
+
+/**
+ * Base Error - Default HTTP Status 500
+ */
+class BaseError extends Error implements BaseErrorInterface {
+    title
+    e
+    httpStatus
 
     constructor(title: string, e?: Error) {
         super(title)
@@ -36,13 +48,13 @@ class BaseError extends Error {
     }
 }
 
-/**u
+/**
  * Validation Error - Default HTTP Status 400 - Additional with data object
  */
-class ValidationError extends BaseError {
-    name: string
-    data: object
-    httpStatus: number
+class ValidationError extends BaseError implements DataInterface {
+    name
+    data
+    httpStatus
 
     constructor(title: string, data: object, e?: Error) {
         super(title, e)
@@ -56,10 +68,10 @@ class ValidationError extends BaseError {
 /**
  * ResourceNotFound Error - Default HTTP Status 400 - Additional with data object
  */
-class ResourceNotFoundError extends BaseError {
-    name: string
-    data: object
-    httpStatus: number
+class ResourceNotFoundError extends BaseError  implements DataInterface {
+    name
+    data
+    httpStatus
 
     constructor(title: string, data: object, e?: Error) {
         super(title, e)
@@ -74,43 +86,20 @@ class ResourceNotFoundError extends BaseError {
  * HTTP Client Error - Default HTTP Status 400 - Additional with data object
  * At the moment only configured for axios
  */
-class HttpClientError extends BaseError {
-    name: string
-    data: object
+class HttpClientError extends BaseError implements DataInterface {
+    name
+    data
 
-    constructor (title: string, e: {
-        statusCode: number,
-        options: {
-            uri: string,
-            method: string
-        },
-        response: {
-            status: number,
-            config: {
-                url: string,
-                method: string,
-                data: any
-            },
-            data: any,
-            headers: any
-        },
-        message: string,
-        handlebarsError?: any,
-        config: any
-    }) {
+    constructor(title: string, e: AxiosError) {
         super(title)
 
-        const status = e.statusCode || e.response?.status
-        const url = e.options?.uri || e.response?.config?.url || e.config?.url
-        const method = e.options?.method || e.response?.config?.method || e.config?.method
+        const status = e.response?.status
+        const url = e.response?.config?.url || e.config?.url
+        const method = e.response?.config?.method || e.config?.method
         const payload = e.config?.data || e.response?.config.data
         const headers = e.response?.headers
         const errorMessage = e.message
         const responseData = e.response?.data
-
-        const additional = {
-            ...(e.handlebarsError ? { handlebarsError: e.handlebarsError } : {})
-        }
 
         const config = e.config
         delete e.config?.httpsAgent
@@ -118,11 +107,12 @@ class HttpClientError extends BaseError {
 
         this.name = 'HttpClientError'
         this.httpStatus = status || 500
+
         this.data = {
             url, method, payload, headers,
             responseData,
             errorMessage, e,
-            additional, config,
+            config
         }
     }
 }
@@ -131,8 +121,8 @@ class HttpClientError extends BaseError {
  * Runtime Error - Custom HTTP Status
  */
 class RunTimeError extends BaseError {
-    httpStatus: number
-    name: string
+    httpStatus
+    name
 
     constructor(title: string, e: Error, httpStatus = 500) {
         super(title, e)
