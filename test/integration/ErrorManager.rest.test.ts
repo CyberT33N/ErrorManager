@@ -2,13 +2,17 @@
 import express from 'express'
 import 'express-async-errors'
 
-import { expect } from 'chai'
-import { describe, it, before } from 'mocha'
 import axios from 'axios'
 
-// ==== ErrorManager() ====
-import errorMiddleware from '../../dist/middleware.mjs'
-import errors from '../../dist/errors.mjs'
+import { Server } from 'http'
+
+// ==== VITEST ====
+import { describe, it, beforeAll, afterAll, expect } from 'vitest'
+
+// ==== CODE ====
+import errorMiddleware from '../../src/middleware'
+import errors from '../../src/errors'
+
 const {
      BaseError,
      ValidationError,
@@ -17,14 +21,16 @@ const {
      HttpClientError
 } = errors
 
-describe('[INT TESTS] - ErrorManager.js', () => {
+describe('[INTEGRATION TESTS] - ErrorManager', () => {
+     let server: Server
+
      const port = 3876
      const BASE_URL = `http://localhost:${port}`
      const errorTitle = 'Test title'
      const errorMessage = 'Test error'
      const errorData = { field: 'value' }
 
-     before(async function () {
+     beforeAll(() => {
           const app = express()
 
           // Sample route to trigger BaseError
@@ -49,7 +55,7 @@ describe('[INT TESTS] - ErrorManager.js', () => {
           app.get('/httpclient-error', async (req, res) => {
                try {
                     await axios.get(`${BASE_URL}/notFound`)
-               } catch (e) {
+               } catch (e: any) {
                     throw new HttpClientError(errorTitle, e)
                }
           })
@@ -67,16 +73,16 @@ describe('[INT TESTS] - ErrorManager.js', () => {
           app.get('/runtime-error', (req, res) => {
                throw new RunTimeError(errorTitle, new Error(errorMessage))
           })
-          
+          afterAll
           // Middleware should be the last of all..
           app.use(errorMiddleware)
 
-          this.server = app.listen(port)
+          server = app.listen(port)
           console.log(`Server is running on port ${port}`)
      })
 
-     after(function() {
-          this.server.close()
+     afterAll(() => {
+          server.close()
      })
 
      describe('GET /base-error', () => {
@@ -84,7 +90,7 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                try {
                     await axios.get(`${BASE_URL}/base-error?error=true`)
                     throw new Error('Base Error Test - This should not be called')
-               } catch (e) {
+               } catch (e: any) {
                     const { response } = e
                     expect(response.status).to.equal(500)
 
@@ -103,7 +109,7 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                try {
                     await axios.get(`${BASE_URL}/base-error`)
                     throw new Error('Base Error Test - This should not be called')
-               } catch (e) {
+               } catch (e: any) {
                     const { response } = e
                     expect(response.status).to.equal(500)
 
@@ -123,8 +129,8 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                try {
                     await axios.get(`${BASE_URL}/httpclient-error`)
                     throw new Error('HttpClient Error Test - This should not be called')
-               } catch (error) {
-                    const { response } = error
+               } catch (e: any) {
+                    const { response } = e
                     expect(response.status).to.equal(404)
                     expect(response.data).to.include({
                          title: errorTitle,
@@ -132,14 +138,14 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                          name: 'HttpClientError'
                     })
 
-                    expect(response.data.data.additional).to.exists
-                    expect(response.data.data.config).to.exists
-                    expect(response.data.data.e).to.exists
-                    expect(response.data.data.errorMessage).to.exists
-                    expect(response.data.data.headers).to.exists
+                    expect(response.data.data.additional).to.exist
+                    expect(response.data.data.config).to.exist
+                    expect(response.data.data.e).to.exist
+                    expect(response.data.data.errorMessage).to.exist
+                    expect(response.data.data.headers).to.exist
                     expect(response.data.data.method).to.be.equal('get')
-                    expect(response.data.data.responseData).to.exists
-                    expect(response.data.data.url).to.exists
+                    expect(response.data.data.responseData).to.exist
+                    expect(response.data.data.url).to.exist
                }
           })
      })
@@ -149,8 +155,8 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                try {
                     await axios.get(`${BASE_URL}/validation-error?error=true`)
                     throw new Error('Validation Error Test - This should not be called')
-               } catch (error) {
-                    const { response } = error
+               } catch (e: any) {
+                    const { response } = e
                     expect(response.status).to.equal(400)
                     expect(response.data).to.include({
                          title: errorTitle,
@@ -167,8 +173,8 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                try {
                     await axios.get(`${BASE_URL}/validation-error`)
                     throw new Error('Validation Error Test - This should not be called')
-               } catch (error) {
-                    const { response } = error
+               } catch (e: any) {
+                    const { response } = e
                     expect(response.status).to.equal(400)
                     expect(response.data).to.include({
                          title: errorTitle,
@@ -187,8 +193,8 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                try {
                     await axios.get(`${BASE_URL}/resource-not-found?error=true`)
                     throw new Error('Resource Error Test - This should not be called')
-               } catch (error) {
-                    const { response } = error
+               } catch (e: any) {
+                    const { response } = e
 
                     expect(response.status).to.equal(404)
 
@@ -207,8 +213,8 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                try {
                     await axios.get(`${BASE_URL}/resource-not-found`)
                     throw new Error('Resource Error Test - This should not be called')
-               } catch (error) {
-                    const { response } = error
+               } catch (e: any) {
+                    const { response } = e
 
                     expect(response.status).to.equal(404)
 
@@ -229,8 +235,8 @@ describe('[INT TESTS] - ErrorManager.js', () => {
                try {
                     await axios.get(`${BASE_URL}/runtime-error`)
                     throw new Error('Runtime Error Test - This should not be called')
-               } catch (error) {
-                    const { response } = error
+               } catch (e: any) {
+                    const { response } = e
                     expect(response.status).to.equal(500)
 
                     expect(response.data).to.include({
