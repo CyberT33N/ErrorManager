@@ -31,20 +31,6 @@ const {
 } = errors
 
 describe('[UNIT TEST] - src/errors.ts', () => {
-    describe('[BaseError()]', () => {
-        it('BaseError should set correct properties', () => {
-            const errorMsg = 'test'
-
-            const baseError = new BaseError(errorMsg)
-   
-            expect(baseError).toBeInstanceOf(BaseError)
-            expect(baseError.name).toBe('BaseError')
-            expect(baseError.title).toBe(errorMsg)
-            expect(baseError.httpStatus).toBe(500)
-            expect(baseError.e).toBeUndefined()
-        })
-    })
-
     describe('[ValidationError()]', () => {
         it('ValidationError should extend BaseError with additional data', () => {
             const errorMsg = 'test'

@@ -13,34 +13,33 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== INTERFACES ====
-export interface BaseErrorInterface {
-     name: string
-     title: string
-     e?: Error | null
-     httpStatus: number
-}
+// ==== VITEST ====
+import { describe, it, expect } from 'vitest'
 
-/**
- * Base Error - Default HTTP Status 500
- */
-class BaseError extends Error implements BaseErrorInterface {
-    title
-    e
-    httpStatus
- 
-    constructor(title: string, e?: Error) {
-        super(title)
- 
-        this.name = 'BaseError'
-        this.title = title
- 
-        if (e) {
-            this.e = e
-        }
- 
-        this.httpStatus = 500
-    }
-}
+// ==== CODE ====
+import { BaseError } from '../../../../src/errors/index'
 
-export default BaseError
+describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
+    const errorMsg = 'test'
+            
+    it('should create new Base Error without error argument', () => {
+        const baseError = new BaseError(errorMsg)
+ 
+        expect(baseError).toBeInstanceOf(BaseError)
+        expect(baseError.name).toBe('BaseError')
+        expect(baseError.title).toBe(errorMsg)
+        expect(baseError.httpStatus).toBe(500)
+        expect(baseError.e).toBeUndefined()
+    })
+
+    it('should create new Base Error with error argument', () => {
+        const e = new Error(errorMsg)
+        const baseError = new BaseError(errorMsg, e)
+ 
+        expect(baseError).toBeInstanceOf(BaseError)
+        expect(baseError.name).toBe('BaseError')
+        expect(baseError.title).toBe(errorMsg)
+        expect(baseError.httpStatus).toBe(500)
+        expect(baseError.e).toBe(e)
+    })
+})
