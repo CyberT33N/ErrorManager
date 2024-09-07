@@ -1,6 +1,6 @@
 {
   "name": "error-manager-helper",
-  "version": "3.4",
+  "version": "3.5",
   "description": "Error manager for complex error handling with and without express",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -37,6 +37,7 @@
     "@types/eslint__js": "^8.42.3",
     "@types/express": "^4.17.21",
     "@types/node": "^20.12.11",
+    "@types/sinon": "^17.0.3",
     "@vitest/coverage-v8": "^2.0.5",
     "axios": "^1.6.8",
     "eslint": "^9.10.0",
@@ -44,6 +45,7 @@
     "express-async-errors": "^3.1.1",
     "glob": "^10.3.15",
     "globals": "^15.2.0",
+    "sinon": "^18.0.0",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
     "typescript": "^5.5.4",

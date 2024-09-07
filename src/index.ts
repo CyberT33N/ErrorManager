@@ -27,7 +27,7 @@ import errorMiddleware from './middleware'
 export { BaseErrorInterface } from './errors/BaseError'
 export { HttpClientErrorDataInterface } from './errors/HttpClientError'
 export interface ErrorDataInterface extends BaseErrorInterface {
-    data: object
+    data?: object
 }
 
 export {
