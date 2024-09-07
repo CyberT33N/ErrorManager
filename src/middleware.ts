@@ -17,7 +17,7 @@
 import { NextFunction, Response, Request } from 'express'
 
 // ==== INTERNAL TYPES ====
-import { ErrorDataInterface } from './errors/index'
+import { ErrorDataInterface } from './index'
 
 const errorMiddleware = (
     err: ErrorDataInterface,

@@ -20,7 +20,7 @@ import axios, { AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
 // ==== CODE ====
-import { HttpClientError, HttpClientErrorDataInterface } from '../../../../src/errors/index'
+import { HttpClientError, HttpClientErrorDataInterface } from '../../../../src/index'
 
 describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
     const errorMsg = 'test'

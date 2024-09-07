@@ -12,7 +12,7 @@ import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 // ==== INTERFACES ====
 import { 
     BaseErrorInterface, ErrorDataInterface, HttpClientErrorDataInterface
-} from '../../src/errors/index'
+} from '../../src/index'
 
 // ==== CODE ====
 import errorMiddleware from '../../src/middleware'
@@ -23,7 +23,7 @@ import {
     RuntimeError,
     ResourceNotFoundError,
     HttpClientError
-}  from '../../src/errors/index'
+}  from '../../src/index'
 
 describe('[INTEGRATION TESTS] - ErrorManager', () => {
     let server: Server

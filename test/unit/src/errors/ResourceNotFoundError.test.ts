@@ -17,7 +17,7 @@
 import { describe, it, expect } from 'vitest'
 
 // ==== CODE ====
-import { ResourceNotFoundError, ErrorDataInterface } from '../../../../src/errors/index'
+import { ResourceNotFoundError, ErrorDataInterface } from '../../../../src/index'
 
 
 describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {

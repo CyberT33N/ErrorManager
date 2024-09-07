@@ -13,24 +13,36 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ERROR CLASSES ====
-import BaseError, {BaseErrorInterface} from './BaseError'
-import ValidationError from './ValidationError'
-import RuntimeError from './RuntimeError'
-import ResourceNotFoundError from './ResourceNotFoundError'
-import HttpClientError from './HttpClientError'
+// ==== VITEST ====
+import { describe, it, expect } from 'vitest'
 
-// ==== GENERAL INTERNAL INTERFACES ====
-export { BaseErrorInterface } from './BaseError'
-export { HttpClientErrorDataInterface } from './HttpClientError'
-export interface ErrorDataInterface extends BaseErrorInterface {
-    data: object
-}
-
-export {
+// ==== CODE ====
+import {
     BaseError,
     ValidationError,
     RuntimeError,
     ResourceNotFoundError,
     HttpClientError
-}
+} from '../../../src/index'
+
+describe('[UNIT TEST] - src/index.ts', () => {
+    it('should have BaseError class', () => {
+        expect(BaseError).toBeDefined()
+    })
+
+    it('should have ValidationError class', () => {
+        expect(ValidationError).toBeDefined()
+    })
+
+    it('should have RuntimeError class', () => {
+        expect(RuntimeError).toBeDefined()
+    })
+
+    it('should have ResourceNotFoundError class', () => {
+        expect(ResourceNotFoundError).toBeDefined()
+    })
+
+    it('should have HttpClientError class', () => {
+        expect(HttpClientError).toBeDefined()
+    })
+})
