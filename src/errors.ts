@@ -13,7 +13,13 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import { AxiosError } from 'axios'
+// ==== EXTERNAL TYPES ====
+import {
+    AxiosError, AxiosResponseHeaders,
+    InternalAxiosRequestConfig,
+    RawAxiosRequestHeaders, AxiosHeaderValue
+} from 'axios'
+
 
 export interface BaseErrorInterface {
     name: string
@@ -25,6 +31,8 @@ export interface BaseErrorInterface {
 export interface DataInterface extends BaseErrorInterface {
     data: object
 }
+
+// ==== ERROR CLASSES ====
 
 /**
  * Base Error - Default HTTP Status 500
@@ -82,11 +90,30 @@ class ResourceNotFoundError extends BaseError  implements DataInterface {
     }
 }
 
+export interface HttpClientErrorDataInterface extends BaseErrorInterface {
+    data: {
+        url: string | undefined
+        method: string | undefined
+        payload: unknown
+        headers: AxiosResponseHeaders | Partial<RawAxiosRequestHeaders & {
+            Server: AxiosHeaderValue;
+            'Content-Type': AxiosHeaderValue;
+            'Content-Length': AxiosHeaderValue;
+            'Cache-Control': AxiosHeaderValue;
+            'Content-Encoding': AxiosHeaderValue;
+        }> | undefined;
+        responseData: unknown
+        errorMessage: string
+        e: AxiosError
+        config: InternalAxiosRequestConfig | undefined
+    }
+}
+
 /**
  * HTTP Client Error - Default HTTP Status 400 - Additional with data object
  * At the moment only configured for axios
  */
-class HttpClientError extends BaseError implements DataInterface {
+class HttpClientError extends BaseError implements HttpClientErrorDataInterface {
     name
     data
 

@@ -12,7 +12,9 @@ import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 // ==== CODE ====
 import errorMiddleware from '../../src/middleware'
 import errors from '../../src/errors'
-import { BaseErrorInterface } from '../../src/errors'
+import {
+    HttpClientErrorDataInterface, DataInterface
+} from '../../src/errors'
 
 const {
     BaseError,
@@ -57,7 +59,7 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
             try {
                 await axios.get(`${BASE_URL}/notFound`)
             } catch (e: unknown) {
-                throw new HttpClientError(errorTitle, e)
+                throw new HttpClientError(errorTitle, e as AxiosError)
             }
         })
           
@@ -108,17 +110,19 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
             try {
                 await axios.get(`${BASE_URL}/base-error`)
                 throw new Error('Base Error Test - This should not be called')
-            } catch (e: any) {
-                const { response } = e
-                expect(response.status).to.equal(500)
+            } catch (e: unknown) {
+                const { response } = e as AxiosError
+                expect(response?.status).to.equal(500)
 
-                expect(response.data).to.include({
+                expect(response?.data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'BaseError'
                 })
 
-                expect(response.data.error).to.be.undefined
+                expect(response?.data).to.not.include({
+                    error: `Error: ${errorMessage}`
+                })
             }
         })
     })
@@ -128,23 +132,26 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
             try {
                 await axios.get(`${BASE_URL}/httpclient-error`)
                 throw new Error('HttpClient Error Test - This should not be called')
-            } catch (e: any) {
-                const { response } = e
-                expect(response.status).to.equal(404)
-                expect(response.data).to.include({
+            } catch (e: unknown) {
+                const { response } = e as AxiosError
+                
+                expect(response?.status).to.equal(404)
+
+                expect(response?.data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'HttpClientError'
                 })
 
-                expect(response.data.data.additional).to.exist
-                expect(response.data.data.config).to.exist
-                expect(response.data.data.e).to.exist
-                expect(response.data.data.errorMessage).to.exist
-                expect(response.data.data.headers).to.exist
-                expect(response.data.data.method).to.be.equal('get')
-                expect(response.data.data.responseData).to.exist
-                expect(response.data.data.url).to.exist
+                const data = response?.data as HttpClientErrorDataInterface
+
+                expect(data.data.config).toBeDefined()
+                expect(data.data.e).toBeDefined()
+                expect(data.data.errorMessage).toBeDefined()
+                expect(data.data.headers).toBeDefined()
+                expect(data.data.method).to.be.equal('get')
+                expect(data.data.responseData).toBeDefined()
+                expect(data.data.url).toBe(BASE_URL + '/notFound')
             }
         })
     })
@@ -154,17 +161,20 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
             try {
                 await axios.get(`${BASE_URL}/validation-error?error=true`)
                 throw new Error('Validation Error Test - This should not be called')
-            } catch (e: any) {
-                const { response } = e
-                expect(response.status).to.equal(400)
-                expect(response.data).to.include({
+            } catch (e: unknown) {
+                const { response } = e as AxiosError
+
+                expect(response?.status).to.equal(400)
+
+                expect(response?.data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'ValidationError',
                     error: `Error: ${errorMessage}`
                 })
 
-                expect(response.data.data).to.be.deep.equal(errorData)
+                const data = response?.data as DataInterface
+                expect(data.data).to.be.deep.equal(errorData)
             }
         })
 
@@ -172,17 +182,23 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
             try {
                 await axios.get(`${BASE_URL}/validation-error`)
                 throw new Error('Validation Error Test - This should not be called')
-            } catch (e: any) {
-                const { response } = e
-                expect(response.status).to.equal(400)
-                expect(response.data).to.include({
+            } catch (e: unknown) {
+                const { response } = e as AxiosError
+
+                expect(response?.status).to.equal(400)
+
+                expect(response?.data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'ValidationError'
                 })
 
-                expect(response.data.error).to.be.undefined
-                expect(response.data.data).to.be.deep.equal(errorData)
+                expect(response?.data).to.not.include({
+                    error: `Error: ${errorMessage}`
+                })
+
+                const data = response?.data as DataInterface
+                expect(data.data).to.be.deep.equal(errorData)
             }
         })
     })
@@ -192,19 +208,20 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
             try {
                 await axios.get(`${BASE_URL}/resource-not-found?error=true`)
                 throw new Error('Resource Error Test - This should not be called')
-            } catch (e: any) {
-                const { response } = e
+            } catch (e: unknown) {
+                const { response } = e as AxiosError
 
-                expect(response.status).to.equal(404)
+                expect(response?.status).to.equal(404)
 
-                expect(response.data).to.include({
+                expect(response?.data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'ResourceNotFoundError',
                     error: `Error: ${errorMessage}`
                 })
 
-                expect(response.data.data).to.be.deep.equal(errorData)
+                const data = response?.data as DataInterface
+                expect(data.data).to.be.deep.equal(errorData)
             }
         })
 
@@ -212,19 +229,23 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
             try {
                 await axios.get(`${BASE_URL}/resource-not-found`)
                 throw new Error('Resource Error Test - This should not be called')
-            } catch (e: any) {
-                const { response } = e
+            } catch (e: unknown) {
+                const { response } = e as AxiosError
 
-                expect(response.status).to.equal(404)
+                expect(response?.status).to.equal(404)
 
-                expect(response.data).to.include({
+                expect(response?.data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'ResourceNotFoundError'
                 })
 
-                expect(response.data.error).to.be.undefined
-                expect(response.data.data).to.be.deep.equal(errorData)
+                expect(response?.data).to.not.include({
+                    error: `Error: ${errorMessage}`
+                })
+
+                const data = response?.data as DataInterface
+                expect(data.data).to.be.deep.equal(errorData)
             }
         })
     })
@@ -234,18 +255,17 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
             try {
                 await axios.get(`${BASE_URL}/runtime-error`)
                 throw new Error('Runtime Error Test - This should not be called')
-            } catch (e: any) {
-                const { response } = e
-                expect(response.status).to.equal(500)
+            } catch (e: unknown) {
+                const { response } = e as AxiosError
 
-                expect(response.data).to.include({
+                expect(response?.status).to.equal(500)
+
+                expect(response?.data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'RunTimeError',
                     error: `Error: ${errorMessage}`
                 })
-
-                expect(response.data.data).to.be.undefined
             }
         })
     })

@@ -22,6 +22,7 @@ export default tseslint.config(
         ...eslint.configs.recommended,
         rules: {
             ...eslint.configs.recommended.rules,
+
             // Hier fügst du deine neue Regel hinzu
             'arrow-parens': ['error', 'as-needed'],
             'no-var': 1,
