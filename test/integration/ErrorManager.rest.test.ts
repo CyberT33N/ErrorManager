@@ -10,8 +10,9 @@ import { Server } from 'http'
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 
 // ==== INTERFACES ====
-import { ErrorDataInterface } from '../../src/errors/index'
-import { HttpClientErrorDataInterface } from '../../src/errors/HttpClientError'
+import { 
+    BaseErrorInterface, ErrorDataInterface, HttpClientErrorDataInterface
+} from '../../src/errors/index'
 
 // ==== CODE ====
 import errorMiddleware from '../../src/middleware'
@@ -19,7 +20,7 @@ import errorMiddleware from '../../src/middleware'
 import {
     BaseError,
     ValidationError,
-    RunTimeError,
+    RuntimeError,
     ResourceNotFoundError,
     HttpClientError
 }  from '../../src/errors/index'
@@ -72,9 +73,9 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
             }
         })
           
-        // Sample route to trigger RunTimeError
+        // Sample route to trigger RuntimeError
         app.get('/runtime-error', () => {
-            throw new RunTimeError(errorTitle, new Error(errorMessage))
+            throw new RuntimeError(errorTitle, new Error(errorMessage))
         })
 
         // Middleware should be the last of all..
@@ -97,7 +98,9 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
                 const { response } = e as AxiosError
                 expect(response?.status).to.equal(500)
 
-                expect(response?.data).to.include({
+                const data = response?.data as BaseErrorInterface
+
+                expect(data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'BaseError',
@@ -114,13 +117,15 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
                 const { response } = e as AxiosError
                 expect(response?.status).to.equal(500)
 
-                expect(response?.data).to.include({
+                const data = response?.data as BaseErrorInterface
+
+                expect(data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'BaseError'
                 })
 
-                expect(response?.data).to.not.include({
+                expect(data).to.not.include({
                     error: `Error: ${errorMessage}`
                 })
             }
@@ -137,13 +142,13 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
                 
                 expect(response?.status).to.equal(404)
 
-                expect(response?.data).to.include({
+                const data = response?.data as HttpClientErrorDataInterface
+
+                expect(data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'HttpClientError'
                 })
-
-                const data = response?.data as HttpClientErrorDataInterface
 
                 expect(data.data.config).toBeDefined()
                 expect(data.data.e).toBeDefined()
@@ -166,14 +171,15 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
 
                 expect(response?.status).to.equal(400)
 
-                expect(response?.data).to.include({
+                const data = response?.data as ErrorDataInterface
+
+                expect(data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'ValidationError',
                     error: `Error: ${errorMessage}`
                 })
 
-                const data = response?.data as ErrorDataInterface
                 expect(data.data).to.be.deep.equal(errorData)
             }
         })
@@ -187,17 +193,18 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
 
                 expect(response?.status).to.equal(400)
 
-                expect(response?.data).to.include({
+                const data = response?.data as ErrorDataInterface
+
+                expect(data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'ValidationError'
                 })
 
-                expect(response?.data).to.not.include({
+                expect(data).to.not.include({
                     error: `Error: ${errorMessage}`
                 })
 
-                const data = response?.data as ErrorDataInterface
                 expect(data.data).to.be.deep.equal(errorData)
             }
         })
@@ -213,14 +220,15 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
 
                 expect(response?.status).to.equal(404)
 
-                expect(response?.data).to.include({
+                const data = response?.data as ErrorDataInterface
+
+                expect(data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'ResourceNotFoundError',
                     error: `Error: ${errorMessage}`
                 })
 
-                const data = response?.data as ErrorDataInterface
                 expect(data.data).to.be.deep.equal(errorData)
             }
         })
@@ -234,24 +242,25 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
 
                 expect(response?.status).to.equal(404)
 
-                expect(response?.data).to.include({
+                const data = response?.data as ErrorDataInterface
+
+                expect(data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
                     name: 'ResourceNotFoundError'
                 })
 
-                expect(response?.data).to.not.include({
+                expect(data).to.not.include({
                     error: `Error: ${errorMessage}`
                 })
 
-                const data = response?.data as ErrorDataInterface
                 expect(data.data).to.be.deep.equal(errorData)
             }
         })
     })
 
     describe('GET /runtime-error', () => {
-        it('should return 500 with RunTimeError details', async() => {
+        it('should return 500 with RuntimeError details', async() => {
             try {
                 await axios.get(`${BASE_URL}/runtime-error`)
                 throw new Error('Runtime Error Test - This should not be called')
@@ -260,10 +269,12 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
 
                 expect(response?.status).to.equal(500)
 
-                expect(response?.data).to.include({
+                const data = response?.data as ErrorDataInterface
+
+                expect(data).to.include({
                     title: errorTitle,
                     environment: process.env.npm_lifecycle_event,
-                    name: 'RunTimeError',
+                    name: 'RuntimeError',
                     error: `Error: ${errorMessage}`
                 })
             }

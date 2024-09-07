@@ -17,13 +17,13 @@
 import { describe, it, expect } from 'vitest'
 
 // ==== CODE ====
-import { BaseError } from '../../../../src/errors/index'
+import { BaseError, BaseErrorInterface } from '../../../../src/errors/index'
 
 describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
     const errorMsg = 'test'
             
     it('should create new Base Error without error argument', () => {
-        const baseError = new BaseError(errorMsg)
+        const baseError: BaseErrorInterface = new BaseError(errorMsg)
  
         expect(baseError).toBeInstanceOf(BaseError)
         expect(baseError.name).toBe('BaseError')
@@ -34,7 +34,7 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
 
     it('should create new Base Error with error argument', () => {
         const e = new Error(errorMsg)
-        const baseError = new BaseError(errorMsg, e)
+        const baseError: BaseErrorInterface = new BaseError(errorMsg, e)
  
         expect(baseError).toBeInstanceOf(BaseError)
         expect(baseError.name).toBe('BaseError')

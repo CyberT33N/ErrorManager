@@ -20,10 +20,7 @@ import axios, { AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
 // ==== CODE ====
-import { HttpClientError } from '../../../../src/errors/index'
-
-// ==== INTERFACES ====
-import { HttpClientErrorDataInterface } from '../../../../src/errors/HttpClientError'
+import { HttpClientError, HttpClientErrorDataInterface } from '../../../../src/errors/index'
 
 describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
     const errorMsg = 'test'
@@ -35,14 +32,14 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
             await axios.get(url)
             throw new Error('HttpClient Error Test - This should not be called')
         } catch (e: unknown) {
-            const httpClientError = new HttpClientError(errorMsg, e as AxiosError)
+            const httpClientError: HttpClientErrorDataInterface = new HttpClientError(errorMsg, e as AxiosError)
             expect(httpClientError).toBeInstanceOf(HttpClientError)
             expect(httpClientError.name).toBe('HttpClientError')
             expect(httpClientError.title).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(500)
             expect(httpClientError.e).toBeUndefined()
 
-            const { data } = httpClientError as HttpClientErrorDataInterface
+            const { data } = httpClientError
 
             expect(data.config).toBeDefined()
             expect(data.e.message).toBe(`getaddrinfo ENOTFOUND ${host}`)

@@ -27,7 +27,7 @@ class RuntimeError extends BaseError {
         super(title, e)
 
         this.httpStatus = httpStatus
-        this.name = 'RunTimeError'
+        this.name = 'RuntimeError'
     }
 }
 

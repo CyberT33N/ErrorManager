@@ -13,24 +13,39 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ERROR CLASSES ====
-import BaseError, {BaseErrorInterface} from './BaseError'
-import ValidationError from './ValidationError'
-import RuntimeError from './RuntimeError'
-import ResourceNotFoundError from './ResourceNotFoundError'
-import HttpClientError from './HttpClientError'
+// ==== VITEST ====
+import { describe, it, expect } from 'vitest'
 
-// ==== GENERAL INTERNAL INTERFACES ====
-export { BaseErrorInterface } from './BaseError'
-export { HttpClientErrorDataInterface } from './HttpClientError'
-export interface ErrorDataInterface extends BaseErrorInterface {
-    data: object
-}
+// ==== CODE ====
+import { ValidationError, ErrorDataInterface } from '../../../../src/errors/index'
 
-export {
-    BaseError,
-    ValidationError,
-    RuntimeError,
-    ResourceNotFoundError,
-    HttpClientError
-}
+describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
+    const errorMsg = 'test'
+    const errorData = { test: 'test' }
+
+    it('should create new ValidationError without error argument', () => {
+        const validationError: ErrorDataInterface = new ValidationError(errorMsg, errorData)
+        expect(validationError).toBeInstanceOf(ValidationError)
+        expect(validationError.name).toBe('ValidationError')
+        expect(validationError.title).toBe(errorMsg)
+        expect(validationError.httpStatus).toBe(400)
+        expect(validationError.e).toBeUndefined()
+
+        const { data } = validationError
+        expect(data).toEqual(errorData)
+    })
+
+    it('should create new ValidationError without custom http status', () => {
+        const testError = new Error(errorMsg)
+
+        const validationError: ErrorDataInterface = new ValidationError(errorMsg, errorData, testError)
+        expect(validationError).toBeInstanceOf(ValidationError)
+        expect(validationError.name).toBe('ValidationError')
+        expect(validationError.title).toBe(errorMsg)
+        expect(validationError.httpStatus).toBe(400)
+        expect(validationError.e).toBe(testError)
+
+        const { data } = validationError
+        expect(data).toEqual(errorData)
+    })
+})

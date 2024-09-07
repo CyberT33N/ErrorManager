@@ -112,7 +112,7 @@ throw new ResourceNotFoundError('Your Error Title', dataThatMissed, new Error('A
 - You can define custom HTTP status
 - Passing error is not optional
 ```javascript
-throw new RunTimeError('Your Error Title', errorHere, customHttpStatus)
+throw new RuntimeError('Your Error Title', errorHere, customHttpStatus)
 ```
 
 

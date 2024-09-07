@@ -13,24 +13,30 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ERROR CLASSES ====
-import BaseError, {BaseErrorInterface} from './BaseError'
-import ValidationError from './ValidationError'
-import RuntimeError from './RuntimeError'
-import ResourceNotFoundError from './ResourceNotFoundError'
-import HttpClientError from './HttpClientError'
+// ==== VITEST ====
+import { describe, it, expect } from 'vitest'
 
-// ==== GENERAL INTERNAL INTERFACES ====
-export { BaseErrorInterface } from './BaseError'
-export { HttpClientErrorDataInterface } from './HttpClientError'
-export interface ErrorDataInterface extends BaseErrorInterface {
-    data: object
-}
+// ==== CODE ====
+import { RuntimeError, BaseErrorInterface } from '../../../../src/errors/index'
 
-export {
-    BaseError,
-    ValidationError,
-    RuntimeError,
-    ResourceNotFoundError,
-    HttpClientError
-}
+describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
+    const errorMsg = 'test'
+
+    it('should create new ResourceNotFoundError without error argument', () => {
+        const runtimeError: BaseErrorInterface = new RuntimeError(errorMsg, new Error(errorMsg))
+        expect(runtimeError).toBeInstanceOf(RuntimeError)
+        expect(runtimeError.name).toBe('RuntimeError')
+        expect(runtimeError.title).toBe(errorMsg)
+        expect(runtimeError.httpStatus).toBe(500)
+        expect(runtimeError.e).toBeInstanceOf(Error)
+    })
+
+    it('should create new ResourceNotFoundError without custom http status', () => {
+        const runtimeError: BaseErrorInterface = new RuntimeError(errorMsg, new Error(errorMsg), 404)
+        expect(runtimeError).toBeInstanceOf(RuntimeError)
+        expect(runtimeError.name).toBe('RuntimeError')
+        expect(runtimeError.title).toBe(errorMsg)
+        expect(runtimeError.httpStatus).toBe(404)
+        expect(runtimeError.e).toBeInstanceOf(Error)
+    })
+})

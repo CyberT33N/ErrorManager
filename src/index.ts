@@ -17,7 +17,7 @@
 import {
     BaseError,
     ValidationError,
-    RunTimeError,
+    RuntimeError,
     ResourceNotFoundError,
     HttpClientError
 } from './errors/index'
@@ -29,7 +29,7 @@ export {
     errorMiddleware,
     BaseError,
     ValidationError,
-    RunTimeError,
+    RuntimeError,
     ResourceNotFoundError,
     HttpClientError
 }

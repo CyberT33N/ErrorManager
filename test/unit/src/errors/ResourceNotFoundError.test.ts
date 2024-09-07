@@ -13,24 +13,40 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ERROR CLASSES ====
-import BaseError, {BaseErrorInterface} from './BaseError'
-import ValidationError from './ValidationError'
-import RuntimeError from './RuntimeError'
-import ResourceNotFoundError from './ResourceNotFoundError'
-import HttpClientError from './HttpClientError'
+// ==== VITEST ====
+import { describe, it, expect } from 'vitest'
 
-// ==== GENERAL INTERNAL INTERFACES ====
-export { BaseErrorInterface } from './BaseError'
-export { HttpClientErrorDataInterface } from './HttpClientError'
-export interface ErrorDataInterface extends BaseErrorInterface {
-    data: object
-}
+// ==== CODE ====
+import { ResourceNotFoundError, ErrorDataInterface } from '../../../../src/errors/index'
 
-export {
-    BaseError,
-    ValidationError,
-    RuntimeError,
-    ResourceNotFoundError,
-    HttpClientError
-}
+
+describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
+    const errorMsg = 'test'
+    const errorData = { test: 'test' }
+        
+    it('should create new ResourceNotFoundError without error argument', () => {
+        const resourceNotFoundError: ErrorDataInterface = new ResourceNotFoundError(errorMsg, errorData)
+        expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
+        expect(resourceNotFoundError.name).toBe('ResourceNotFoundError')
+        expect(resourceNotFoundError.title).toBe(errorMsg)
+        expect(resourceNotFoundError.httpStatus).toBe(404)
+        expect(resourceNotFoundError.e).toBeUndefined()
+
+        const { data } = resourceNotFoundError
+        expect(data).toBe(errorData)
+    })
+
+    it('should create new ResourceNotFoundError with error argument', () => {
+        const e = new Error(errorMsg)
+
+        const resourceNotFoundError: ErrorDataInterface = new ResourceNotFoundError(errorMsg, errorData, e)
+        expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
+        expect(resourceNotFoundError.name).toBe('ResourceNotFoundError')
+        expect(resourceNotFoundError.title).toBe(errorMsg)
+        expect(resourceNotFoundError.httpStatus).toBe(404)
+        expect(resourceNotFoundError.e).toBe(e)
+
+        const { data } = resourceNotFoundError
+        expect(data).toBe(errorData)
+    })
+})
