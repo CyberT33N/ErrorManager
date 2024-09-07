@@ -17,12 +17,12 @@
 import BaseError from './BaseError'
 
 // ==== INTERFACES ====
-import { DataInterface } from './index'
+import { ErrorDataInterface } from './index'
 
 /**
  * Validation Error - Default HTTP Status 400 - Additional with data object
  */
-class ValidationError extends BaseError implements DataInterface {
+class ValidationError extends BaseError implements ErrorDataInterface {
     name
     data
     httpStatus

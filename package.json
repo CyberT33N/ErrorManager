@@ -1,6 +1,6 @@
 {
   "name": "error-manager-helper",
-  "version": "3.02",
+  "version": "3.3",
   "description": "Error manager for complex error handling with and without express",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "npx eslint src && tsup",
     "_kill": "kill -9 $(lsof -t -i:3876) || true",
     "test-only": "bash test-only.sh",
     "test": "vitest --coverage --disable-console-intercept --watch=false",

@@ -13,22 +13,23 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import errors from './errors'
+// ==== ERROR CLASSES ====
+import {
+    BaseError,
+    ValidationError,
+    RunTimeError,
+    ResourceNotFoundError,
+    HttpClientError
+} from './errors/index'
+
+// ==== MIDDLEWARE ====
 import errorMiddleware from './middleware'
 
-const {
-     BaseError,
-     ValidationError,
-     RunTimeError,
-     ResourceNotFoundError,
-     HttpClientError
-} = errors
-
 export {
-     errorMiddleware,
-     BaseError,
-     ValidationError,
-     RunTimeError,
-     ResourceNotFoundError,
-     HttpClientError
+    errorMiddleware,
+    BaseError,
+    ValidationError,
+    RunTimeError,
+    ResourceNotFoundError,
+    HttpClientError
 }

@@ -13,14 +13,18 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-const errorHandler = (
-    err: any,
-    req: object,
-    res: {
-            status: Function,
-            json: Function
-    },
-    next: Function
+// ==== EXTERNAL DEPENDENCIES TYPES ====
+import { NextFunction, Response, Request } from 'express'
+
+// ==== INTERNAL TYPES ====
+import { ErrorDataInterface } from './errors/index'
+
+const errorMiddleware = (
+    err: ErrorDataInterface,
+    req:Request,
+    res: Response,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    next: NextFunction
 ) => {
     const { e, title, data, httpStatus, name } = err
 
@@ -59,4 +63,4 @@ const errorHandler = (
     res.status(httpStatus).json(fullErrorSanitized)
 }
 
-export default errorHandler
+export default errorMiddleware

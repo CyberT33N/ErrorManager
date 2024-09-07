@@ -17,12 +17,12 @@
 import BaseError from './BaseError'
 
 // ==== INTERFACES ====
-import { DataInterface } from './index'
+import { ErrorDataInterface } from './index'
 
 /**
  * ResourceNotFound Error - Default HTTP Status 400 - Additional with data object
  */
-class ResourceNotFoundError extends BaseError implements DataInterface {
+class ResourceNotFoundError extends BaseError implements ErrorDataInterface {
     name
     data
     httpStatus

@@ -21,11 +21,11 @@ import ResourceNotFoundError from './ResourceNotFoundError'
 import HttpClientError from './HttpClientError'
 
 // ==== GENERAL INTERNAL INTERFACES ====
-export interface DataInterface extends BaseErrorInterface {
+export interface ErrorDataInterface extends BaseErrorInterface {
     data: object
 }
 
-export default {
+export {
     BaseError,
     ValidationError,
     RunTimeError,

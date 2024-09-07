@@ -10,21 +10,19 @@ import { Server } from 'http'
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 
 // ==== INTERFACES ====
-import { DataInterface } from '../../src/errors/index'
+import { ErrorDataInterface } from '../../src/errors/index'
 import { HttpClientErrorDataInterface } from '../../src/errors/HttpClientError'
 
 // ==== CODE ====
 import errorMiddleware from '../../src/middleware'
 
-import errors from '../../src/errors/index'
-
-const {
+import {
     BaseError,
     ValidationError,
     RunTimeError,
     ResourceNotFoundError,
     HttpClientError
-} = errors
+}  from '../../src/errors/index'
 
 describe('[INTEGRATION TESTS] - ErrorManager', () => {
     let server: Server
@@ -175,7 +173,7 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
                     error: `Error: ${errorMessage}`
                 })
 
-                const data = response?.data as DataInterface
+                const data = response?.data as ErrorDataInterface
                 expect(data.data).to.be.deep.equal(errorData)
             }
         })
@@ -199,7 +197,7 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
                     error: `Error: ${errorMessage}`
                 })
 
-                const data = response?.data as DataInterface
+                const data = response?.data as ErrorDataInterface
                 expect(data.data).to.be.deep.equal(errorData)
             }
         })
@@ -222,7 +220,7 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
                     error: `Error: ${errorMessage}`
                 })
 
-                const data = response?.data as DataInterface
+                const data = response?.data as ErrorDataInterface
                 expect(data.data).to.be.deep.equal(errorData)
             }
         })
@@ -246,7 +244,7 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
                     error: `Error: ${errorMessage}`
                 })
 
-                const data = response?.data as DataInterface
+                const data = response?.data as ErrorDataInterface
                 expect(data.data).to.be.deep.equal(errorData)
             }
         })
