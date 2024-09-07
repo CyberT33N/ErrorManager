@@ -13,82 +13,15 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
+// ==== ERROR CLASSES ====
+import BaseError, { BaseErrorInterface } from './BaseError'
+
 // ==== EXTERNAL TYPES ====
 import {
     AxiosError, AxiosResponseHeaders,
     InternalAxiosRequestConfig,
     RawAxiosRequestHeaders, AxiosHeaderValue
 } from 'axios'
-
-
-export interface BaseErrorInterface {
-    name: string
-    title: string
-    e?: Error | null
-    httpStatus: number
-}
-
-export interface DataInterface extends BaseErrorInterface {
-    data: object
-}
-
-// ==== ERROR CLASSES ====
-
-/**
- * Base Error - Default HTTP Status 500
- */
-class BaseError extends Error implements BaseErrorInterface {
-    title
-    e
-    httpStatus
-
-    constructor(title: string, e?: Error) {
-        super(title)
-
-        this.name = 'BaseError'
-        this.title = title
-
-        if (e) {
-            this.e = e
-        }
-
-        this.httpStatus = 500
-    }
-}
-
-/**
- * Validation Error - Default HTTP Status 400 - Additional with data object
- */
-class ValidationError extends BaseError implements DataInterface {
-    name
-    data
-    httpStatus
-
-    constructor(title: string, data: object, e?: Error) {
-        super(title, e)
- 
-        this.name = 'ValidationError'
-        this.data = data
-        this.httpStatus = 400
-    }
-}
-
-/**
- * ResourceNotFound Error - Default HTTP Status 400 - Additional with data object
- */
-class ResourceNotFoundError extends BaseError  implements DataInterface {
-    name
-    data
-    httpStatus
-
-    constructor(title: string, data: object, e?: Error) {
-        super(title, e)
-
-        this.name = 'ResourceNotFoundError'
-        this.data = data
-        this.httpStatus = 404
-    }
-}
 
 export interface HttpClientErrorDataInterface extends BaseErrorInterface {
     data: {
@@ -144,25 +77,4 @@ class HttpClientError extends BaseError implements HttpClientErrorDataInterface 
     }
 }
 
-/**
- * Runtime Error - Custom HTTP Status
- */
-class RunTimeError extends BaseError {
-    httpStatus
-    name
-
-    constructor(title: string, e: Error, httpStatus = 500) {
-        super(title, e)
-
-        this.httpStatus = httpStatus
-        this.name = 'RunTimeError'
-    }
-}
-
-export default {
-    BaseError,
-    ValidationError,
-    RunTimeError,
-    ResourceNotFoundError,
-    HttpClientError
-}
+export default HttpClientError

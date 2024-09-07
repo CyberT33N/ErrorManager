@@ -9,12 +9,14 @@ import { Server } from 'http'
 // ==== VITEST ====
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 
+// ==== INTERFACES ====
+import { DataInterface } from '../../src/errors/index'
+import { HttpClientErrorDataInterface } from '../../src/errors/HttpClientError'
+
 // ==== CODE ====
 import errorMiddleware from '../../src/middleware'
-import errors from '../../src/errors'
-import {
-    HttpClientErrorDataInterface, DataInterface
-} from '../../src/errors'
+
+import errors from '../../src/errors/index'
 
 const {
     BaseError,
