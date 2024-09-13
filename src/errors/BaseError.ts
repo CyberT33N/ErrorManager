@@ -16,30 +16,28 @@
 // ==== INTERFACES ====
 export interface BaseErrorInterface {
      name: string
-     title: string
-     e?: Error | null
      httpStatus: number
+     readonly title: string
+     readonly e?: Error | null
 }
 
 /**
  * Base Error - Default HTTP Status 500
  */
 class BaseError extends Error implements BaseErrorInterface {
-    title
-    e
-    httpStatus
- 
-    constructor(title: string, e?: Error) {
+    httpStatus: number
+
+    constructor(
+        public title: string,
+        public e?: Error
+    ) {
         super(title)
  
         this.name = 'BaseError'
-        this.title = title
- 
-        if (e) {
-            this.e = e
-        }
- 
         this.httpStatus = 500
+
+        this.title = title
+        this.e = e
     }
 }
 

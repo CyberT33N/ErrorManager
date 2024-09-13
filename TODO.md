@@ -1,0 +1,1 @@
+- Write test and throw normal error to check if middleware is blocking

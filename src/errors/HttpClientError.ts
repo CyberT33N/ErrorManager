@@ -23,23 +23,25 @@ import {
     RawAxiosRequestHeaders, AxiosHeaderValue
 } from 'axios'
 
+type AxiosErrorData = {
+    url: string | undefined
+    method: string | undefined
+    payload: unknown
+    headers: AxiosResponseHeaders | Partial<RawAxiosRequestHeaders & {
+        Server: AxiosHeaderValue;
+        'Content-Type': AxiosHeaderValue;
+        'Content-Length': AxiosHeaderValue;
+        'Cache-Control': AxiosHeaderValue;
+        'Content-Encoding': AxiosHeaderValue;
+    }> | undefined;
+    responseData: unknown
+    errorMessage: string
+    e: AxiosError
+    config: InternalAxiosRequestConfig | undefined
+}
+
 export interface HttpClientErrorDataInterface extends BaseErrorInterface {
-    data: {
-        url: string | undefined
-        method: string | undefined
-        payload: unknown
-        headers: AxiosResponseHeaders | Partial<RawAxiosRequestHeaders & {
-            Server: AxiosHeaderValue;
-            'Content-Type': AxiosHeaderValue;
-            'Content-Length': AxiosHeaderValue;
-            'Cache-Control': AxiosHeaderValue;
-            'Content-Encoding': AxiosHeaderValue;
-        }> | undefined;
-        responseData: unknown
-        errorMessage: string
-        e: AxiosError
-        config: InternalAxiosRequestConfig | undefined
-    }
+    data: AxiosErrorData
 }
 
 /**
@@ -47,8 +49,7 @@ export interface HttpClientErrorDataInterface extends BaseErrorInterface {
  * At the moment only configured for axios
  */
 class HttpClientError extends BaseError implements HttpClientErrorDataInterface {
-    name
-    data
+    data: AxiosErrorData
 
     constructor(title: string, e: AxiosError) {
         super(title)

@@ -20,9 +20,6 @@ import BaseError from './BaseError'
  * Runtime Error - Custom HTTP Status
  */
 class RuntimeError extends BaseError {
-    httpStatus
-    name
-
     constructor(title: string, e: Error, httpStatus = 500) {
         super(title, e)
 

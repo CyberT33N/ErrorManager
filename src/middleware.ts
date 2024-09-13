@@ -25,7 +25,7 @@ const errorMiddleware = (
     res: Response,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     next: NextFunction
-) => {
+): void => {
     const { e, title, data, httpStatus, name } = err
 
     // Base will be always there does not matter which npm_lifecycle_event
