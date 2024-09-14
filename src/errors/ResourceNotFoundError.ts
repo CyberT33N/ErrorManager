@@ -40,7 +40,7 @@ class ResourceNotFoundError extends BaseError implements ErrorDataInterface {
      */
     constructor(
         readonly title: string,
-        readonly data: ErrorDataInterface,
+        readonly data: object,
         readonly e?: Error
     ) {
         super(title, e)

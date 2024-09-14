@@ -1,4 +1,3 @@
-- Write test and throw normal error to check if middleware is blocking
+- Write integration test and throw normal error to check if our error middleware is blocking
 - Check npm build
-- Test for RuntimeError with specific http code
 - Check HttpClientError for not needed cases
