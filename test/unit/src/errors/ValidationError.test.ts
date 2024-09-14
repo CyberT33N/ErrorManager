@@ -29,7 +29,7 @@ describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
         expect(validationError.name).toBe('ValidationError')
         expect(validationError.title).toBe(errorMsg)
         expect(validationError.httpStatus).toBe(400)
-        expect(validationError.e).toBeUndefined()
+        expect(validationError.error).toBeUndefined()
 
         const { data } = validationError
         expect(data).toEqual(errorData)
@@ -43,7 +43,7 @@ describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
         expect(validationError.name).toBe('ValidationError')
         expect(validationError.title).toBe(errorMsg)
         expect(validationError.httpStatus).toBe(400)
-        expect(validationError.e).toBe(testError)
+        expect(validationError.error).toBe(testError)
 
         const { data } = validationError
         expect(data).toEqual(errorData)

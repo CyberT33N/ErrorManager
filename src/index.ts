@@ -26,6 +26,23 @@ import errorMiddleware from './middleware'
 // ==== GENERAL INTERNAL INTERFACES ====
 export { BaseErrorInterface } from './errors/BaseError'
 export { HttpClientErrorDataInterface } from './errors/HttpClientError'
+
+// ==== ENUM ====
+export enum HttpStatus {
+    BAD_REQUEST = 400,
+    NOT_FOUND = 404,
+    INTERNAL_SERVER_ERROR = 500
+}
+
+export enum ErrorType {
+    BASE = 'BaseError',
+    VALIDATION = 'ValidationError',
+    RUNTIME = 'RuntimeError',
+    RESOURCE_NOT_FOUND = 'ResourceNotFoundError',
+    HTTP_CLIENT = 'HttpClientError'
+}
+
+// ==== INTERFACE ====
 export interface ErrorDataInterface extends BaseErrorInterface {
     data?: object
 }

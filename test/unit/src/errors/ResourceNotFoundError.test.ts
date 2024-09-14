@@ -30,7 +30,7 @@ describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
         expect(resourceNotFoundError.name).toBe('ResourceNotFoundError')
         expect(resourceNotFoundError.title).toBe(errorMsg)
         expect(resourceNotFoundError.httpStatus).toBe(404)
-        expect(resourceNotFoundError.e).toBeUndefined()
+        expect(resourceNotFoundError.error).toBeUndefined()
 
         const { data } = resourceNotFoundError
         expect(data).toBe(errorData)
@@ -44,7 +44,7 @@ describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
         expect(resourceNotFoundError.name).toBe('ResourceNotFoundError')
         expect(resourceNotFoundError.title).toBe(errorMsg)
         expect(resourceNotFoundError.httpStatus).toBe(404)
-        expect(resourceNotFoundError.e).toBe(e)
+        expect(resourceNotFoundError.error).toBe(e)
 
         const { data } = resourceNotFoundError
         expect(data).toBe(errorData)

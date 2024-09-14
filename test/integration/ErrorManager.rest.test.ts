@@ -151,7 +151,7 @@ describe('[INTEGRATION TESTS] - ErrorManager', () => {
                 })
 
                 expect(data.data.config).toBeDefined()
-                expect(data.data.e).toBeDefined()
+                expect(data.data.error).toBeDefined()
                 expect(data.data.errorMessage).toBeDefined()
                 expect(data.data.headers).toBeDefined()
                 expect(data.data.method).to.be.equal('get')

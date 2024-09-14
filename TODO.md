@@ -1,1 +1,4 @@
 - Write test and throw normal error to check if middleware is blocking
+- Check npm build
+- Test for RuntimeError with specific http code
+- Check HttpClientError for not needed cases

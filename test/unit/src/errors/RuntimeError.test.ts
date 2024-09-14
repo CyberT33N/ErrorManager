@@ -28,7 +28,7 @@ describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
         expect(runtimeError.name).toBe('RuntimeError')
         expect(runtimeError.title).toBe(errorMsg)
         expect(runtimeError.httpStatus).toBe(500)
-        expect(runtimeError.e).toBeInstanceOf(Error)
+        expect(runtimeError.error).toBeInstanceOf(Error)
     })
 
     it('should create new ResourceNotFoundError without custom http status', () => {
@@ -37,6 +37,6 @@ describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
         expect(runtimeError.name).toBe('RuntimeError')
         expect(runtimeError.title).toBe(errorMsg)
         expect(runtimeError.httpStatus).toBe(404)
-        expect(runtimeError.e).toBeInstanceOf(Error)
+        expect(runtimeError.error).toBeInstanceOf(Error)
     })
 })

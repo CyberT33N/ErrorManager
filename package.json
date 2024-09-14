@@ -1,6 +1,6 @@
 {
   "name": "error-manager-helper",
-  "version": "3.6",
+  "version": "3.8",
   "description": "Error manager for complex error handling with and without express",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

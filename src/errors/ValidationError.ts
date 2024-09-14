@@ -13,6 +13,9 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
+// ==== ENUM ====
+import { HttpStatus, ErrorType } from '../index'
+
 // ==== ERROR CLASSES ====
 import BaseError from './BaseError'
 
@@ -20,15 +23,33 @@ import BaseError from './BaseError'
 import { ErrorDataInterface } from '../index'
 
 /**
- * Validation Error - Default HTTP Status 400 - Additional with data object
+ * @class ValidationError
+ * @extends BaseError
+ * @implements ErrorDataInterface
+ * 
+ * This class represents an error that occurs due to validation failures.
+ * It extends the `BaseError` class and includes additional data related to the validation error.
  */
 class ValidationError extends BaseError implements ErrorDataInterface {
-    constructor(title: string, public data: object, e?: Error) {
+    /**
+     * Creates a new instance of `ValidationError`
+     * 
+     * @param {string} title - The title or description of the error
+     * @param {ErrorDataInterface} data - Additional data related to the validation error
+     * @param {Error} [e] - Optional original error that triggered this validation error
+     */
+    constructor(
+        readonly title: string,
+        readonly data: ErrorDataInterface,
+        readonly e?: Error
+    ) {
         super(title, e)
- 
-        this.name = 'ValidationError'
-        this.data = data
-        this.httpStatus = 400
+
+        // Sets the error name to VALIDATION
+        this.name = ErrorType.VALIDATION
+
+        // Sets the HTTP status to 400 (BAD_REQUEST)
+        this.httpStatus = HttpStatus.BAD_REQUEST
     }
 }
 

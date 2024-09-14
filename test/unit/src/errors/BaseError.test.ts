@@ -29,7 +29,7 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
         expect(baseError.name).toBe('BaseError')
         expect(baseError.title).toBe(errorMsg)
         expect(baseError.httpStatus).toBe(500)
-        expect(baseError.e).toBeUndefined()
+        expect(baseError.error).toBeUndefined()
     })
 
     it('should create new Base Error with error argument', () => {
@@ -40,6 +40,6 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
         expect(baseError.name).toBe('BaseError')
         expect(baseError.title).toBe(errorMsg)
         expect(baseError.httpStatus).toBe(500)
-        expect(baseError.e).toBe(e)
+        expect(baseError.error).toBe(e)
     })
 })

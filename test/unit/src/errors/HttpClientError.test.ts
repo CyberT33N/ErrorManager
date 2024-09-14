@@ -37,12 +37,12 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
             expect(httpClientError.name).toBe('HttpClientError')
             expect(httpClientError.title).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(500)
-            expect(httpClientError.e).toBeUndefined()
+            expect(httpClientError.error).toBeUndefined()
 
             const { data } = httpClientError
 
             expect(data.config).toBeDefined()
-            expect(data.e.message).toBe(`getaddrinfo ENOTFOUND ${host}`)
+            expect(data.error.message).toBe(`getaddrinfo ENOTFOUND ${host}`)
             expect(data.errorMessage).toBeDefined()
             expect(data.headers).toBeUndefined()
             expect(data.method).to.be.equal('get')

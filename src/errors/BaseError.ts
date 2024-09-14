@@ -13,31 +13,50 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
+// ==== ENUM ====
+import { HttpStatus, ErrorType } from '../index'
+
 // ==== INTERFACES ====
 export interface BaseErrorInterface {
      name: string
-     httpStatus: number
+     httpStatus: HttpStatus
      readonly title: string
-     readonly e?: Error | null
+     readonly error?: Error | null
 }
 
 /**
- * Base Error - Default HTTP Status 500
+ * @class BaseError
+ * @extends Error
+ * @implements BaseErrorInterface
+ * 
+ * This class serves as a base class for creating custom error types.
+ * It extends the native `Error` class and implements the `BaseErrorInterface`.
  */
 class BaseError extends Error implements BaseErrorInterface {
-    httpStatus: number
+    /**
+     * HTTP status code associated with this error
+     * 
+     * @type {HttpStatus}
+     */
+    httpStatus: HttpStatus
 
+    /**
+     * Creates a new instance of `BaseError`
+     * 
+     * @param {string} title - The title or description of the error
+     * @param {Error | null} [e] - Optional original error that caused this error
+     */
     constructor(
-        public title: string,
-        public e?: Error
+        readonly title: string,
+        readonly error?: Error | null
     ) {
         super(title)
- 
-        this.name = 'BaseError'
-        this.httpStatus = 500
 
-        this.title = title
-        this.e = e
+        // Sets the error name to BaseError
+        this.name = ErrorType.BASE
+
+        // Sets the default HTTP status to 500 (INTERNAL_SERVER_ERROR)
+        this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
     }
 }
 
