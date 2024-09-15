@@ -1,4 +1,4 @@
-# [3.12.NaN](https://github.com/CyberT33N/ErrorManager/compare/v3.11.0...v3.12.NaN) (2024-09-15)
+## [3.13.1](https://github.com/CyberT33N/ErrorManager/compare/v3.11.0...v3.13.1) (2024-09-15)
 
 
 ### Bug Fixes
