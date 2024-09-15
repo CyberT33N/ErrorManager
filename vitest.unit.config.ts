@@ -31,4 +31,6 @@ config.test.coverage.exclude = ['**/route.ts']
 
 config.test.watch = false
 
+config.test.setupFiles = 'test/unit/pretestEach.ts'
+
 export default defineConfig(config)

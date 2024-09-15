@@ -28,4 +28,6 @@ config.test.include = [
 
 config.test.watch = false
 
+config.test.globalSetup = 'test/integration/pretestAll.ts'
+
 export default defineConfig(config)

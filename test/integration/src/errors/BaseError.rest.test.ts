@@ -14,31 +14,58 @@
 */
 
 // ==== DEPENDENCIES ====
-import tsconfigPaths from 'vite-tsconfig-paths'
+import axios, { AxiosError } from 'axios'
 
 // ==== VITEST ====
-import { defineConfig } from 'vitest/config'
+import { describe, it, expect } from 'vitest'
 
-/**
- * Represents the configuration for the Vitest test runner.
- */
-export default defineConfig({
-    plugins: [tsconfigPaths()],
-    test: {
-        environment: 'node',
-        coverage: {
-            /**
-             * Specifies the directories to include for coverage.
-             */
-            include: ['src/'],
-            /**
-             * Specifies the files or directories to exclude from coverage.
-             */
-            //exclude: ['src/legacy/', 'utils/helpers.ts'],
-            /**
-             * Specifies the coverage reporters to use.
-             */
-            reporter: ['text', 'json', 'html']
+// ==== ENUM ====
+import { ServerDetails, ErrorDetails } from '../../pretestAll.d'
+const { BASE_URL } = ServerDetails
+const { errorTitle, errorMessage } = ErrorDetails
+
+// ==== INTERFACES ====
+import { BaseErrorInterface } from '@/src/index'
+ 
+describe('[INTEGRATION] - src/errors/BaseError', () => {
+    it.only('should return 500 with BaseError details - error passed', async() => {
+        try {
+            await axios.get(`${BASE_URL}/base-error?error=true`)
+            throw new Error('Base Error Test - This should not be called')
+        } catch (e: unknown) {
+            const { response } = e as AxiosError
+            expect(response?.status).to.equal(500)
+
+            const data = response?.data as BaseErrorInterface
+
+            expect(data).to.include({
+                title: errorTitle,
+                environment: process.env.npm_lifecycle_event,
+                name: 'BaseError',
+                error: `Error: ${errorMessage}`
+            })
         }
-    }
+    })
+
+    it('should return 500 with BaseError details - no error passed', async() => {
+        try {
+            await axios.get(`${BASE_URL}/base-error`)
+            throw new Error('Base Error Test - This should not be called')
+        } catch (e: unknown) {
+            const { response } = e as AxiosError
+            expect(response?.status).to.equal(500)
+
+            const data = response?.data as BaseErrorInterface
+
+            expect(data).to.include({
+                title: errorTitle,
+                environment: process.env.npm_lifecycle_event,
+                name: 'BaseError'
+            })
+
+            expect(data).to.not.include({
+                error: `Error: ${errorMessage}`
+            })
+        }
+    })
 })

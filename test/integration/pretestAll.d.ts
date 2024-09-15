@@ -13,32 +13,17 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== DEPENDENCIES ====
-import tsconfigPaths from 'vite-tsconfig-paths'
+// ==== ENUM ====
+export enum ServerDetails {
+     PORT = 3876,
+     BASE_URL = 'http://localhost:3876'
+}
 
-// ==== VITEST ====
-import { defineConfig } from 'vitest/config'
+export enum ErrorDetails {
+     errorTitle = 'Test title',
+     errorMessage = 'Test error'
+}
 
-/**
- * Represents the configuration for the Vitest test runner.
- */
-export default defineConfig({
-    plugins: [tsconfigPaths()],
-    test: {
-        environment: 'node',
-        coverage: {
-            /**
-             * Specifies the directories to include for coverage.
-             */
-            include: ['src/'],
-            /**
-             * Specifies the files or directories to exclude from coverage.
-             */
-            //exclude: ['src/legacy/', 'utils/helpers.ts'],
-            /**
-             * Specifies the coverage reporters to use.
-             */
-            reporter: ['text', 'json', 'html']
-        }
-    }
-})
+export const ErrorData = {
+    exampleOne: { field: 'value' }
+} as const

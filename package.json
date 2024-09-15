@@ -1,5 +1,6 @@
 {
   "name": "error-manager-helper",
+  "type": "module",
   "version": "3.8",
   "description": "Error manager for complex error handling with and without express",
   "main": "./dist/index.js",
@@ -50,6 +51,7 @@
     "tsup": "^8.0.2",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.4.0",
+    "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.0.5"
   },
   "engines": {
