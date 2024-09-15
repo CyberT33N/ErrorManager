@@ -1,1 +1,0 @@
-- Write integration test and throw normal error to check if our error middleware is blocking
