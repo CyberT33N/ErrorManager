@@ -20,7 +20,7 @@ import axios, { AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
 // ==== ENUM ====
-import { ServerDetails, ErrorDetails } from '../../pretestAll.d'
+import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll.d'
 const { BASE_URL } = ServerDetails
 const { errorTitle } = ErrorDetails
 

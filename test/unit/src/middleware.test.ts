@@ -14,13 +14,13 @@
 */
 
 // ==== ENUM ====
-import { HttpStatus, ErrorType } from '../../../src/index'
+import { HttpStatus, ErrorType } from '@/src/index'
 
 // ==== DEPENDENCIES ====
 import sinon from 'sinon'
 
 // ==== INTERNAL DEPENDENCIES ====
-import { ValidationError } from '../../../src/index'
+import { ValidationError } from '@/src/index'
 
 // ==== EXTERNAL INTERFACE ====
 import { Request, Response, NextFunction } from 'express'
@@ -29,7 +29,7 @@ import { Request, Response, NextFunction } from 'express'
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 // ==== CODE ====
-import errorMiddleware from '../../../src/middleware'
+import errorMiddleware from '@/src/middleware'
 
 describe('[UNIT] - src/middleware.ts', () => {
     let jsonStub: sinon.SinonStub

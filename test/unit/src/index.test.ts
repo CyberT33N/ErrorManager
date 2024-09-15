@@ -23,7 +23,7 @@ import {
     RuntimeError,
     ResourceNotFoundError,
     HttpClientError
-} from '../../../src/index'
+} from '@/src/index'
 
 describe('[UNIT TEST] - src/index.ts', () => {
     it('should have BaseError class', () => {

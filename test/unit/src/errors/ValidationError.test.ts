@@ -17,7 +17,7 @@
 import { describe, it, expect } from 'vitest'
 
 // ==== CODE ====
-import { ValidationError, ErrorDataInterface } from '../../../../src/index'
+import { ValidationError, ErrorDataInterface } from '@/src/index'
 
 describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
     const errorMsg = 'test'

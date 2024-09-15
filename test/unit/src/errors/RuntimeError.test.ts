@@ -17,7 +17,7 @@
 import { describe, it, expect } from 'vitest'
 
 // ==== CODE ====
-import { RuntimeError, BaseErrorInterface } from '../../../../src/index'
+import { RuntimeError, BaseErrorInterface } from '@/src/index'
 
 describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
     const errorMsg = 'test'
