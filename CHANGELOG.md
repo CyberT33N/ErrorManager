@@ -1,3 +1,12 @@
+# [3.12.NaN](https://github.com/CyberT33N/ErrorManager/compare/v3.11.0...v3.12.NaN) (2024-09-15)
+
+
+### Bug Fixes
+
+* **CCS-001:** fixed npm run build ([c371a5a](https://github.com/CyberT33N/ErrorManager/commit/c371a5ad3c7013e9d15a3dc2defa1a3ca9cd5500))
+
+
+
 # [3.11.0](https://github.com/CyberT33N/ErrorManager/compare/v2.6.0...v3.11.0) (2024-09-15)
 
 
