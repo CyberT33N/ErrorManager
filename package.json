@@ -11,7 +11,6 @@
   ],
   "scripts": {
     "build": "npx eslint src && tsup",
-    "_kill": "kill -9 $(lsof -t -i:3876) || true",
     "test-only": "bash test-only.sh",
     "test": "vitest --coverage --disable-console-intercept --watch=false",
     "test:watch": "vitest --watch",

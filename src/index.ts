@@ -24,8 +24,8 @@ import HttpClientError from './errors/HttpClientError'
 import errorMiddleware from './middleware'
 
 // ==== GENERAL INTERNAL INTERFACES ====
-export { BaseErrorInterface } from './errors/BaseError'
-export { HttpClientErrorDataInterface } from './errors/HttpClientError'
+export type { BaseErrorInterface } from './errors/BaseError'
+export type { HttpClientErrorDataInterface } from './errors/HttpClientError'
 
 // ==== ENUM ====
 export enum HttpStatus {
