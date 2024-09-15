@@ -22,10 +22,15 @@ import {
     ValidationError,
     RuntimeError,
     ResourceNotFoundError,
-    HttpClientError
+    HttpClientError,
+    errorMiddleware
 } from '@/src/index'
 
 describe('[UNIT TEST] - src/index.ts', () => {
+    it('should have errorMiddleware function', () => {
+        expect(errorMiddleware).toBeDefined()
+    })
+
     it('should have BaseError class', () => {
         expect(BaseError).toBeDefined()
     })

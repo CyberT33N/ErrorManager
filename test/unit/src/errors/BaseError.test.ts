@@ -16,8 +16,14 @@
 // ==== VITEST ====
 import { describe, it, expect } from 'vitest'
 
+// ==== ENUM ====
+import { HttpStatus, ErrorType } from '@/src/index'
+
+// ==== INTERFACE ====
+import { BaseErrorInterface } from '@/src/index'
+
 // ==== CODE ====
-import { BaseError, BaseErrorInterface } from '@/src/index'
+import { BaseError } from '@/src/index'
 
 describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
     const errorMsg = 'test'
@@ -26,9 +32,9 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
         const baseError: BaseErrorInterface = new BaseError(errorMsg)
  
         expect(baseError).toBeInstanceOf(BaseError)
-        expect(baseError.name).toBe('BaseError')
+        expect(baseError.name).toBe(ErrorType.BASE)
         expect(baseError.title).toBe(errorMsg)
-        expect(baseError.httpStatus).toBe(500)
+        expect(baseError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
         expect(baseError.error).toBeUndefined()
     })
 
@@ -37,9 +43,9 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
         const baseError: BaseErrorInterface = new BaseError(errorMsg, e)
  
         expect(baseError).toBeInstanceOf(BaseError)
-        expect(baseError.name).toBe('BaseError')
+        expect(baseError.name).toBe(ErrorType.BASE)
         expect(baseError.title).toBe(errorMsg)
-        expect(baseError.httpStatus).toBe(500)
+        expect(baseError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
         expect(baseError.error).toBe(e)
     })
 })

@@ -71,7 +71,7 @@ class HttpClientError extends BaseError implements HttpClientErrorDataInterface 
      */
     constructor(
         readonly title: string,
-        e: AxiosError
+        readonly e: AxiosError
     ) {
         super(title)
 

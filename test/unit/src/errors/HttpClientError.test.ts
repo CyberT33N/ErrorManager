@@ -19,11 +19,14 @@ import axios, { AxiosError } from 'axios'
 // ==== VITEST ====
 import { describe, it, expect } from 'vitest'
 
+// ==== ENUM ====
+import { HttpStatus, ErrorType } from '@/src/index'
+
+// ==== INTERFACE ====
+import { HttpClientErrorDataInterface } from '@/src/index'
+
 // ==== CODE ====
-import {
-    HttpClientError, HttpClientErrorDataInterface,
-    HttpStatus
-} from '@/src/index'
+import { HttpClientError } from '@/src/index'
 
 describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
     const errorMsg = 'test'
@@ -37,7 +40,7 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
             )
 
             expect(httpClientError).toBeInstanceOf(HttpClientError)
-            expect(httpClientError.name).toBe('HttpClientError')
+            expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
             expect(httpClientError.title).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
             expect(httpClientError.error).toBeUndefined()
@@ -85,7 +88,7 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
             )
 
             expect(httpClientError).toBeInstanceOf(HttpClientError)
-            expect(httpClientError.name).toBe('HttpClientError')
+            expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
             expect(httpClientError.title).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
             expect(httpClientError.error).toBeUndefined()
@@ -134,7 +137,7 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
             )
 
             expect(httpClientError).toBeInstanceOf(HttpClientError)
-            expect(httpClientError.name).toBe('HttpClientError')
+            expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
             expect(httpClientError.title).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(axiosError?.response?.status)
             expect(httpClientError.error).toBeUndefined()
@@ -162,9 +165,9 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
             } catch (e: unknown) {
                 const httpClientError: HttpClientErrorDataInterface = new HttpClientError(errorMsg, e as AxiosError)
                 expect(httpClientError).toBeInstanceOf(HttpClientError)
-                expect(httpClientError.name).toBe('HttpClientError')
+                expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
                 expect(httpClientError.title).toBe(errorMsg)
-                expect(httpClientError.httpStatus).toBe(500)
+                expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
                 expect(httpClientError.error).toBeUndefined()
 
                 const { data } = httpClientError

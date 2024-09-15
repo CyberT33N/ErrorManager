@@ -1,0 +1,1 @@
+- Create interface for middleware response and extend tests

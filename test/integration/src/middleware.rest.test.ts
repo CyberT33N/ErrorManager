@@ -29,7 +29,7 @@ const { BASE_URL } = ServerDetails
 import { BaseErrorInterface } from '@/src/index'
  
 describe('[INTEGRATION] - src/middleware.ts', () => {
-    it('should throw a normal error', async() => {
+    it('should throw a normal javascript error', async() => {
         try {
             await axios.get(`${BASE_URL}/normal-error`)
             throw new Error('Middleware Error Test - This should not be called')

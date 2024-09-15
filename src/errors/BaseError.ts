@@ -17,11 +17,13 @@
 import { HttpStatus, ErrorType } from '../index'
 
 // ==== INTERFACES ====
+
+// Normal error is also allowed so only the name is required
 export interface BaseErrorInterface {
      name: string
      httpStatus?: HttpStatus
      readonly title?: string
-     readonly error?: Error | null
+     readonly error?: Error
 }
 
 /**
@@ -48,7 +50,7 @@ class BaseError extends Error implements BaseErrorInterface {
      */
     constructor(
         readonly title: string,
-        readonly error?: Error | null
+        readonly error?: Error
     ) {
         super(title)
 
