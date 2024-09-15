@@ -1,3 +1,12 @@
+# [3.14.0](https://github.com/CyberT33N/ErrorManager/compare/v3.13.1...v3.14.0) (2024-09-15)
+
+
+### Features
+
+* **CCS-001:** Changed some interface types ([9d45c9b](https://github.com/CyberT33N/ErrorManager/commit/9d45c9b8138a53bf6edcb39f1788fc594b029d88))
+
+
+
 ## [3.13.1](https://github.com/CyberT33N/ErrorManager/compare/v3.11.0...v3.13.1) (2024-09-15)
 
 
