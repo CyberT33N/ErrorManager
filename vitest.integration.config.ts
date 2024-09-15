@@ -14,20 +14,18 @@
 */
 
 // ==== VITEST ====
-import { defineConfig } from 'vitest/config'
+import { defineConfig, mergeConfig } from 'vitest/config'
 import vitestConfig from './vitest.config'
 
-const config = {
-    ...vitestConfig,
-    test: vitestConfig.test || {}
-}
+const cfg = mergeConfig(vitestConfig, defineConfig({
+    test: {
+        include: ['test/integration/**/*.test.ts'],
+        globalSetup: 'test/integration/pretestAll.ts',
+        watch: false
+    }
+}))
 
-config.test.include = [
-    'test/integration/**/*.test.ts'
-]
 
-config.test.watch = false
+cfg.test.coverage.include = ['src/middleware.ts', 'src/errors/']
 
-config.test.globalSetup = 'test/integration/pretestAll.ts'
-
-export default defineConfig(config)
+export default cfg

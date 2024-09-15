@@ -25,6 +25,9 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
     plugins: [tsconfigPaths()],
     test: {
+        watch: false,
+        setupFiles: 'test/unit/pretestEach.ts',
+        globalSetup: 'test/integration/pretestAll.ts',
         environment: 'node',
         coverage: {
             /**
@@ -42,3 +45,5 @@ export default defineConfig({
         }
     }
 })
+
+

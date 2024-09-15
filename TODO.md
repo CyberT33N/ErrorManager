@@ -2,3 +2,4 @@
 - Check npm build
 - Check HttpClientError for not needed cases
 - Alias @ überall einbauen
+- What happens if HttpClientError recieves normal error instead of axios -  write test

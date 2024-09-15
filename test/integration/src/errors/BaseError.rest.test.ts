@@ -28,7 +28,7 @@ const { errorTitle, errorMessage } = ErrorDetails
 import { BaseErrorInterface } from '@/src/index'
  
 describe('[INTEGRATION] - src/errors/BaseError', () => {
-    it.only('should return 500 with BaseError details - error passed', async() => {
+    it('should return 500 with BaseError details - error passed', async() => {
         try {
             await axios.get(`${BASE_URL}/base-error?error=true`)
             throw new Error('Base Error Test - This should not be called')

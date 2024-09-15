@@ -44,6 +44,10 @@ const { PORT, BASE_URL } = ServerDetails
 export async function setup() {
     const app = express()
 
+    app.get('/found', (req, res) => {
+        res.send('Hello World!')
+    })
+
     // Sample route to trigger BaseError
     app.get('/base-error', req => {
         if (req.query.error) {

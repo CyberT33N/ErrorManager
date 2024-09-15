@@ -22,7 +22,6 @@ import BaseError, { BaseErrorInterface } from './BaseError'
 // ==== EXTERNAL TYPES ====
 import {
     AxiosError, AxiosResponseHeaders,
-    InternalAxiosRequestConfig,
     RawAxiosRequestHeaders, AxiosHeaderValue
 } from 'axios'
 
@@ -41,7 +40,6 @@ type AxiosErrorData = {
     responseData: unknown
     errorMessage: string
     error: AxiosError
-    config: InternalAxiosRequestConfig | undefined
 }
 
 export interface HttpClientErrorDataInterface extends BaseErrorInterface {
@@ -77,45 +75,26 @@ class HttpClientError extends BaseError implements HttpClientErrorDataInterface 
     ) {
         super(title)
 
-        // HTTP status code (if available), default is 500 (INTERNAL_SERVER_ERROR)
-        const status = e.response?.status || HttpStatus.INTERNAL_SERVER_ERROR
+        const { config, response } = e
 
-        // Requested URL (if available)
-        const url = e.response?.config?.url || e.config?.url
-
-        // HTTP method of the request (e.g. GET, POST)
-        const method = e.response?.config?.method || e.config?.method
-
-        // Data sent in the request (if available)
-        const payload = e.config?.data || e.response?.config.data
-
-        // Response headers (if available)
-        const headers = e.response?.headers
-
-        // Original error message from Axios
-        const errorMessage = e.message
-
-        // Response data (if available)
-        const responseData = e.response?.data
-
-        // Request configuration from Axios (without httpsAgent and httpAgent)
-        const config = e.config
-        delete e.config?.httpsAgent
-        delete e.config?.httpAgent
+        const data = {
+            url: config?.url,
+            method: config?.method,
+            payload: config?.data,
+            responseData: response?.data,
+            headers: config?.headers,
+            errorMessage: e.message,
+            error: e
+        }
 
         // Sets the error type to HttpClientError
         this.name = ErrorType.HTTP_CLIENT
 
-        // Sets the HTTP status
-        this.httpStatus = status
+        // HTTP status code (if available), default is 500 (INTERNAL_SERVER_ERROR)
+        this.httpStatus = response?.status || HttpStatus.INTERNAL_SERVER_ERROR
 
         // Stores all relevant information in the data object
-        this.data = {
-            url, method, payload, headers,
-            responseData,
-            errorMessage, error: e,
-            config
-        }
+        this.data = data
     }
 }
 

@@ -45,7 +45,6 @@ describe('[INTEGRATION] - src/errors/HttpClientError', () => {
                 name: 'HttpClientError'
             })
 
-            expect(data.data.config).toBeDefined()
             expect(data.data.error).toBeDefined()
             expect(data.data.errorMessage).toBeDefined()
             expect(data.data.headers).toBeDefined()
