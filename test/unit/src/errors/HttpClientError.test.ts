@@ -28,6 +28,32 @@ import {
 describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
     const errorMsg = 'test'
 
+    describe('[DEFAULT ERROR]', () => {
+        const error = new Error(errorMsg)
+
+        it('should create new Http Client Error with normal not axios error argument', async() => {
+            const httpClientError: HttpClientErrorDataInterface = new HttpClientError(
+                errorMsg, error as AxiosError
+            )
+
+            expect(httpClientError).toBeInstanceOf(HttpClientError)
+            expect(httpClientError.name).toBe('HttpClientError')
+            expect(httpClientError.title).toBe(errorMsg)
+            expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
+            expect(httpClientError.error).toBeUndefined()
+
+            const { data } = httpClientError
+
+            expect(data.error).toBe(error)
+            expect(data.errorMessage).toBe(errorMsg)
+            expect(data.headers).toBeUndefined()
+            expect(data.method).toBeUndefined()
+            expect(data.payload).toBeUndefined()
+            expect(data.responseData).toBeUndefined()
+            expect(data.url).toBeUndefined()
+        })
+    })
+
     describe('[INVALID AXIOS ERROR]', () => {
         const axiosError = {
             code: 'ERR_BAD_REQUEST',

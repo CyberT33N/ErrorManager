@@ -1,4 +1,2 @@
 - Write integration test and throw normal error to check if our error middleware is blocking
-- Check HttpClientError for not needed cases
-- Alias @ überall einbauen
 - What happens if HttpClientError recieves normal error instead of axios -  write test
