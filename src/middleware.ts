@@ -17,7 +17,7 @@
 import { NextFunction, Response, Request } from 'express'
 
 // ==== INTERNAL TYPES ====
-import { ErrorDataInterface } from './index'
+import { ErrorDataInterface, HttpStatus } from './index'
 
 /**
  * @function errorMiddleware
@@ -64,7 +64,9 @@ const errorMiddleware = (
     }
 
     console.error('[ErrorManager] Full Error: ', fullError)
-    res.status(httpStatus).json(fullErrorSanitized)
+
+    const status = httpStatus || HttpStatus.INTERNAL_SERVER_ERROR
+    res.status(status).json(fullErrorSanitized)
 }
 
 export default errorMiddleware

@@ -38,7 +38,7 @@ describe('[UNIT] - src/middleware.ts', () => {
     const errMsg = 'Test error'
     const errData = { data: 'test' }    
     const error = new Error(errMsg)
-    const err = new ValidationError(errMsg, errData, error)
+    const validationErr = new ValidationError(errMsg, errData, error)
 
     beforeEach(() => {
         jsonStub = sinon.stub()
@@ -53,57 +53,82 @@ describe('[UNIT] - src/middleware.ts', () => {
         statusStub.reset()
     })
 
-    describe('[NOT SANITIZED]', () => {
-        beforeEach(() => {
-            process.env.npm_lifecycle_event = 'test'
-        })
-
-        it('should handle ValidationError and send a not sanitized JSON response because of NLE', () => {
+    describe('[DEFAULT ERROR]', () => {
+        it('should handle normal javascript error', () => {
             const req = {} as Request
             const res = { status: statusStub } as unknown as Response
             const next = {} as NextFunction
 
             const expectedResponse = {
-                name: ErrorType.VALIDATION,
+                name: ErrorType.DEFAULT,
                 environment: process.env.npm_lifecycle_event,
                 timestamp: sinon.match.string,
-                title: errMsg,
-                error: `Error: ${errMsg}`,
-                data: errData,
-                stack: sinon.match.string
+                title: undefined,
+                error: undefined,
+                data: undefined,
+                stack: undefined
             }
 
-            errorMiddleware(err, req, res, next)
+            errorMiddleware(error, req, res, next)
 
-            expect(statusStub.calledOnceWithExactly(HttpStatus.BAD_REQUEST)).toBe(true)
+            expect(statusStub.calledOnceWithExactly(HttpStatus.INTERNAL_SERVER_ERROR)).toBe(true)
             expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
         })
     })
 
-    describe('[SANITIZED]', () => {
-        beforeEach(() => {
-            process.env.npm_lifecycle_event = 'start'
+    describe('[RESPONSE]', () => {
+        describe('[NOT SANITIZED]', () => {
+            beforeEach(() => {
+                process.env.npm_lifecycle_event = 'test'
+            })
+
+            it('should handle ValidationError and send a not sanitized JSON response because of NLE', () => {
+                const req = {} as Request
+                const res = { status: statusStub } as unknown as Response
+                const next = {} as NextFunction
+
+                const expectedResponse = {
+                    name: ErrorType.VALIDATION,
+                    environment: process.env.npm_lifecycle_event,
+                    timestamp: sinon.match.string,
+                    title: errMsg,
+                    error: `Error: ${errMsg}`,
+                    data: errData,
+                    stack: sinon.match.string
+                }
+
+                errorMiddleware(validationErr, req, res, next)
+
+                expect(statusStub.calledOnceWithExactly(HttpStatus.BAD_REQUEST)).toBe(true)
+                expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
+            })
         })
 
-        it('should handle errors and send a sanitized JSON response because of NLE', () => {
-            const req = {} as Request
-            const res = { status: statusStub } as unknown as Response
-            const next = {} as NextFunction
+        describe('[SANITIZED]', () => {
+            beforeEach(() => {
+                process.env.npm_lifecycle_event = 'start'
+            })
 
-            const expectedResponse = {
-                name: ErrorType.VALIDATION,
-                environment: process.env.npm_lifecycle_event,
-                timestamp: sinon.match.string,
-                title: errMsg,
-                error: null,
-                data: null,
-                stack: null
-            }
+            it('should handle errors and send a sanitized JSON response because of NLE', () => {
+                const req = {} as Request
+                const res = { status: statusStub } as unknown as Response
+                const next = {} as NextFunction
 
-            errorMiddleware(err, req, res, next)
+                const expectedResponse = {
+                    name: ErrorType.VALIDATION,
+                    environment: process.env.npm_lifecycle_event,
+                    timestamp: sinon.match.string,
+                    title: errMsg,
+                    error: null,
+                    data: null,
+                    stack: null
+                }
 
-            expect(statusStub.calledOnceWithExactly(HttpStatus.BAD_REQUEST)).toBe(true)
-            expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
+                errorMiddleware(validationErr, req, res, next)
+
+                expect(statusStub.calledOnceWithExactly(HttpStatus.BAD_REQUEST)).toBe(true)
+                expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
+            })
         })
     })
 })

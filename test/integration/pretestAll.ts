@@ -49,6 +49,11 @@ export async function setup() {
     })
 
     // Sample route to trigger BaseError
+    app.get('/normal-error', () => {
+        throw new Error(errorTitle)
+    })
+
+    // Sample route to trigger BaseError
     app.get('/base-error', req => {
         if (req.query.error) {
             throw new BaseError(errorTitle, new Error(errorMessage))

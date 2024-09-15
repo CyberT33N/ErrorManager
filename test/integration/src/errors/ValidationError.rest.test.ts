@@ -20,6 +20,8 @@ import axios, { AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
 // ==== ENUM ====
+import { HttpStatus, ErrorType } from '@/src/index'
+
 import { ServerDetails, ErrorDetails, ErrorData } from '@/test/integration/pretestAll.d'
 const { BASE_URL } = ServerDetails
 const { errorTitle, errorMessage } = ErrorDetails
@@ -36,14 +38,14 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
         } catch (e: unknown) {
             const { response } = e as AxiosError
 
-            expect(response?.status).to.equal(400)
+            expect(response?.status).to.equal(HttpStatus.BAD_REQUEST)
 
             const data = response?.data as ErrorDataInterface
 
             expect(data).to.include({
                 title: errorTitle,
                 environment: process.env.npm_lifecycle_event,
-                name: 'ValidationError',
+                name: ErrorType.VALIDATION,
                 error: `Error: ${errorMessage}`
             })
 
@@ -58,14 +60,14 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
         } catch (e: unknown) {
             const { response } = e as AxiosError
 
-            expect(response?.status).to.equal(400)
+            expect(response?.status).to.equal(HttpStatus.BAD_REQUEST)
 
             const data = response?.data as ErrorDataInterface
 
             expect(data).to.include({
                 title: errorTitle,
                 environment: process.env.npm_lifecycle_event,
-                name: 'ValidationError'
+                name: ErrorType.VALIDATION
             })
 
             expect(data).to.not.include({

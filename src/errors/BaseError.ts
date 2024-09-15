@@ -19,8 +19,8 @@ import { HttpStatus, ErrorType } from '../index'
 // ==== INTERFACES ====
 export interface BaseErrorInterface {
      name: string
-     httpStatus: HttpStatus
-     readonly title: string
+     httpStatus?: HttpStatus
+     readonly title?: string
      readonly error?: Error | null
 }
 

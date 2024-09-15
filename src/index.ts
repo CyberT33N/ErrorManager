@@ -35,6 +35,7 @@ export enum HttpStatus {
 }
 
 export enum ErrorType {
+    DEFAULT = 'Error',
     BASE = 'BaseError',
     VALIDATION = 'ValidationError',
     RUNTIME = 'RuntimeError',
