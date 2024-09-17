@@ -16,36 +16,15 @@
 // ==== ENUM ====
 import { HttpStatus, ErrorType } from '../index'
 
-// ==== ERROR CLASSES ====
-import BaseError, { BaseErrorInterface } from './BaseError'
+// ==== INTERFACES ====
+import type { HttpClientErrorDataInterface, AxiosErrorData } from './HttpClientError.d'
+export type { HttpClientErrorDataInterface, AxiosErrorData }
 
 // ==== EXTERNAL TYPES ====
-import {
-    AxiosError, AxiosResponseHeaders,
-    RawAxiosRequestHeaders, AxiosHeaderValue
-} from 'axios'
+import { AxiosError } from 'axios'
 
-// ==== INTERNAL TYPES ====
-type AxiosErrorData = {
-    url: string | undefined
-    method: string | undefined
-    payload: unknown
-    headers: AxiosResponseHeaders | Partial<RawAxiosRequestHeaders & {
-        Server: AxiosHeaderValue;
-        'Content-Type': AxiosHeaderValue;
-        'Content-Length': AxiosHeaderValue;
-        'Cache-Control': AxiosHeaderValue;
-        'Content-Encoding': AxiosHeaderValue;
-    }> | undefined;
-    responseData: unknown
-    errorMessage: string
-    error: AxiosError
-}
-
-export interface HttpClientErrorDataInterface extends BaseErrorInterface {
-    data: AxiosErrorData
-}
-
+// ==== ERROR CLASSES ====
+import BaseError from './BaseError'
 
 /**
  * @class HttpClientError
@@ -67,15 +46,15 @@ class HttpClientError extends BaseError implements HttpClientErrorDataInterface 
      * Creates a new instance of `HttpClientError`
      * 
      * @param {string} title - The title or description of the error
-     * @param {AxiosError} e - The original Axios error that triggered the HTTP failure
+     * @param {AxiosError} error - The original Axios error that triggered the HTTP failure
      */
     constructor(
         readonly title: string,
-        readonly e: AxiosError
+        readonly error: AxiosError
     ) {
-        super(title)
+        super(title, error)
 
-        const { config, response } = e
+        const { config, response } = error
 
         const data = {
             url: config?.url,
@@ -83,8 +62,7 @@ class HttpClientError extends BaseError implements HttpClientErrorDataInterface 
             payload: config?.data,
             responseData: response?.data,
             headers: config?.headers,
-            errorMessage: e.message,
-            error: e
+            errorMessage: error.message
         }
 
         // Sets the error type to HttpClientError

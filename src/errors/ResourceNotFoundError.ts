@@ -16,11 +16,11 @@
 // ==== ENUM ====
 import { HttpStatus, ErrorType } from '../index'
 
-// ==== ERROR CLASSES ====
-import BaseError from './BaseError'
-
 // ==== INTERFACES ====
 import { ErrorDataInterface } from '../index'
+
+// ==== ERROR CLASSES ====
+import BaseError from './BaseError'
 
 /**
  * @class ResourceNotFoundError
@@ -36,14 +36,14 @@ class ResourceNotFoundError extends BaseError implements ErrorDataInterface {
      * 
      * @param {string} title - The title or description of the error
      * @param {ErrorDataInterface} data - Additional data related to the error
-     * @param {Error} [e] - Optional original error that caused this error
+     * @param {Error} [error] - Optional original error that caused this error
      */
     constructor(
         readonly title: string,
         readonly data: object,
-        readonly e?: Error
+        readonly error?: Error
     ) {
-        super(title, e)
+        super(title, error)
 
         // Sets the error name to ResourceNotFoundError
         this.name = ErrorType.RESOURCE_NOT_FOUND

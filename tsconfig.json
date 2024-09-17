@@ -24,6 +24,7 @@
       "es2022" // Include ES2022 library features
     ],
     "allowJs": true, // Allow JavaScript files to be compiled
+    "outDir": "./dist", // Set the output directory for compiled files
     "skipLibCheck": true, // Skip type checking of declaration files
     "allowImportingTsExtensions": true, // Allow importing TypeScript files with extensions
     "strict": true, // Enable strict type checking
@@ -46,6 +47,7 @@
     "**/*.tsx" // Include all .tsx (TypeScript + JSX) files
   ],
   "exclude": [
-    "node_modules" // Exclude the node_modules directory from compilation
+    "node_modules", // Exclude the node_modules directory from compilation
+    "**/*.d.ts" // Exclude declaration files from compilation
   ]
 }

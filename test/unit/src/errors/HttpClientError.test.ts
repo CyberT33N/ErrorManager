@@ -43,11 +43,9 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
             expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
             expect(httpClientError.title).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
-            expect(httpClientError.error).toBeUndefined()
+            expect(httpClientError?.error?.message).toBe(errorMsg)
 
             const { data } = httpClientError
-
-            expect(data.error).toBe(error)
             expect(data.errorMessage).toBe(errorMsg)
             expect(data.headers).toBeUndefined()
             expect(data.method).toBeUndefined()
@@ -91,11 +89,9 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
             expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
             expect(httpClientError.title).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
-            expect(httpClientError.error).toBeUndefined()
+            expect(httpClientError?.error?.message).toBe(axiosError.message)
 
             const { data } = httpClientError
-
-            expect(data.error).toBeDefined()
             expect(data.errorMessage).toBe(axiosError.message)
             expect(data.headers).toBe(axiosError?.config?.headers)
             expect(data.method).toBe(axiosError?.config?.method)
@@ -140,11 +136,9 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
             expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
             expect(httpClientError.title).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(axiosError?.response?.status)
-            expect(httpClientError.error).toBeUndefined()
+            expect(httpClientError?.error?.message).toBe(axiosError.message)
 
             const { data } = httpClientError
-
-            expect(data.error).toBeDefined()
             expect(data.errorMessage).toBe(axiosError.message)
             expect(data.headers).toBe(axiosError?.config?.headers)
             expect(data.method).toBe(axiosError?.config?.method)
@@ -168,11 +162,9 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
                 expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
                 expect(httpClientError.title).toBe(errorMsg)
                 expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
-                expect(httpClientError.error).toBeUndefined()
+                expect(httpClientError?.error?.message).toBe(`getaddrinfo ENOTFOUND ${host}`)
 
                 const { data } = httpClientError
-
-                expect(data.error.message).toBe(`getaddrinfo ENOTFOUND ${host}`)
                 expect(data.errorMessage).toBeDefined()
                 expect(data.headers).toBeDefined()
                 expect(data.method).to.be.equal('get')

@@ -14,45 +14,19 @@
 */
 
 // ==== ERROR CLASSES ====
-import BaseError, { BaseErrorInterface } from './errors/BaseError'
-import ValidationError from './errors/ValidationError'
-import RuntimeError from './errors/RuntimeError'
-import ResourceNotFoundError from './errors/ResourceNotFoundError'
-import HttpClientError from './errors/HttpClientError'
+export { default as BaseError } from './errors/BaseError'
+export { default as ValidationError } from './errors/ValidationError'
+export { default as RuntimeError } from './errors/RuntimeError'
+export { default as ResourceNotFoundError } from './errors/ResourceNotFoundError'
+export { default as HttpClientError } from './errors/HttpClientError'
 
 // ==== MIDDLEWARE ====
-import errorMiddleware from './middleware'
+export { default as errorMiddleware }  from './middleware'
 
-// ==== GENERAL INTERNAL INTERFACES ====
-export type { BaseErrorInterface } from './errors/BaseError'
+// ==== TYPES ====
 export type { HttpClientErrorDataInterface } from './errors/HttpClientError'
+export type { BaseErrorInterface } from './errors/BaseError'
+export type { ErrorDataInterface } from './index.d'
 
-// ==== ENUM ====
-export enum HttpStatus {
-    BAD_REQUEST = 400,
-    NOT_FOUND = 404,
-    INTERNAL_SERVER_ERROR = 500
-}
-
-export enum ErrorType {
-    DEFAULT = 'Error',
-    BASE = 'BaseError',
-    VALIDATION = 'ValidationError',
-    RUNTIME = 'RuntimeError',
-    RESOURCE_NOT_FOUND = 'ResourceNotFoundError',
-    HTTP_CLIENT = 'HttpClientError'
-}
-
-// ==== INTERFACE ====
-export interface ErrorDataInterface extends BaseErrorInterface {
-    data?: object
-}
-
-export {
-    errorMiddleware,
-    BaseError,
-    ValidationError,
-    RuntimeError,
-    ResourceNotFoundError,
-    HttpClientError
-}
+// ==== ENUMS ====
+export { HttpStatus, ErrorType } from './index.d'

@@ -13,47 +13,34 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== DEPENDENCIES ====
-import axios, { AxiosError } from 'axios'
+// ==== [IMPORT] - INTERNAL TYPES ====
+import type { BaseErrorInterface } from './BaseError'
 
-// ==== VITEST ====
-import { describe, it, expect } from 'vitest'
+// ==== [IMPORT] - EXTERNAL TYPES ====
+import {
+    AxiosResponseHeaders,
+    RawAxiosRequestHeaders, AxiosHeaderValue
+} from 'axios'
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '@/src/index'
+// ==== [CREATION] - TYPES ====
+type AxiosErrorData = {
+    url: string | undefined
+    method: string | undefined
+    payload: unknown
+    headers: AxiosResponseHeaders | Partial<RawAxiosRequestHeaders & {
+        Server: AxiosHeaderValue;
+        'Content-Type': AxiosHeaderValue;
+        'Content-Length': AxiosHeaderValue;
+        'Cache-Control': AxiosHeaderValue;
+        'Content-Encoding': AxiosHeaderValue;
+    }> | undefined;
+    responseData: unknown
+    errorMessage: string
+}
 
-import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll.d'
-const { BASE_URL } = ServerDetails
-const { errorTitle } = ErrorDetails
+// ==== [CREATION] - INTERFACES ====
+interface HttpClientErrorDataInterface extends BaseErrorInterface {
+    data: AxiosErrorData
+}
 
-// ==== INTERFACES ====
-import { HttpClientErrorDataInterface } from '@/src/index'
- 
-describe('[INTEGRATION] - src/errors/HttpClientError', () => {
-    it('should return 404 with HttpClientError details', async() => {
-        try {
-            await axios.get(`${BASE_URL}/httpclient-error`)
-            throw new Error('HttpClient Error Test - This should not be called')
-        } catch (e: unknown) {
-            const { response } = e as AxiosError
-            
-            expect(response?.status).to.equal(HttpStatus.NOT_FOUND)
-
-            const data = response?.data as HttpClientErrorDataInterface
-
-            expect(data).to.include({
-                title: errorTitle,
-                environment: process.env.npm_lifecycle_event,
-                name: ErrorType.HTTP_CLIENT
-            })
-
-            expect(data.error).toBe('AxiosError: Request failed with status code 404')
-
-            expect(data.data.errorMessage).toBeDefined()
-            expect(data.data.headers).toBeDefined()
-            expect(data.data.method).to.be.equal('get')
-            expect(data.data.responseData).toBeDefined()
-            expect(data.data.url).toBe(BASE_URL + '/notFound')
-        }
-    })
-})
+export { HttpClientErrorDataInterface, AxiosErrorData }

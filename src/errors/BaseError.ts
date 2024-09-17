@@ -16,15 +16,9 @@
 // ==== ENUM ====
 import { HttpStatus, ErrorType } from '../index'
 
-// ==== INTERFACES ====
-
-// Normal error is also allowed so only the name is required
-export interface BaseErrorInterface {
-     name: string
-     httpStatus?: HttpStatus
-     readonly title?: string
-     readonly error?: Error
-}
+// ==== INTERFACE ====
+import type { BaseErrorInterface } from './BaseError.d'
+export type { BaseErrorInterface }
 
 /**
  * @class BaseError
@@ -46,7 +40,7 @@ class BaseError extends Error implements BaseErrorInterface {
      * Creates a new instance of `BaseError`
      * 
      * @param {string} title - The title or description of the error
-     * @param {Error | null} [e] - Optional original error that caused this error
+     * @param {Error} [error] - Optional original error that caused this error
      */
     constructor(
         readonly title: string,

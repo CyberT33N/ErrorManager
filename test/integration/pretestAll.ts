@@ -104,3 +104,5 @@ export async function setup() {
 export async function teardown() {
     server.close()
 }
+
+export { ServerDetails, ErrorDetails, ErrorData } from './pretestAll.d'

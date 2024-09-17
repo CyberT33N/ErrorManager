@@ -22,7 +22,7 @@ import { describe, it, expect } from 'vitest'
 // ==== ENUM ====
 import { HttpStatus, ErrorType } from '@/src/index'
 
-import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll.d'
+import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll'
 const { BASE_URL } = ServerDetails
 const { errorTitle, errorMessage } = ErrorDetails
 
