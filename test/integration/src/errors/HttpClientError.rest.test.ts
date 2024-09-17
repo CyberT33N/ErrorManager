@@ -44,10 +44,9 @@ describe('[INTEGRATION] - src/errors/HttpClientError', () => {
             expect(data).to.include({
                 title: errorTitle,
                 environment: process.env.npm_lifecycle_event,
-                name: ErrorType.HTTP_CLIENT
+                name: ErrorType.HTTP_CLIENT,
+                error: 'AxiosError: Request failed with status code 404'
             })
-
-            expect(data.error).toBe('AxiosError: Request failed with status code 404')
 
             expect(data.data.errorMessage).toBeDefined()
             expect(data.data.headers).toBeDefined()

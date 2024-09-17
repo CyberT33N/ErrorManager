@@ -19,6 +19,6 @@ import { beforeEach } from 'vitest'
 
 const NLE = process.env.npm_lifecycle_event
 
-beforeEach(() => {
+beforeEach((): void => {
     process.env.npm_lifecycle_event = NLE
 })

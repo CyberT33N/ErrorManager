@@ -16,14 +16,17 @@
 // ==== ENUM ====
 import { HttpStatus, ErrorType } from '@/src/index'
 
+// ==== INTERNAL INTERFACES ====
+import { ErrorDataInterface } from '@/src/index'
+
+// ==== EXTERNAL INTERFACE ====
+import { Request, Response, NextFunction } from 'express'
+
 // ==== DEPENDENCIES ====
 import sinon from 'sinon'
 
 // ==== INTERNAL DEPENDENCIES ====
 import { ValidationError } from '@/src/index'
-
-// ==== EXTERNAL INTERFACE ====
-import { Request, Response, NextFunction } from 'express'
 
 // ==== VITEST ====
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
@@ -36,9 +39,9 @@ describe('[UNIT] - src/middleware.ts', () => {
     let statusStub: sinon.SinonStub
 
     const errMsg = 'Test error'
-    const errData = { data: 'test' }    
-    const error = new Error(errMsg)
-    const validationErr = new ValidationError(errMsg, errData, error)
+    const errData  = { data: 'test' }    
+    const error: Error = new Error(errMsg)
+    const validationErr: ErrorDataInterface = new ValidationError(errMsg, errData, error)
 
     beforeEach(() => {
         jsonStub = sinon.stub()

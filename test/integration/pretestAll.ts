@@ -15,6 +15,7 @@
 
 // ==== ENUM ====
 import { ServerDetails, ErrorDetails, ErrorData } from '@/test/integration/pretestAll.d'
+export { ServerDetails, ErrorDetails, ErrorData }
 
 // ==== DEPENDENCIES ====
 import express from 'express'
@@ -35,13 +36,16 @@ import {
     HttpClientError
 }  from '@/src/index'
 
-let server: Server
-
 const errorData = ErrorData.exampleOne
 const { errorTitle, errorMessage } = ErrorDetails
 const { PORT, BASE_URL } = ServerDetails
 
-export async function setup() {
+let server: Server
+/**
+ * Sets up the server and defines routes to trigger different types of errors.
+ * @returns {Promise<void>} A promise that resolves when the server is set up.
+ */
+export async function setup(): Promise<void> {
     const app = express()
 
     app.get('/found', (req, res) => {
@@ -101,8 +105,9 @@ export async function setup() {
     console.log(`Server is running on port ${PORT}`)
 }
 
-export async function teardown() {
+/**
+ * Closes the server.
+ */
+export async function teardown(): Promise<void> {
     server.close()
 }
-
-export { ServerDetails, ErrorDetails, ErrorData } from './pretestAll.d'
