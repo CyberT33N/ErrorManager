@@ -1,45 +1,34 @@
 # 𝑬𝒓𝒓𝒐𝒓𝑴𝒂𝒏𝒂𝒈𝒆𝒓 🌟💻
-- This module provides you with custom errors for your express app and helps you to integrate them easily. Use them in your application for specific error types.
+- Express error middleware with custom error types for easy error handling for different use cases. 
 
 
 <br><br>
+<br><br>
 
-## With express
-This is how your express server file would look like:
+## Init
+- If you are not using express then you can still use the custom error types. But then they will only throw the error and it will not be sended to the client!
 ```javascript
 import express from 'express'
+import 'express-async-errors'
 
-// ==== ErrorManager() ====
-import errorManager from 'error-manager-helper'
-const { errorMiddleware } = errorManager
+import { errorMiddleware } from 'error-manager-helper'
 
 const app = express()
 
-// Define your routes here..
+// Sample route to trigger custom error HttpClientError
+app.get('/httpclient-error', async() => {
+    try {
+        await axios.get(`${BASE_URL}/notFound`)
+    } catch (err) {
+        throw new HttpClientError(errorTitle, err)
+    }
+})
 
-// errorMiddleware is error handle middleware which will be triggered when you throw error.
+// Include error middleware
 app.use(errorMiddleware)
 
 const server = app.listen(port)
 console.log(`Server is running on port ${port}`)
-```
-
-
-<br><br>
-<br><br>
-
-## Without express
-- If you are not using express then you can still require the error types. But then they will only throw the error and not send it to the client
-```javascript
-import { ValidationError } from 'error-manager-helper'
-
-export default class Manager {
-    constructor(chain) {
-        if (chain !== 'anyValue') {
-            throw new ValidationError('Manager() - Argument chain is invalid', { chain })
-        }
-    }
-}
 ```
 
 
@@ -101,7 +90,6 @@ throw new ValidationError('Your Error Title', { dataThatNotValid }, new Error('A
 - Will be always HTTP Status 404
 - Passing error is optional
 ```javascript
-
 throw new ResourceNotFoundError('Your Error Title', dataThatMissed, new Error('Any Error'))
 ```
 
@@ -134,16 +122,15 @@ _________________________________________
 
 
 ## npm_lifecycle_event 🔧🛠️
-- When you use npm_lifecycle_event:start then your error message and stacktrace will not be sended to the client. Sample response:
+- Some errors may leak sensitive informations in the error itself or by the additional provided data object which you include to your custom error e.g. `throw new ValidationError('Your Error Title', { objectWithPw }, new Error('Any Error'))`.
+  - For this reason when you use `npm_lifecycle_event=start` then your provided `error, data and stack trace will be sanitized` and not sended to the client. Sample response:
 ```javascript
 {
-    "environment":"start",
-    "title":"collectionName can not contain special characters",
-    "errorMessage":null,
-    "stack":null
+    "environment": "start",
+    "title": "collection name 'test!' can not contain special characters",
+    "error": '[SANITIZED]',
+    "data": '[SANITIZED]',
+    "stack": '[SANITIZED]'
 }
 ```
-  - With all other npm_lifecycle_event errorMessage and stack will be included. This is usefully if you to not want to send sensitive details to the client on production but on the other side want them local in dev.
-    - However, even with npm_lifecycle_event:start the full error will be always logged to the terminal of your APP.
-
-
+  - With all other npm_lifecycle_event it will be not sanitized. However, even with npm_lifecycle_event=start the full error will logged with console.error.
