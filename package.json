@@ -1,8 +1,8 @@
 {
   "name": "error-manager-helper",
   "type": "module",
-  "version": "3.14.0",
-  "description": "Error manager for complex error handling with and without express",
+  "version": "3.15.0",
+  "description": "Express error middleware manager",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
