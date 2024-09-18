@@ -28,5 +28,11 @@ export type { HttpClientErrorDataInterface } from './errors/HttpClientError'
 export type { BaseErrorInterface } from './errors/BaseError'
 export type { ErrorDataInterface } from './index.d'
 
+export type { 
+    ErrorResponseInterface,
+    ErrorResponseFullInterface,
+    ErrorResponseSanitizedInterface
+} from './middleware'
+
 // ==== ENUMS ====
 export { HttpStatus, ErrorType } from './index.d'

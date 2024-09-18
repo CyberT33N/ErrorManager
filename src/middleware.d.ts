@@ -13,40 +13,32 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== DEPENDENCIES ====
-import axios, { AxiosError } from 'axios'
+// ==== [IMPORT] INTERFACE ====
+import { ErrorDataInterface } from './index'
 
-// ==== VITEST ====
-import { describe, it, expect } from 'vitest'
+// ==== [CREATION] ENUM ====
+export enum SanitizedMessage {
+    DEFAULT = '[SANITIZED]'
+}
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '@/src/index'
+// ==== [CREATION] INTERFACE ====
+interface ErrorResponseInterface extends ErrorDataInterface {
+    environment: string
+    timestamp: string
+}
 
-import { ServerDetails } from '@/test/integration/pretestAll.d'
-const { BASE_URL } = ServerDetails
+interface ErrorResponseFullInterface extends ErrorResponseInterface {
+    stack: string | undefined
+}
 
-// ==== INTERFACES ====
-import { ErrorResponseSanitizedInterface } from '@/src/middleware'
- 
-describe('[INTEGRATION] - src/middleware.ts', () => {
-    it('should throw a normal javascript error instead of custom error', async() => {
-        try {
-            await axios.get(`${BASE_URL}/normal-error`)
-            throw new Error('Middleware Error Test - This should not be called')
-        } catch (e: unknown) {
-            const { response } = e as AxiosError
-            expect(response?.status).to.equal(HttpStatus.INTERNAL_SERVER_ERROR)
+interface ErrorResponseSanitizedInterface extends ErrorResponseInterface {
+     error: string | SanitizedMessage.DEFAULT | ErrorDataInterface['error']
+     data: SanitizedMessage.DEFAULT | ErrorDataInterface['data']
+     stack: ErrorResponseFullInterface['stack']
+}
 
-            const data = response?.data as ErrorResponseSanitizedInterface
-
-            expect(data).to.include({
-                environment: process.env.npm_lifecycle_event,
-                name: ErrorType.DEFAULT
-            })
-
-            expect(data.timestamp).toBeDefined()
-            expect(data.title).toBeUndefined()
-            expect(data.error).toBeUndefined()
-        }
-    })
-})
+export {
+    ErrorResponseInterface,
+    ErrorResponseFullInterface,
+    ErrorResponseSanitizedInterface
+}

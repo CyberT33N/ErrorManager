@@ -15,9 +15,11 @@
 
 // ==== ENUM ====
 import { HttpStatus, ErrorType } from '@/src/index'
+import { SanitizedMessage } from '@/src/middleware'
 
 // ==== INTERNAL INTERFACES ====
 import { ErrorDataInterface } from '@/src/index'
+import { ErrorResponseSanitizedInterface } from '@/src/middleware'
 
 // ==== EXTERNAL INTERFACE ====
 import { Request, Response, NextFunction } from 'express'
@@ -62,10 +64,10 @@ describe('[UNIT] - src/middleware.ts', () => {
             const res = { status: statusStub } as unknown as Response
             const next = {} as NextFunction
 
-            const expectedResponse = {
+            const expectedResponse: ErrorResponseSanitizedInterface = {
                 name: ErrorType.DEFAULT,
-                environment: process.env.npm_lifecycle_event,
-                timestamp: sinon.match.string,
+                environment: process.env.npm_lifecycle_event!,
+                timestamp: sinon.match.string as unknown as string,
                 title: undefined,
                 error: undefined,
                 data: undefined,
@@ -90,14 +92,14 @@ describe('[UNIT] - src/middleware.ts', () => {
                 const res = { status: statusStub } as unknown as Response
                 const next = {} as NextFunction
 
-                const expectedResponse = {
+                const expectedResponse: ErrorResponseSanitizedInterface = {
                     name: ErrorType.VALIDATION,
-                    environment: process.env.npm_lifecycle_event,
-                    timestamp: sinon.match.string,
+                    environment: process.env.npm_lifecycle_event!,
+                    timestamp: sinon.match.string as unknown as string,
                     title: errMsg,
-                    error: `Error: ${errMsg}`,
+                    error: `Error: ${errMsg}` as unknown as string,
                     data: errData,
-                    stack: sinon.match.string
+                    stack: sinon.match.string as unknown as string
                 }
 
                 errorMiddleware(validationErr, req, res, next)
@@ -117,14 +119,14 @@ describe('[UNIT] - src/middleware.ts', () => {
                 const res = { status: statusStub } as unknown as Response
                 const next = {} as NextFunction
 
-                const expectedResponse = {
+                const expectedResponse: ErrorResponseSanitizedInterface = {
                     name: ErrorType.VALIDATION,
-                    environment: process.env.npm_lifecycle_event,
-                    timestamp: sinon.match.string,
+                    environment: process.env.npm_lifecycle_event!,
+                    timestamp: sinon.match.string as unknown as string,
                     title: errMsg,
-                    error: null,
-                    data: null,
-                    stack: null
+                    error: SanitizedMessage.DEFAULT,
+                    data: SanitizedMessage.DEFAULT,
+                    stack: SanitizedMessage.DEFAULT
                 }
 
                 errorMiddleware(validationErr, req, res, next)

@@ -16,8 +16,24 @@
 // ==== EXTERNAL DEPENDENCIES TYPES ====
 import { NextFunction, Response, Request } from 'express'
 
+// ==== INTERNAL ENUMS ====
+import { SanitizedMessage } from './middleware.d'
+export { SanitizedMessage }
+
 // ==== INTERNAL TYPES ====
 import { ErrorDataInterface, HttpStatus } from './index'
+
+import type { 
+    ErrorResponseInterface,
+    ErrorResponseFullInterface,
+    ErrorResponseSanitizedInterface
+} from './middleware.d'
+
+export type { 
+    ErrorResponseInterface,
+    ErrorResponseFullInterface,
+    ErrorResponseSanitizedInterface
+}
 
 /**
  * @function errorMiddleware
@@ -32,7 +48,7 @@ import { ErrorDataInterface, HttpStatus } from './index'
  */
 const errorMiddleware = (
     err: ErrorDataInterface,
-    req:Request,
+    req: Request,
     res: Response,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     next: NextFunction
@@ -40,15 +56,15 @@ const errorMiddleware = (
     const { error, title, data, httpStatus, name } = err
 
     // Base will be always there does not matter which npm_lifecycle_event
-    const base = {
+    const base: ErrorResponseInterface = {
         name,
-        environment: process.env.npm_lifecycle_event,
+        environment: process.env.npm_lifecycle_event!,
         timestamp: new Date().toISOString(),
         title
     }
 
     // Full error with error message and stack
-    const fullError = {
+    const fullError: ErrorResponseFullInterface = {
         ...base,
         error,
         data,
@@ -56,11 +72,11 @@ const errorMiddleware = (
     }
 
     // If npm_lifecycle_event is start we sanitize the error message and stacktrace
-    const fullErrorSanitized = {
+    const fullErrorSanitized: ErrorResponseSanitizedInterface = {
         ...base,
-        error: process.env.npm_lifecycle_event === 'start' ? null : error?.toString(),
-        data: process.env.npm_lifecycle_event === 'start' ? null : data,
-        stack: process.env.npm_lifecycle_event === 'start' ? null : error?.stack
+        error: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : error?.toString(),
+        data: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : data,
+        stack: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : error?.stack
     }
 
     console.error('[ErrorManager] Full Error: ', fullError)
