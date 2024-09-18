@@ -8,10 +8,11 @@
 ## Init
 - If you are not using express then you can still use the custom error types. But then they will only throw the error and it will not be sended to the client!
 ```javascript
+import axios from 'axios'
 import express from 'express'
 import 'express-async-errors'
 
-import { errorMiddleware } from 'error-manager-helper'
+import { errorMiddleware, HttpClientError } from 'error-manager-helper'
 
 const app = express()
 
@@ -20,7 +21,7 @@ app.get('/httpclient-error', async() => {
     try {
         await axios.get(`${BASE_URL}/notFound`)
     } catch (err) {
-        throw new HttpClientError(errorTitle, err)
+        throw new HttpClientError('Any error title..', err)
     }
 })
 

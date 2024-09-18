@@ -17,7 +17,6 @@
 import { HttpStatus } from '../index'
 
 // ==== [CREATION] - INTERFACES ====
-
 /**
  * @interface BaseErrorInterface
  * Normal error is also allowed so only the name is required
