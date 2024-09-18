@@ -1,3 +1,12 @@
+# [3.17.0](https://github.com/CyberT33N/ErrorManager/compare/v3.16.0...v3.17.0) (2024-09-18)
+
+
+### Features
+
+* removed not needed empty line and updated READMEm.md ([695a45d](https://github.com/CyberT33N/ErrorManager/commit/695a45d127ac7560f98b59bbef40cdca463eec8b))
+
+
+
 # [3.16.0](https://github.com/CyberT33N/ErrorManager/compare/v3.14.0...v3.16.0) (2024-09-18)
 
 
@@ -34,15 +43,6 @@
 ### Features
 
 * **CCS-001:** Created unit tests for middleware.ts but not ready ([d042254](https://github.com/CyberT33N/ErrorManager/commit/d042254374c5e52b3387cb561485ff103d3eb33f))
-
-
-
-# [2.6.0](https://github.com/CyberT33N/ErrorManager/compare/v2.3.0...v2.6.0) (2024-05-18)
-
-
-### Features
-
-* **CCS-004:** Updated to 2.5.0 ([b10203e](https://github.com/CyberT33N/ErrorManager/commit/b10203e552eb343497cf8af6f7d7abe66ca920c2))
 
 
 
