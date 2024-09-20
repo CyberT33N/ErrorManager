@@ -13,14 +13,11 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '../index'
-
-// ==== INTERFACES ====
-import { ErrorDataInterface } from '../index'
-
-// ==== ERROR CLASSES ====
 import BaseError from './BaseError'
+
+import { HttpStatus, ErrorType } from '../index'
+import type { ErrorDataInterface } from '../index'
+
 
 /**
  * @class RuntimeError
@@ -29,7 +26,7 @@ import BaseError from './BaseError'
  * This class represents an error that occurs during the runtime of an application.
  * It extends the `BaseError` class and allows for specifying an HTTP status code.
  */
-class RuntimeError extends BaseError implements ErrorDataInterface {
+export default class RuntimeError extends BaseError implements ErrorDataInterface {
     /**
      * Creates a new instance of `RuntimeError`
      * 
@@ -48,5 +45,3 @@ class RuntimeError extends BaseError implements ErrorDataInterface {
         this.name = ErrorType.RUNTIME
     }
 }
-
-export default RuntimeError

@@ -13,24 +13,19 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== DEPENDENCIES ====
-import axios, { AxiosError } from 'axios'
-
-// ==== VITEST ====
+import axios, { type AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
-// ==== ENUM ====
+import type { ErrorDataInterface } from '@/src/index'
+
 import { HttpStatus, ErrorType } from '@/src/index'
+import { ServerDetails, ErrorDetails, ErrorData } from '@/test/integration/pretestAll'
 
-import { ServerDetails, ErrorDetails, ErrorData } from '@/test/integration/pretestAll.d'
-const { BASE_URL } = ServerDetails
-const { errorTitle, errorMessage } = ErrorDetails
-const errorData = ErrorData.exampleOne
-
-// ==== INTERFACES ====
-import { ErrorDataInterface } from '@/src/index'
- 
 describe('[INTEGRATION] - src/errors/ValidationError', () => {
+    const { BASE_URL } = ServerDetails
+    const { errorTitle, errorMessage } = ErrorDetails
+    const errorData = ErrorData.exampleOne
+
     it('should return 400 with ValidationError details - error passed', async() => {
         try {
             await axios.get(`${BASE_URL}/validation-error?error=true`)

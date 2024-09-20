@@ -13,14 +13,10 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '../index'
-
-// ==== INTERFACES ====
-import { ErrorDataInterface } from '../index'
-
-// ==== ERROR CLASSES ====
 import BaseError from './BaseError'
+
+import { HttpStatus, ErrorType } from '../index'
+import type { ErrorDataInterface } from '../index'
 
 /**
  * @class ResourceNotFoundError
@@ -30,7 +26,7 @@ import BaseError from './BaseError'
  * This class represents an error indicating that a requested resource was not found.
  * It extends `BaseError` and implements the `ErrorDataInterface`.
  */
-class ResourceNotFoundError extends BaseError implements ErrorDataInterface {
+export default class ResourceNotFoundError extends BaseError implements ErrorDataInterface {
     /**
      * Creates a new instance of `ResourceNotFoundError`
      * 
@@ -52,5 +48,3 @@ class ResourceNotFoundError extends BaseError implements ErrorDataInterface {
         this.httpStatus = HttpStatus.NOT_FOUND
     }
 }
-
-export default ResourceNotFoundError

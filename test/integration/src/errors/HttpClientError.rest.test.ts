@@ -13,23 +13,18 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== DEPENDENCIES ====
-import axios, { AxiosError } from 'axios'
-
-// ==== VITEST ====
+import axios, { type AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '@/src/index'
-
-import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll.d'
-const { BASE_URL } = ServerDetails
-const { errorTitle } = ErrorDetails
-
-// ==== INTERFACES ====
-import { HttpClientErrorDataInterface } from '@/src/index'
+import type { HttpClientErrorDataInterface } from '@/src/errors/HttpClientError'
  
+import { HttpStatus, ErrorType } from '@/src/index'
+import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll'
+
 describe('[INTEGRATION] - src/errors/HttpClientError', () => {
+    const { BASE_URL } = ServerDetails
+    const { errorTitle } = ErrorDetails
+
     it('should return 404 with HttpClientError details', async() => {
         try {
             await axios.get(`${BASE_URL}/httpclient-error`)

@@ -13,23 +13,18 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== DEPENDENCIES ====
-import axios, { AxiosError } from 'axios'
-
-// ==== VITEST ====
+import axios, { type AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
-// ==== ENUM ====
+import type { BaseErrorInterface } from '@/src/errors/BaseError'
+
 import { HttpStatus, ErrorType } from '@/src/index'
-
 import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll'
-const { BASE_URL } = ServerDetails
-const { errorTitle, errorMessage } = ErrorDetails
 
-// ==== INTERFACES ====
-import { BaseErrorInterface } from '@/src/index'
- 
 describe('[INTEGRATION] - src/errors/BaseError', () => {
+    const { BASE_URL } = ServerDetails
+    const { errorTitle, errorMessage } = ErrorDetails
+
     it('should return 500 with BaseError details - error passed', async() => {
         try {
             await axios.get(`${BASE_URL}/base-error?error=true`)

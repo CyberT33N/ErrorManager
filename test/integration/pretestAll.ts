@@ -13,19 +13,13 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ENUM ====
-import { ServerDetails, ErrorDetails, ErrorData } from '@/test/integration/pretestAll.d'
-export { ServerDetails, ErrorDetails, ErrorData }
-
-// ==== DEPENDENCIES ====
 import express from 'express'
 import 'express-async-errors'
 
-import axios, { AxiosError } from 'axios'
-
 import { Server } from 'http'
 
-// ==== CODE ====
+import axios, { type AxiosError } from 'axios'
+
 import errorMiddleware from '@/src/middleware'
 
 import {
@@ -35,6 +29,20 @@ import {
     ResourceNotFoundError,
     HttpClientError
 }  from '@/src/index'
+
+export enum ServerDetails {
+    PORT = 3876,
+    BASE_URL = 'http://localhost:3876'
+}
+
+export enum ErrorDetails {
+    errorTitle = 'Test title',
+    errorMessage = 'Test error'
+}
+
+export const ErrorData = {
+    exampleOne: { field: 'value' }
+} as const
 
 const errorData = ErrorData.exampleOne
 const { errorTitle, errorMessage } = ErrorDetails

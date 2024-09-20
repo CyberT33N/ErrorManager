@@ -13,18 +13,35 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '../index'
-
-// ==== INTERFACES ====
-import type { HttpClientErrorDataInterface, AxiosErrorData } from './HttpClientError.d'
-export type { HttpClientErrorDataInterface, AxiosErrorData }
-
-// ==== EXTERNAL TYPES ====
-import { AxiosError } from 'axios'
-
-// ==== ERROR CLASSES ====
 import BaseError from './BaseError'
+
+import { HttpStatus, ErrorType } from '../index'
+import type { BaseErrorInterface } from './BaseError'
+
+import type {
+    AxiosResponseHeaders,
+    RawAxiosRequestHeaders, AxiosHeaderValue,
+    AxiosError
+} from 'axios'
+
+export type AxiosErrorData = {
+    url: string | undefined
+    method: string | undefined
+    payload: unknown
+    headers: AxiosResponseHeaders | Partial<RawAxiosRequestHeaders & {
+        Server: AxiosHeaderValue;
+        'Content-Type': AxiosHeaderValue;
+        'Content-Length': AxiosHeaderValue;
+        'Cache-Control': AxiosHeaderValue;
+        'Content-Encoding': AxiosHeaderValue;
+    }> | undefined;
+    responseData: unknown
+    errorMessage: string
+}
+
+export interface HttpClientErrorDataInterface extends BaseErrorInterface {
+    data: AxiosErrorData
+}
 
 /**
  * @class HttpClientError
@@ -34,7 +51,7 @@ import BaseError from './BaseError'
  * This class represents a specific error caused by a failed HTTP request via Axios.
  * It extends the `BaseError` class and implements the `HttpClientErrorDataInterface`.
  */
-class HttpClientError extends BaseError implements HttpClientErrorDataInterface {
+export default class HttpClientError extends BaseError implements HttpClientErrorDataInterface {
     /**
      * Collected error data from the failed request
      * 
@@ -75,5 +92,3 @@ class HttpClientError extends BaseError implements HttpClientErrorDataInterface 
         this.data = data
     }
 }
-
-export default HttpClientError

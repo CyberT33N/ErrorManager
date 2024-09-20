@@ -13,11 +13,9 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-
-// ==== VITEST ====
 import { beforeEach } from 'vitest'
 
-const NLE = process.env.npm_lifecycle_event
+const NLE: string = process.env.npm_lifecycle_event!
 
 beforeEach((): void => {
     process.env.npm_lifecycle_event = NLE

@@ -13,10 +13,8 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== VITEST ====
 import { describe, it, expect } from 'vitest'
 
-// ==== CODE ====
 import {
     BaseError,
     ValidationError,

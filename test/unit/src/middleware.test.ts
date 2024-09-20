@@ -13,28 +13,18 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '@/src/index'
-import { SanitizedMessage } from '@/src/middleware'
-
-// ==== INTERNAL INTERFACES ====
-import { ErrorDataInterface } from '@/src/index'
-import { ErrorResponseSanitizedInterface } from '@/src/middleware'
-
-// ==== EXTERNAL INTERFACE ====
-import { Request, Response, NextFunction } from 'express'
-
-// ==== DEPENDENCIES ====
 import sinon from 'sinon'
-
-// ==== INTERNAL DEPENDENCIES ====
-import { ValidationError } from '@/src/index'
-
-// ==== VITEST ====
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-// ==== CODE ====
+import { ValidationError } from '@/src/index'
 import errorMiddleware from '@/src/middleware'
+
+import type { ErrorDataInterface } from '@/src/index'
+import type { ErrorResponseSanitizedInterface } from '@/src/middleware'
+import type { Request, Response, NextFunction } from 'express'
+
+import { HttpStatus, ErrorType } from '@/src/index'
+import { SanitizedMessage } from '@/src/middleware'
 
 describe('[UNIT] - src/middleware.ts', () => {
     let jsonStub: sinon.SinonStub

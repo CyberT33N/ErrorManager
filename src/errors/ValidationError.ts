@@ -13,14 +13,10 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '../index'
-
-// ==== ERROR CLASSES ====
 import BaseError from './BaseError'
 
-// ==== INTERFACES ====
-import { ErrorDataInterface } from '../index'
+import { HttpStatus, ErrorType } from '../index'
+import type { ErrorDataInterface } from '../index'
 
 /**
  * @class ValidationError
@@ -30,7 +26,7 @@ import { ErrorDataInterface } from '../index'
  * This class represents an error that occurs due to validation failures.
  * It extends the `BaseError` class and includes additional data related to the validation error.
  */
-class ValidationError extends BaseError implements ErrorDataInterface {
+export default class ValidationError extends BaseError implements ErrorDataInterface {
     /**
      * Creates a new instance of `ValidationError`
      * 
@@ -52,5 +48,3 @@ class ValidationError extends BaseError implements ErrorDataInterface {
         this.httpStatus = HttpStatus.BAD_REQUEST
     }
 }
-
-export default ValidationError

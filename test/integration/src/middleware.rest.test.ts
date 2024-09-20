@@ -13,22 +13,17 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== DEPENDENCIES ====
-import axios, { AxiosError } from 'axios'
-
-// ==== VITEST ====
+import axios, { type AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
-// ==== ENUM ====
+import type { ErrorResponseSanitizedInterface } from '@/src/middleware'
+
 import { HttpStatus, ErrorType } from '@/src/index'
+import { ServerDetails } from '@/test/integration/pretestAll'
 
-import { ServerDetails } from '@/test/integration/pretestAll.d'
-const { BASE_URL } = ServerDetails
-
-// ==== INTERFACES ====
-import { ErrorResponseSanitizedInterface } from '@/src/middleware'
- 
 describe('[INTEGRATION] - src/middleware.ts', () => {
+    const { BASE_URL } = ServerDetails
+
     it('should throw a normal javascript error instead of custom error', async() => {
         try {
             await axios.get(`${BASE_URL}/normal-error`)

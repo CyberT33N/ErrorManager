@@ -13,12 +13,18 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== ENUM ====
 import { HttpStatus, ErrorType } from '../index'
 
-// ==== INTERFACE ====
-import type { BaseErrorInterface } from './BaseError.d'
-export type { BaseErrorInterface }
+/**
+ * @interface BaseErrorInterface
+ * Normal error is also allowed so only the name is required
+ */
+export interface BaseErrorInterface {
+    name: string
+    httpStatus?: HttpStatus
+    readonly title?: string
+    readonly error?: Error
+}
 
 /**
  * @class BaseError
@@ -28,7 +34,7 @@ export type { BaseErrorInterface }
  * This class serves as a base class for creating custom error types.
  * It extends the native `Error` class and implements the `BaseErrorInterface`.
  */
-class BaseError extends Error implements BaseErrorInterface {
+export default class BaseError extends Error implements BaseErrorInterface {
     /**
      * HTTP status code associated with this error
      * 
@@ -55,5 +61,3 @@ class BaseError extends Error implements BaseErrorInterface {
         this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
     }
 }
-
-export default BaseError

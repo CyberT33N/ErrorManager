@@ -13,20 +13,13 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== DEPENDENCIES ====
 import axios, { AxiosError } from 'axios'
-
-// ==== VITEST ====
 import { describe, it, expect } from 'vitest'
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '@/src/index'
-
-// ==== INTERFACE ====
-import { HttpClientErrorDataInterface } from '@/src/index'
-
-// ==== CODE ====
 import { HttpClientError } from '@/src/index'
+
+import { HttpStatus, ErrorType } from '@/src/index'
+import type { HttpClientErrorDataInterface } from '@/src/errors/HttpClientError'
 
 describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
     const errorMsg = 'test'

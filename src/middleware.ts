@@ -13,26 +13,28 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== EXTERNAL DEPENDENCIES TYPES ====
-import { NextFunction, Response, Request } from 'express'
+import type { NextFunction, Response, Request } from 'express'
+import { type ErrorDataInterface, HttpStatus } from './index'
 
-// ==== INTERNAL ENUMS ====
-import { SanitizedMessage } from './middleware.d'
-export { SanitizedMessage }
+export enum SanitizedMessage {
+    DEFAULT = '[SANITIZED]'
+}
 
-// ==== INTERNAL TYPES ====
-import { ErrorDataInterface, HttpStatus } from './index'
+export interface ErrorResponseInterface extends ErrorDataInterface {
+    environment: string
+    timestamp: string
+}
 
-import type { 
-    ErrorResponseInterface,
-    ErrorResponseFullInterface,
-    ErrorResponseSanitizedInterface
-} from './middleware.d'
+export interface ErrorResponseFullInterface extends ErrorResponseInterface {
+    stack: string | undefined
+}
 
-export type { 
-    ErrorResponseInterface,
-    ErrorResponseFullInterface,
-    ErrorResponseSanitizedInterface
+export interface ErrorResponseSanitizedInterface extends Omit<
+    ErrorResponseInterface, 'error' | 'data'
+> {
+     error: string | SanitizedMessage.DEFAULT | ErrorDataInterface['error']
+     data: SanitizedMessage.DEFAULT | ErrorDataInterface['data']
+     stack: ErrorResponseFullInterface['stack']
 }
 
 /**
@@ -46,13 +48,13 @@ export type {
  * Middleware function for handling and formatting errors in an Express application.
  * It logs the full error details and sends a sanitized version of the error response to the client.
  */
-const errorMiddleware = (
+export default function errorMiddleware(
     err: ErrorDataInterface,
     req: Request,
     res: Response,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     next: NextFunction
-): void => {
+): void {
     const { error, title, data, httpStatus, name } = err
 
     // Base will be always there does not matter which npm_lifecycle_event
@@ -84,5 +86,3 @@ const errorMiddleware = (
     const status = httpStatus || HttpStatus.INTERNAL_SERVER_ERROR
     res.status(status).json(fullErrorSanitized)
 }
-
-export default errorMiddleware

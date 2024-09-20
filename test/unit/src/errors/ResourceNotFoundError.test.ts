@@ -13,17 +13,12 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== VITEST ====
 import { describe, it, expect } from 'vitest'
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '@/src/index'
-
-// ==== INTERFACE ====
-import { ErrorDataInterface } from '@/src/index'
-
-// ==== CODE ====
 import { ResourceNotFoundError } from '@/src/index'
+
+import { HttpStatus, ErrorType } from '@/src/index'
+import type { ErrorDataInterface } from '@/src/index'
 
 describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
     const errorMsg = 'test'

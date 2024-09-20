@@ -13,23 +13,18 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== DEPENDENCIES ====
-import axios, { AxiosError } from 'axios'
-
-// ==== VITEST ====
+import axios, { type AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
-// ==== ENUM ====
+import type { ErrorDataInterface } from '@/src/index'
+
 import { HttpStatus, ErrorType } from '@/src/index'
+import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll'
 
-import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll.d'
-const { BASE_URL } = ServerDetails
-const { errorTitle, errorMessage } = ErrorDetails
-
-// ==== INTERFACES ====
-import { ErrorDataInterface } from '@/src/index'
- 
 describe('[INTEGRATION] - src/errors/RuntimeError', () => {
+    const { BASE_URL } = ServerDetails
+    const { errorTitle, errorMessage } = ErrorDetails
+
     it('should return 500 with RuntimeError details', async() => {
         try {
             await axios.get(`${BASE_URL}/runtime-error`)

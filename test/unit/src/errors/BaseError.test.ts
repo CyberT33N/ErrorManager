@@ -13,17 +13,12 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-// ==== VITEST ====
 import { describe, it, expect } from 'vitest'
 
-// ==== ENUM ====
-import { HttpStatus, ErrorType } from '@/src/index'
-
-// ==== INTERFACE ====
-import { BaseErrorInterface } from '@/src/index'
-
-// ==== CODE ====
 import { BaseError } from '@/src/index'
+
+import { HttpStatus, ErrorType } from '@/src/index'
+import type { BaseErrorInterface } from '@/src/errors/BaseError'
 
 describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
     const errorMsg = 'test'
