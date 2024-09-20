@@ -1,3 +1,12 @@
+# [3.18.0](https://github.com/CyberT33N/ErrorManager/compare/v3.17.0...v3.18.0) (2024-09-20)
+
+
+### Features
+
+* **CCS-69:** removed TODO.md ([2fcb9d9](https://github.com/CyberT33N/ErrorManager/commit/2fcb9d98d9b5b95954c16a6857ef81ff3dde1d4b))
+
+
+
 # [3.17.0](https://github.com/CyberT33N/ErrorManager/compare/v3.16.0...v3.17.0) (2024-09-18)
 
 
@@ -34,15 +43,6 @@
 ### Bug Fixes
 
 * **CCS-001:** fixed npm run build ([c371a5a](https://github.com/CyberT33N/ErrorManager/commit/c371a5ad3c7013e9d15a3dc2defa1a3ca9cd5500))
-
-
-
-# [3.11.0](https://github.com/CyberT33N/ErrorManager/compare/v2.6.0...v3.11.0) (2024-09-15)
-
-
-### Features
-
-* **CCS-001:** Created unit tests for middleware.ts but not ready ([d042254](https://github.com/CyberT33N/ErrorManager/commit/d042254374c5e52b3387cb561485ff103d3eb33f))
 
 
 
