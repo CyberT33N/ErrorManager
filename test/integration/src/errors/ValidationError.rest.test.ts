@@ -16,9 +16,10 @@
 import axios, { type AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
-import type { ErrorDataInterface } from '@/src/index'
+import type { CoreErrorInterface } from '@/src/errors/CoreError'
 
-import { HttpStatus, ErrorType } from '@/src/index'
+import { StatusCodes } from 'http-status-codes'
+import { ErrorType } from '@/src/index'
 import { ServerDetails, ErrorDetails, ErrorData } from '@/test/integration/pretestAll'
 
 describe('[INTEGRATION] - src/errors/ValidationError', () => {
@@ -33,9 +34,9 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
         } catch (e: unknown) {
             const { response } = e as AxiosError
 
-            expect(response?.status).to.equal(HttpStatus.BAD_REQUEST)
+            expect(response?.status).to.equal(StatusCodes.BAD_REQUEST)
 
-            const data = response?.data as ErrorDataInterface
+            const data = response?.data as CoreErrorInterface
 
             expect(data).to.include({
                 message: errorMessage,
@@ -55,9 +56,9 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
         } catch (e: unknown) {
             const { response } = e as AxiosError
 
-            expect(response?.status).to.equal(HttpStatus.BAD_REQUEST)
+            expect(response?.status).to.equal(StatusCodes.BAD_REQUEST)
 
-            const data = response?.data as ErrorDataInterface
+            const data = response?.data as CoreErrorInterface
 
             expect(data).to.include({
                 message: errorMessage,

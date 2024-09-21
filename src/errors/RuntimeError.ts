@@ -13,31 +13,47 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import BaseError from './BaseError'
+import { StatusCodes } from 'http-status-codes'
+import { ErrorType } from '../index'
 
-import { HttpStatus, ErrorType } from '../index'
-import type { ErrorDataInterface } from '../index'
+import { type CoreErrorInterface, default as CoreError } from './CoreError'
 
+/**
+ * @interface RuntimeErrorInterface
+ * @extends CoreErrorInterface
+ * HTTP status code is always 500 (INTERNAL_SERVER_ERROR)
+ */
+export interface RuntimeErrorInterface extends CoreErrorInterface {
+    name: ErrorType.RUNTIME
+    httpStatus: StatusCodes.INTERNAL_SERVER_ERROR
+}
 
 /**
  * @class RuntimeError
- * @extends BaseError
- * 
+ * @extends CoreError
+ * @implements CoreErrorInterface
  * This class represents an error that occurs during the runtime of an application.
- * It extends the `BaseError` class and allows for specifying an HTTP status code.
+ * It extends the `CoreError` class and allows for specifying an HTTP status code.
  */
-export default class RuntimeError extends BaseError implements ErrorDataInterface {
+export default class RuntimeError extends CoreError implements RuntimeErrorInterface {
+    /**
+     * Error name associated with this error
+     * 
+     * @type {ErrorType.RUNTIME}
+     */
+    name: ErrorType.RUNTIME
+
     /**
      * Creates a new instance of `RuntimeError`
      * 
      * @param {string} message - The message or description of the error
      * @param {Error} error - The original error that triggered this runtime error
-     * @param {HttpStatus} httpStatus - Optional HTTP status code, default is 500 (INTERNAL_SERVER_ERROR)
+     * @param {StatusCodes} httpStatus - Optional HTTP status code, default is 500 (INTERNAL_SERVER_ERROR)
      */
     constructor(
         readonly message: string,
         readonly error: Error,
-        readonly httpStatus: number = HttpStatus.INTERNAL_SERVER_ERROR
+        readonly httpStatus: number = StatusCodes.INTERNAL_SERVER_ERROR
     ) {
         super(message, error)
 

@@ -13,41 +13,42 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import { describe, it, expect } from 'vitest'
-
-import { ValidationError } from '@/src/index'
-
 import { StatusCodes } from 'http-status-codes'
-import { ErrorType } from '@/src/index'
-import type { CoreErrorInterface } from '@/src/errors/CoreError'
 
-describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
-    const errorMsg = 'test'
-    const errorData = { test: 'test' }
+/**
+ * @interface CoreErrorInterface
+ * @extends Error
+ * 
+ * Interface for custom error classes. Because the middleware is handling aswell normal javascript errors,
+ * the properties listed below must be optional.
+ */
+export interface CoreErrorInterface extends Error {
+    error?: Error
+    data?: object
+    httpStatus?: StatusCodes
+}
 
-    it('should create new ValidationError without error argument', () => {
-        const validationError: CoreErrorInterface = new ValidationError(errorMsg, errorData)
-        expect(validationError).toBeInstanceOf(ValidationError)
-        expect(validationError.name).toBe(ErrorType.VALIDATION)
-        expect(validationError.message).toBe(errorMsg)
-        expect(validationError.httpStatus).toBe(StatusCodes.BAD_REQUEST)
-        expect(validationError.error).toBeUndefined()
-
-        const { data } = validationError
-        expect(data).toEqual(errorData)
-    })
-
-    it('should create new ValidationError without custom http status', () => {
-        const testError = new Error(errorMsg)
-
-        const validationError: CoreErrorInterface = new ValidationError(errorMsg, errorData, testError)
-        expect(validationError).toBeInstanceOf(ValidationError)
-        expect(validationError.name).toBe(ErrorType.VALIDATION)
-        expect(validationError.message).toBe(errorMsg)
-        expect(validationError.httpStatus).toBe(StatusCodes.BAD_REQUEST)
-        expect(validationError.error).toBe(testError)
-
-        const { data } = validationError
-        expect(data).toEqual(errorData)
-    })
-})
+/**
+ * @class CoreError
+ * @extends Error
+ * @implements CoreErrorInterface
+ * 
+ * This class serves as a base class for creating custom error types.
+ * It extends the native `Error` class and implements the `CoreErrorInterface`.
+ * Only difference compared to error is this.error
+ */
+export default class CoreError extends Error implements CoreErrorInterface {
+    /**
+     * Creates a new instance of `CoreError`
+     * 
+     * @param {string} message - The message or description of the error
+     * @param {Error} [error] - Optional original error that caused this error
+     */
+    constructor(
+        // The original Error of javascript contains message and stack
+        readonly message: string,
+        readonly error?: Error
+    ) {
+        super(message)
+    }
+}

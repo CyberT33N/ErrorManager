@@ -18,8 +18,9 @@ import { describe, it, expect } from 'vitest'
 
 import { HttpClientError } from '@/src/index'
 
-import { HttpStatus, ErrorType } from '@/src/index'
-import type { HttpClientErrorDataInterface } from '@/src/errors/HttpClientError'
+import { StatusCodes } from 'http-status-codes'
+import { ErrorType } from '@/src/index'
+import type { HttpClientErrorInterface } from '@/src/errors/HttpClientError'
 
 describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
     const errorMsg = 'test'
@@ -28,14 +29,14 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
         const error = new Error(errorMsg)
 
         it('should create new Http Client Error with normal not axios error argument', async() => {
-            const httpClientError: HttpClientErrorDataInterface = new HttpClientError(
+            const httpClientError: HttpClientErrorInterface = new HttpClientError(
                 errorMsg, error as AxiosError
             )
 
             expect(httpClientError).toBeInstanceOf(HttpClientError)
             expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
             expect(httpClientError.message).toBe(errorMsg)
-            expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
+            expect(httpClientError.httpStatus).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
             expect(httpClientError?.error?.message).toBe(errorMsg)
 
             const { data } = httpClientError
@@ -74,14 +75,14 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
         } as AxiosError
         
         it('should create new Http Client Error and use fallback for status code', async() => {
-            const httpClientError: HttpClientErrorDataInterface = new HttpClientError(
+            const httpClientError: HttpClientErrorInterface = new HttpClientError(
                 errorMsg, axiosError as AxiosError
             )
 
             expect(httpClientError).toBeInstanceOf(HttpClientError)
             expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
             expect(httpClientError.message).toBe(errorMsg)
-            expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
+            expect(httpClientError.httpStatus).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
             expect(httpClientError?.error?.message).toBe(axiosError.message)
 
             const { data } = httpClientError
@@ -121,7 +122,7 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
         } as AxiosError
         
         it('should create new Http Client Error without error argument', async() => {
-            const httpClientError: HttpClientErrorDataInterface = new HttpClientError(
+            const httpClientError: HttpClientErrorInterface = new HttpClientError(
                 errorMsg, axiosError as AxiosError
             )
 
@@ -150,11 +151,11 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
                 await axios.get(url)
                 throw new Error('HttpClient Error Test - This should not be called')
             } catch (e: unknown) {
-                const httpClientError: HttpClientErrorDataInterface = new HttpClientError(errorMsg, e as AxiosError)
+                const httpClientError: HttpClientErrorInterface = new HttpClientError(errorMsg, e as AxiosError)
                 expect(httpClientError).toBeInstanceOf(HttpClientError)
                 expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
                 expect(httpClientError.message).toBe(errorMsg)
-                expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
+                expect(httpClientError.httpStatus).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
                 expect(httpClientError?.error?.message).toBe(`getaddrinfo ENOTFOUND ${host}`)
 
                 const { data } = httpClientError

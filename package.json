@@ -55,5 +55,8 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "http-status-codes": "^2.3.0"
   }
 }

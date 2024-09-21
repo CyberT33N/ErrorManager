@@ -18,7 +18,8 @@ import { describe, it, expect } from 'vitest'
 
 import type { ErrorResponseSanitizedInterface } from '@/src/middleware'
 
-import { HttpStatus, ErrorType } from '@/src/index'
+import { StatusCodes } from 'http-status-codes'
+import { ErrorType } from '@/src/index'
 import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll'
 
 describe('[INTEGRATION] - src/middleware.ts', () => {
@@ -31,7 +32,7 @@ describe('[INTEGRATION] - src/middleware.ts', () => {
             throw new Error('Middleware Error Test - This should not be called')
         } catch (e: unknown) {
             const { response } = e as AxiosError
-            expect(response?.status).to.equal(HttpStatus.INTERNAL_SERVER_ERROR)
+            expect(response?.status).to.equal(StatusCodes.INTERNAL_SERVER_ERROR)
 
             const data = response?.data as ErrorResponseSanitizedInterface
 

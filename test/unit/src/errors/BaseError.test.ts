@@ -17,7 +17,8 @@ import { describe, it, expect } from 'vitest'
 
 import { BaseError } from '@/src/index'
 
-import { HttpStatus, ErrorType } from '@/src/index'
+import { StatusCodes } from 'http-status-codes'
+import { ErrorType } from '@/src/index'
 import type { BaseErrorInterface } from '@/src/errors/BaseError'
 
 describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
@@ -29,7 +30,7 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
         expect(baseError).toBeInstanceOf(BaseError)
         expect(baseError.name).toBe(ErrorType.BASE)
         expect(baseError.message).toBe(errorMsg)
-        expect(baseError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
+        expect(baseError.httpStatus).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
         expect(baseError.error).toBeUndefined()
     })
 
@@ -40,7 +41,7 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
         expect(baseError).toBeInstanceOf(BaseError)
         expect(baseError.name).toBe(ErrorType.BASE)
         expect(baseError.message).toBe(errorMsg)
-        expect(baseError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
+        expect(baseError.httpStatus).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
         expect(baseError.error).toBe(e)
     })
 })

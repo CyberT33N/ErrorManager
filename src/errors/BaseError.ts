@@ -13,37 +13,43 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import { HttpStatus, ErrorType } from '../index'
+import { ErrorType } from '../index'
+import { StatusCodes } from 'http-status-codes'
+
+import { type CoreErrorInterface, default as CoreError } from './CoreError'
 
 /**
  * @interface BaseErrorInterface
- * Normal error is also allowed so only the name is required
+ * @extends CoreErrorInterface
+ * HTTP status code is always 500 (INTERNAL_SERVER_ERROR)
  */
-export interface BaseErrorInterface {
-    name: string
-    httpStatus?: HttpStatus
-
-    // Original Error of javascript contains message, error and stack
-    readonly message?: string
-    readonly error?: Error
-    readonly stack?: string
+export interface BaseErrorInterface extends CoreErrorInterface {
+    name: ErrorType.BASE
+    httpStatus: StatusCodes.INTERNAL_SERVER_ERROR
 }
 
 /**
  * @class BaseError
- * @extends Error
+ * @extends CoreError
  * @implements BaseErrorInterface
  * 
  * This class serves as a base class for creating custom error types.
- * It extends the native `Error` class and implements the `BaseErrorInterface`.
+ * It extends the `CoreError` class and implements the `BaseErrorInterface`.
  */
-export default class BaseError extends Error implements BaseErrorInterface {
+export default class BaseError extends CoreError implements BaseErrorInterface {
+    /**
+     * Error name associated with this error
+     * 
+     * @type {ErrorType.BASE}
+     */
+    name: ErrorType.BASE
+
     /**
      * HTTP status code associated with this error
      * 
-     * @type {HttpStatus}
+     * @type {StatusCodes.INTERNAL_SERVER_ERROR}
      */
-    httpStatus: HttpStatus
+    httpStatus: StatusCodes.INTERNAL_SERVER_ERROR
 
     /**
      * Creates a new instance of `BaseError`
@@ -56,12 +62,12 @@ export default class BaseError extends Error implements BaseErrorInterface {
         readonly message: string,
         readonly error?: Error
     ) {
-        super(message)
+        super(message, error)
 
         // Sets the error name to BaseError
         this.name = ErrorType.BASE
 
         // Sets the default HTTP status to 500 (INTERNAL_SERVER_ERROR)
-        this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+        this.httpStatus = StatusCodes.INTERNAL_SERVER_ERROR
     }
 }

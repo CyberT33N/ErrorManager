@@ -13,25 +13,50 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import BaseError from './BaseError'
+import { StatusCodes } from 'http-status-codes'
+import { ErrorType } from '../index'
 
-import { HttpStatus, ErrorType } from '../index'
-import type { ErrorDataInterface } from '../index'
+import { type CoreErrorInterface, default as CoreError } from './CoreError'
+
+/**
+ * @interface ValidationErrorInterface
+ * @extends CoreErrorInterface
+ * HTTP status code is always 400 (BAD_REQUEST)
+ */
+export interface ValidationErrorInterface extends CoreErrorInterface {
+    name: ErrorType.VALIDATION
+    httpStatus: StatusCodes.BAD_REQUEST
+}
 
 /**
  * @class ValidationError
- * @extends BaseError
- * @implements ErrorDataInterface
+ * @extends CoreError
+ * @implements CoreErrorInterface
  * 
  * This class represents an error that occurs due to validation failures.
- * It extends the `BaseError` class and includes additional data related to the validation error.
+ * It extends the `CoreError` class and includes additional data related to the validation error.
  */
-export default class ValidationError extends BaseError implements ErrorDataInterface {
+export default class ValidationError extends CoreError implements ValidationErrorInterface {
+    /**
+     * Error name associated with this error
+     * 
+     * @type {ErrorType.VALIDATION}
+     */
+    name: ErrorType.VALIDATION
+
+    /**
+     * HTTP status code associated with this error
+     * 
+     * @type {StatusCodes.BAD_REQUEST}
+     */
+    httpStatus: StatusCodes.BAD_REQUEST
+  
+    
     /**
      * Creates a new instance of `ValidationError`
      * 
      * @param {string} message - The message or description of the error
-     * @param {ErrorDataInterface} data - Additional data related to the validation error
+     * @param {CoreErrorInterface} data - Additional data related to the validation error
      * @param {Error} [error] - Optional original error that triggered this validation error
      */
     constructor(
@@ -45,6 +70,6 @@ export default class ValidationError extends BaseError implements ErrorDataInter
         this.name = ErrorType.VALIDATION
 
         // Sets the HTTP status to 400 (BAD_REQUEST)
-        this.httpStatus = HttpStatus.BAD_REQUEST
+        this.httpStatus = StatusCodes.BAD_REQUEST
     }
 }

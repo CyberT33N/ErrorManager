@@ -13,10 +13,10 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import BaseError from './BaseError'
+import { ErrorType } from '../index'
+import { StatusCodes } from 'http-status-codes'
 
-import { HttpStatus, ErrorType } from '../index'
-import type { BaseErrorInterface } from './BaseError'
+import { type CoreErrorInterface, default as CoreError } from './CoreError'
 
 import type {
     AxiosResponseHeaders,
@@ -39,25 +39,46 @@ export type AxiosErrorData = {
     errorMessage: string
 }
 
-export interface HttpClientErrorDataInterface extends BaseErrorInterface {
+/**
+ * @interface HttpClientErrorInterface
+ * @extends CoreErrorInterface
+ * HTTP status code is same as response status code
+ */
+export interface HttpClientErrorInterface extends CoreErrorInterface {
     data: AxiosErrorData
+    name: ErrorType.HTTP_CLIENT
+    httpStatus: StatusCodes
 }
 
 /**
  * @class HttpClientError
- * @extends BaseError
- * @implements HttpClientErrorDataInterface
+ * @extends CoreError
+ * @implements HttpClientErrorInterface
  * 
  * This class represents a specific error caused by a failed HTTP request via Axios.
- * It extends the `BaseError` class and implements the `HttpClientErrorDataInterface`.
+ * It extends the `CoreError` class and implements the `HttpClientErrorDataInterface`.
  */
-export default class HttpClientError extends BaseError implements HttpClientErrorDataInterface {
+export default class HttpClientError extends CoreError implements HttpClientErrorInterface {
     /**
      * Collected error data from the failed request
      * 
      * @type {AxiosErrorData}
      */
     data: AxiosErrorData
+
+    /**
+     * Error name associated with this error
+     * 
+     * @type {ErrorType.HTTP_CLIENT}
+     */
+    name: ErrorType.HTTP_CLIENT
+
+    /**
+     * HTTP status code associated with this error
+     * 
+     * @type {StatusCodes}
+     */
+    httpStatus: StatusCodes
 
     /**
      * Creates a new instance of `HttpClientError`
@@ -86,7 +107,7 @@ export default class HttpClientError extends BaseError implements HttpClientErro
         this.name = ErrorType.HTTP_CLIENT
 
         // HTTP status code (if available), default is 500 (INTERNAL_SERVER_ERROR)
-        this.httpStatus = response?.status || HttpStatus.INTERNAL_SERVER_ERROR
+        this.httpStatus = response?.status || StatusCodes.INTERNAL_SERVER_ERROR
 
         // Stores all relevant information in the data object
         this.data = data

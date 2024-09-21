@@ -19,11 +19,12 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { ValidationError } from '@/src/index'
 import errorMiddleware from '@/src/middleware'
 
-import type { ErrorDataInterface } from '@/src/index'
+import type { CoreErrorInterface } from '@/src/errors/CoreError'
 import type { ErrorResponseSanitizedInterface } from '@/src/middleware'
 import type { Request, Response, NextFunction } from 'express'
 
-import { HttpStatus, ErrorType } from '@/src/index'
+import { StatusCodes } from 'http-status-codes'
+import { ErrorType } from '@/src/index'
 import { SanitizedMessage } from '@/src/middleware'
 
 describe('[UNIT] - src/middleware.ts', () => {
@@ -33,7 +34,7 @@ describe('[UNIT] - src/middleware.ts', () => {
     const errMsg = 'Test error'
     const errData  = { data: 'test' }    
     const error: Error = new Error(errMsg)
-    const validationErr: ErrorDataInterface = new ValidationError(errMsg, errData, error)
+    const validationErr: CoreErrorInterface = new ValidationError(errMsg, errData, error)
 
     beforeEach(() => {
         jsonStub = sinon.stub()
@@ -59,6 +60,7 @@ describe('[UNIT] - src/middleware.ts', () => {
                 environment: process.env.npm_lifecycle_event!,
                 timestamp: sinon.match.string as unknown as string,
                 message: errMsg,
+                httpStatus: undefined,
                 error: undefined,
                 data: undefined,
                 stack: undefined
@@ -66,7 +68,7 @@ describe('[UNIT] - src/middleware.ts', () => {
 
             errorMiddleware(error, req, res, next)
 
-            expect(statusStub.calledOnceWithExactly(HttpStatus.INTERNAL_SERVER_ERROR)).toBe(true)
+            expect(statusStub.calledOnceWithExactly(StatusCodes.INTERNAL_SERVER_ERROR)).toBe(true)
             expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
         })
     })
@@ -87,6 +89,7 @@ describe('[UNIT] - src/middleware.ts', () => {
                     environment: process.env.npm_lifecycle_event!,
                     timestamp: sinon.match.string as unknown as string,
                     message: errMsg,
+                    httpStatus: StatusCodes.BAD_REQUEST,
                     error: `Error: ${errMsg}` as unknown as string,
                     data: errData,
                     stack: sinon.match.string as unknown as string
@@ -94,7 +97,7 @@ describe('[UNIT] - src/middleware.ts', () => {
 
                 errorMiddleware(validationErr, req, res, next)
 
-                expect(statusStub.calledOnceWithExactly(HttpStatus.BAD_REQUEST)).toBe(true)
+                expect(statusStub.calledOnceWithExactly(StatusCodes.BAD_REQUEST)).toBe(true)
                 expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
             })
         })
@@ -114,6 +117,7 @@ describe('[UNIT] - src/middleware.ts', () => {
                     environment: process.env.npm_lifecycle_event!,
                     timestamp: sinon.match.string as unknown as string,
                     message: errMsg,
+                    httpStatus: StatusCodes.BAD_REQUEST,
                     error: SanitizedMessage.DEFAULT,
                     data: SanitizedMessage.DEFAULT,
                     stack: SanitizedMessage.DEFAULT
@@ -121,7 +125,7 @@ describe('[UNIT] - src/middleware.ts', () => {
 
                 errorMiddleware(validationErr, req, res, next)
 
-                expect(statusStub.calledOnceWithExactly(HttpStatus.BAD_REQUEST)).toBe(true)
+                expect(statusStub.calledOnceWithExactly(StatusCodes.BAD_REQUEST)).toBe(true)
                 expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
             })
         })

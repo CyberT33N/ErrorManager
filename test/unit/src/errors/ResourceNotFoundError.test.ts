@@ -17,19 +17,20 @@ import { describe, it, expect } from 'vitest'
 
 import { ResourceNotFoundError } from '@/src/index'
 
-import { HttpStatus, ErrorType } from '@/src/index'
-import type { ErrorDataInterface } from '@/src/index'
+import { StatusCodes } from 'http-status-codes'
+import { ErrorType } from '@/src/index'
+import type { CoreErrorInterface } from '@/src/errors/CoreError'
 
 describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
     const errorMsg = 'test'
     const errorData = { test: 'test' }
         
     it('should create new ResourceNotFoundError without error argument', () => {
-        const resourceNotFoundError: ErrorDataInterface = new ResourceNotFoundError(errorMsg, errorData)
+        const resourceNotFoundError: CoreErrorInterface = new ResourceNotFoundError(errorMsg, errorData)
         expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
         expect(resourceNotFoundError.name).toBe(ErrorType.RESOURCE_NOT_FOUND)
         expect(resourceNotFoundError.message).toBe(errorMsg)
-        expect(resourceNotFoundError.httpStatus).toBe(HttpStatus.NOT_FOUND)
+        expect(resourceNotFoundError.httpStatus).toBe(StatusCodes.NOT_FOUND)
         expect(resourceNotFoundError.error).toBeUndefined()
 
         const { data } = resourceNotFoundError
@@ -39,11 +40,11 @@ describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
     it('should create new ResourceNotFoundError with error argument', () => {
         const e = new Error(errorMsg)
 
-        const resourceNotFoundError: ErrorDataInterface = new ResourceNotFoundError(errorMsg, errorData, e)
+        const resourceNotFoundError: CoreErrorInterface = new ResourceNotFoundError(errorMsg, errorData, e)
         expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
         expect(resourceNotFoundError.name).toBe(ErrorType.RESOURCE_NOT_FOUND)
         expect(resourceNotFoundError.message).toBe(errorMsg)
-        expect(resourceNotFoundError.httpStatus).toBe(HttpStatus.NOT_FOUND)
+        expect(resourceNotFoundError.httpStatus).toBe(StatusCodes.NOT_FOUND)
         expect(resourceNotFoundError.error).toBe(e)
 
         const { data } = resourceNotFoundError

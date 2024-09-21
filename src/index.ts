@@ -14,21 +14,42 @@
 */
 
 // ==== ERROR CLASSES ====
-export { default as BaseError } from './errors/BaseError'
-export { default as ValidationError } from './errors/ValidationError'
-export { default as RuntimeError } from './errors/RuntimeError'
-export { default as ResourceNotFoundError } from './errors/ResourceNotFoundError'
-export { default as HttpClientError } from './errors/HttpClientError'
+export { 
+    default as BaseError,
+    type BaseErrorInterface
+} from './errors/BaseError'
+
+export {
+    default as ValidationError,
+    type ValidationErrorInterface
+} from './errors/ValidationError'
+
+export {
+    default as RuntimeError,
+    type RuntimeErrorInterface
+} from './errors/RuntimeError'
+
+export {
+    default as ResourceNotFoundError,
+    type ResourceNotFoundErrorInterface
+} from './errors/ResourceNotFoundError'
+
+export {
+    default as HttpClientError,
+    type AxiosErrorData, type HttpClientErrorInterface
+} from './errors/HttpClientError'
 
 // ==== MIDDLEWARE ====
-export { default as errorMiddleware }  from './middleware'
+export {
+    default as errorMiddleware,
+    type ErrorResponseInterface,
+    type ErrorResponseFullInterface,
+    type ErrorResponseSanitizedInterface,
+    SanitizedMessage
+}  from './middleware'
 
-// ==== ENUM ====
-export enum HttpStatus {
-    BAD_REQUEST = 400,
-    NOT_FOUND = 404,
-    INTERNAL_SERVER_ERROR = 500
-}
+// ==== ENUMS ====
+export { StatusCodes } from 'http-status-codes'
 
 export enum ErrorType {
     DEFAULT = 'Error',
@@ -38,23 +59,3 @@ export enum ErrorType {
     RESOURCE_NOT_FOUND = 'ResourceNotFoundError',
     HTTP_CLIENT = 'HttpClientError'
 }
-
-export { SanitizedMessage } from './middleware'
-
-// ==== INTERFACES ====
-import type { BaseErrorInterface } from './errors/BaseError'
-export type { BaseErrorInterface }
-
-export interface ErrorDataInterface extends BaseErrorInterface {
-    data?: object
-}
-
-export type {
-    AxiosErrorData, HttpClientErrorDataInterface
-} from './errors/HttpClientError'
-
-export type {
-    ErrorResponseInterface,
-    ErrorResponseFullInterface,
-    ErrorResponseSanitizedInterface
-} from './middleware'

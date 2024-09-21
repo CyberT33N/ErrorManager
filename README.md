@@ -129,6 +129,7 @@ _________________________________________
 {
     "environment": "start",
     "message": "collection name 'test!' can not contain special characters",
+    "httpStatus": 500,
     "error": '[SANITIZED]',
     "data": '[SANITIZED]',
     "stack": '[SANITIZED]'
