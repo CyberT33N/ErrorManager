@@ -34,7 +34,7 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
 
             expect(httpClientError).toBeInstanceOf(HttpClientError)
             expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
-            expect(httpClientError.title).toBe(errorMsg)
+            expect(httpClientError.message).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
             expect(httpClientError?.error?.message).toBe(errorMsg)
 
@@ -80,7 +80,7 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
 
             expect(httpClientError).toBeInstanceOf(HttpClientError)
             expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
-            expect(httpClientError.title).toBe(errorMsg)
+            expect(httpClientError.message).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
             expect(httpClientError?.error?.message).toBe(axiosError.message)
 
@@ -127,7 +127,7 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
 
             expect(httpClientError).toBeInstanceOf(HttpClientError)
             expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
-            expect(httpClientError.title).toBe(errorMsg)
+            expect(httpClientError.message).toBe(errorMsg)
             expect(httpClientError.httpStatus).toBe(axiosError?.response?.status)
             expect(httpClientError?.error?.message).toBe(axiosError.message)
 
@@ -153,7 +153,7 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
                 const httpClientError: HttpClientErrorDataInterface = new HttpClientError(errorMsg, e as AxiosError)
                 expect(httpClientError).toBeInstanceOf(HttpClientError)
                 expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
-                expect(httpClientError.title).toBe(errorMsg)
+                expect(httpClientError.message).toBe(errorMsg)
                 expect(httpClientError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
                 expect(httpClientError?.error?.message).toBe(`getaddrinfo ENOTFOUND ${host}`)
 

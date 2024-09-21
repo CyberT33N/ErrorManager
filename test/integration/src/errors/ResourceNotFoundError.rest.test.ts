@@ -23,7 +23,7 @@ import { ServerDetails, ErrorDetails, ErrorData } from '@/test/integration/prete
 
 describe('[INTEGRATION] - src/errors/ResourceNotFoundError', () => {
     const { BASE_URL } = ServerDetails
-    const { errorTitle, errorMessage } = ErrorDetails
+    const { errorMessage } = ErrorDetails
     const errorData = ErrorData.exampleOne
 
     it('should return 404 with ResourceNotFoundError details - with error', async() => {
@@ -38,7 +38,7 @@ describe('[INTEGRATION] - src/errors/ResourceNotFoundError', () => {
             const data = response?.data as ErrorDataInterface
 
             expect(data).to.include({
-                title: errorTitle,
+                message: errorMessage,
                 environment: process.env.npm_lifecycle_event,
                 name: ErrorType.RESOURCE_NOT_FOUND,
                 error: `Error: ${errorMessage}`
@@ -60,7 +60,7 @@ describe('[INTEGRATION] - src/errors/ResourceNotFoundError', () => {
             const data = response?.data as ErrorDataInterface
 
             expect(data).to.include({
-                title: errorTitle,
+                message: errorMessage,
                 environment: process.env.npm_lifecycle_event,
                 name: ErrorType.RESOURCE_NOT_FOUND
             })

@@ -23,7 +23,7 @@ import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll'
 
 describe('[INTEGRATION] - src/errors/HttpClientError', () => {
     const { BASE_URL } = ServerDetails
-    const { errorTitle } = ErrorDetails
+    const { errorMessage } = ErrorDetails
 
     it('should return 404 with HttpClientError details', async() => {
         try {
@@ -37,7 +37,7 @@ describe('[INTEGRATION] - src/errors/HttpClientError', () => {
             const data = response?.data as HttpClientErrorDataInterface
 
             expect(data).to.include({
-                title: errorTitle,
+                message: errorMessage,
                 environment: process.env.npm_lifecycle_event,
                 name: ErrorType.HTTP_CLIENT,
                 error: 'AxiosError: Request failed with status code 404'

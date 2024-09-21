@@ -23,7 +23,7 @@ import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll'
 
 describe('[INTEGRATION] - src/errors/RuntimeError', () => {
     const { BASE_URL } = ServerDetails
-    const { errorTitle, errorMessage } = ErrorDetails
+    const { errorMessage } = ErrorDetails
 
     it('should return 500 with RuntimeError details', async() => {
         try {
@@ -37,7 +37,7 @@ describe('[INTEGRATION] - src/errors/RuntimeError', () => {
             const data = response?.data as ErrorDataInterface
 
             expect(data).to.include({
-                title: errorTitle,
+                message: errorMessage,
                 environment: process.env.npm_lifecycle_event,
                 name: ErrorType.RUNTIME,
                 error: `Error: ${errorMessage}`

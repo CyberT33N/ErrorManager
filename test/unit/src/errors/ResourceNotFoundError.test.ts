@@ -28,7 +28,7 @@ describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
         const resourceNotFoundError: ErrorDataInterface = new ResourceNotFoundError(errorMsg, errorData)
         expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
         expect(resourceNotFoundError.name).toBe(ErrorType.RESOURCE_NOT_FOUND)
-        expect(resourceNotFoundError.title).toBe(errorMsg)
+        expect(resourceNotFoundError.message).toBe(errorMsg)
         expect(resourceNotFoundError.httpStatus).toBe(HttpStatus.NOT_FOUND)
         expect(resourceNotFoundError.error).toBeUndefined()
 
@@ -42,7 +42,7 @@ describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
         const resourceNotFoundError: ErrorDataInterface = new ResourceNotFoundError(errorMsg, errorData, e)
         expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
         expect(resourceNotFoundError.name).toBe(ErrorType.RESOURCE_NOT_FOUND)
-        expect(resourceNotFoundError.title).toBe(errorMsg)
+        expect(resourceNotFoundError.message).toBe(errorMsg)
         expect(resourceNotFoundError.httpStatus).toBe(HttpStatus.NOT_FOUND)
         expect(resourceNotFoundError.error).toBe(e)
 

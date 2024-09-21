@@ -27,7 +27,7 @@ describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
         const runtimeError: BaseErrorInterface = new RuntimeError(errorMsg, new Error(errorMsg))
         expect(runtimeError).toBeInstanceOf(RuntimeError)
         expect(runtimeError.name).toBe(ErrorType.RUNTIME)
-        expect(runtimeError.title).toBe(errorMsg)
+        expect(runtimeError.message).toBe(errorMsg)
         expect(runtimeError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
         expect(runtimeError.error).toBeInstanceOf(Error)
     })
@@ -39,7 +39,7 @@ describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
 
         expect(runtimeError).toBeInstanceOf(RuntimeError)
         expect(runtimeError.name).toBe(ErrorType.RUNTIME)
-        expect(runtimeError.title).toBe(errorMsg)
+        expect(runtimeError.message).toBe(errorMsg)
         expect(runtimeError.httpStatus).toBe(HttpStatus.NOT_FOUND)
         expect(runtimeError.error).toBeInstanceOf(Error)
     })

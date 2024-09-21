@@ -28,7 +28,7 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
  
         expect(baseError).toBeInstanceOf(BaseError)
         expect(baseError.name).toBe(ErrorType.BASE)
-        expect(baseError.title).toBe(errorMsg)
+        expect(baseError.message).toBe(errorMsg)
         expect(baseError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
         expect(baseError.error).toBeUndefined()
     })
@@ -39,7 +39,7 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
  
         expect(baseError).toBeInstanceOf(BaseError)
         expect(baseError.name).toBe(ErrorType.BASE)
-        expect(baseError.title).toBe(errorMsg)
+        expect(baseError.message).toBe(errorMsg)
         expect(baseError.httpStatus).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
         expect(baseError.error).toBe(e)
     })

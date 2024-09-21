@@ -23,7 +23,7 @@ import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll'
 
 describe('[INTEGRATION] - src/errors/BaseError', () => {
     const { BASE_URL } = ServerDetails
-    const { errorTitle, errorMessage } = ErrorDetails
+    const { errorMessage } = ErrorDetails
 
     it('should return 500 with BaseError details - error passed', async() => {
         try {
@@ -36,7 +36,7 @@ describe('[INTEGRATION] - src/errors/BaseError', () => {
             const data = response?.data as BaseErrorInterface
 
             expect(data).to.include({
-                title: errorTitle,
+                message: errorMessage,
                 environment: process.env.npm_lifecycle_event,
                 name: ErrorType.BASE,
                 error: `Error: ${errorMessage}`
@@ -55,7 +55,7 @@ describe('[INTEGRATION] - src/errors/BaseError', () => {
             const data = response?.data as BaseErrorInterface
 
             expect(data).to.include({
-                title: errorTitle,
+                message: errorMessage,
                 environment: process.env.npm_lifecycle_event,
                 name: ErrorType.BASE
             })

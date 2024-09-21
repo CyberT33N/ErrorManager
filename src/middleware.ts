@@ -55,14 +55,14 @@ export default function errorMiddleware(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     next: NextFunction
 ): void {
-    const { error, title, data, httpStatus, name } = err
+    const { error, message, data, httpStatus, name } = err
 
     // Base will be always there does not matter which npm_lifecycle_event
     const base: ErrorResponseInterface = {
         name,
         environment: process.env.npm_lifecycle_event!,
         timestamp: new Date().toISOString(),
-        title
+        message
     }
 
     // Full error with error message and stack

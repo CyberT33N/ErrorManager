@@ -30,16 +30,16 @@ export default class ResourceNotFoundError extends BaseError implements ErrorDat
     /**
      * Creates a new instance of `ResourceNotFoundError`
      * 
-     * @param {string} title - The title or description of the error
+     * @param {string} message - The message or description of the error
      * @param {ErrorDataInterface} data - Additional data related to the error
      * @param {Error} [error] - Optional original error that caused this error
      */
     constructor(
-        readonly title: string,
+        readonly message: string,
         readonly data: object,
         readonly error?: Error
     ) {
-        super(title, error)
+        super(message, error)
 
         // Sets the error name to ResourceNotFoundError
         this.name = ErrorType.RESOURCE_NOT_FOUND

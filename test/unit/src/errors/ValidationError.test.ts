@@ -28,7 +28,7 @@ describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
         const validationError: ErrorDataInterface = new ValidationError(errorMsg, errorData)
         expect(validationError).toBeInstanceOf(ValidationError)
         expect(validationError.name).toBe(ErrorType.VALIDATION)
-        expect(validationError.title).toBe(errorMsg)
+        expect(validationError.message).toBe(errorMsg)
         expect(validationError.httpStatus).toBe(HttpStatus.BAD_REQUEST)
         expect(validationError.error).toBeUndefined()
 
@@ -42,7 +42,7 @@ describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
         const validationError: ErrorDataInterface = new ValidationError(errorMsg, errorData, testError)
         expect(validationError).toBeInstanceOf(ValidationError)
         expect(validationError.name).toBe(ErrorType.VALIDATION)
-        expect(validationError.title).toBe(errorMsg)
+        expect(validationError.message).toBe(errorMsg)
         expect(validationError.httpStatus).toBe(HttpStatus.BAD_REQUEST)
         expect(validationError.error).toBe(testError)
 

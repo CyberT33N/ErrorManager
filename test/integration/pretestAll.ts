@@ -36,7 +36,6 @@ export enum ServerDetails {
 }
 
 export enum ErrorDetails {
-    errorTitle = 'Test title',
     errorMessage = 'Test error'
 }
 
@@ -45,7 +44,7 @@ export const ErrorData = {
 } as const
 
 const errorData = ErrorData.exampleOne
-const { errorTitle, errorMessage } = ErrorDetails
+const { errorMessage } = ErrorDetails
 const { PORT, BASE_URL } = ServerDetails
 
 let server: Server
@@ -62,24 +61,24 @@ export async function setup(): Promise<void> {
 
     // Sample route to trigger BaseError
     app.get('/normal-error', () => {
-        throw new Error(errorTitle)
+        throw new Error(errorMessage)
     })
 
     // Sample route to trigger BaseError
     app.get('/base-error', req => {
         if (req.query.error) {
-            throw new BaseError(errorTitle, new Error(errorMessage))
+            throw new BaseError(errorMessage, new Error(errorMessage))
         } else {
-            throw new BaseError(errorTitle)
+            throw new BaseError(errorMessage)
         }
     })
 
     // Sample route to trigger ValidationError
     app.get('/validation-error', req => {
         if (req.query.error) {
-            throw new ValidationError(errorTitle, errorData, new Error(errorMessage))
+            throw new ValidationError(errorMessage, errorData, new Error(errorMessage))
         } else {
-            throw new ValidationError(errorTitle, errorData)
+            throw new ValidationError(errorMessage, errorData)
         }
     })
 
@@ -88,22 +87,22 @@ export async function setup(): Promise<void> {
         try {
             await axios.get(`${BASE_URL}/notFound`)
         } catch (e: unknown) {
-            throw new HttpClientError(errorTitle, e as AxiosError)
+            throw new HttpClientError(errorMessage, e as AxiosError)
         }
     })
        
     // Sample route to trigger ResourceNotFoundError
     app.get('/resource-not-found', req => {
         if (req.query.error) {
-            throw new ResourceNotFoundError(errorTitle, errorData, new Error(errorMessage))
+            throw new ResourceNotFoundError(errorMessage, errorData, new Error(errorMessage))
         } else {
-            throw new ResourceNotFoundError(errorTitle, errorData)
+            throw new ResourceNotFoundError(errorMessage, errorData)
         }
     })
        
     // Sample route to trigger RuntimeError
     app.get('/runtime-error', () => {
-        throw new RuntimeError(errorTitle, new Error(errorMessage))
+        throw new RuntimeError(errorMessage, new Error(errorMessage))
     })
 
     // Middleware should be the last of all..

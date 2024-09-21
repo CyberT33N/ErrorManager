@@ -22,8 +22,11 @@ import { HttpStatus, ErrorType } from '../index'
 export interface BaseErrorInterface {
     name: string
     httpStatus?: HttpStatus
-    readonly title?: string
+
+    // Original Error of javascript contains message, error and stack
+    readonly message?: string
     readonly error?: Error
+    readonly stack?: string
 }
 
 /**
@@ -45,14 +48,15 @@ export default class BaseError extends Error implements BaseErrorInterface {
     /**
      * Creates a new instance of `BaseError`
      * 
-     * @param {string} title - The title or description of the error
+     * @param {string} message - The message or description of the error
      * @param {Error} [error] - Optional original error that caused this error
      */
     constructor(
-        readonly title: string,
+        // The original Error of javascript contains message and stack
+        readonly message: string,
         readonly error?: Error
     ) {
-        super(title)
+        super(message)
 
         // Sets the error name to BaseError
         this.name = ErrorType.BASE

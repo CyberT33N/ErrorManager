@@ -58,7 +58,7 @@ describe('[UNIT] - src/middleware.ts', () => {
                 name: ErrorType.DEFAULT,
                 environment: process.env.npm_lifecycle_event!,
                 timestamp: sinon.match.string as unknown as string,
-                title: undefined,
+                message: errMsg,
                 error: undefined,
                 data: undefined,
                 stack: undefined
@@ -86,7 +86,7 @@ describe('[UNIT] - src/middleware.ts', () => {
                     name: ErrorType.VALIDATION,
                     environment: process.env.npm_lifecycle_event!,
                     timestamp: sinon.match.string as unknown as string,
-                    title: errMsg,
+                    message: errMsg,
                     error: `Error: ${errMsg}` as unknown as string,
                     data: errData,
                     stack: sinon.match.string as unknown as string
@@ -113,7 +113,7 @@ describe('[UNIT] - src/middleware.ts', () => {
                     name: ErrorType.VALIDATION,
                     environment: process.env.npm_lifecycle_event!,
                     timestamp: sinon.match.string as unknown as string,
-                    title: errMsg,
+                    message: errMsg,
                     error: SanitizedMessage.DEFAULT,
                     data: SanitizedMessage.DEFAULT,
                     stack: SanitizedMessage.DEFAULT

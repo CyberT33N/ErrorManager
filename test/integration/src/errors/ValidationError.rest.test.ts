@@ -23,7 +23,7 @@ import { ServerDetails, ErrorDetails, ErrorData } from '@/test/integration/prete
 
 describe('[INTEGRATION] - src/errors/ValidationError', () => {
     const { BASE_URL } = ServerDetails
-    const { errorTitle, errorMessage } = ErrorDetails
+    const { errorMessage } = ErrorDetails
     const errorData = ErrorData.exampleOne
 
     it('should return 400 with ValidationError details - error passed', async() => {
@@ -38,7 +38,7 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
             const data = response?.data as ErrorDataInterface
 
             expect(data).to.include({
-                title: errorTitle,
+                message: errorMessage,
                 environment: process.env.npm_lifecycle_event,
                 name: ErrorType.VALIDATION,
                 error: `Error: ${errorMessage}`
@@ -60,7 +60,7 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
             const data = response?.data as ErrorDataInterface
 
             expect(data).to.include({
-                title: errorTitle,
+                message: errorMessage,
                 environment: process.env.npm_lifecycle_event,
                 name: ErrorType.VALIDATION
             })

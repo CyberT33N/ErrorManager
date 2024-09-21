@@ -62,14 +62,14 @@ export default class HttpClientError extends BaseError implements HttpClientErro
     /**
      * Creates a new instance of `HttpClientError`
      * 
-     * @param {string} title - The title or description of the error
+     * @param {string} message - The message or description of the error
      * @param {AxiosError} error - The original Axios error that triggered the HTTP failure
      */
     constructor(
-        readonly title: string,
+        readonly message: string,
         readonly error: AxiosError
     ) {
-        super(title, error)
+        super(message, error)
 
         const { config, response } = error
 

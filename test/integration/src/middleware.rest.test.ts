@@ -19,10 +19,11 @@ import { describe, it, expect } from 'vitest'
 import type { ErrorResponseSanitizedInterface } from '@/src/middleware'
 
 import { HttpStatus, ErrorType } from '@/src/index'
-import { ServerDetails } from '@/test/integration/pretestAll'
+import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll'
 
 describe('[INTEGRATION] - src/middleware.ts', () => {
     const { BASE_URL } = ServerDetails
+    const { errorMessage } = ErrorDetails
 
     it('should throw a normal javascript error instead of custom error', async() => {
         try {
@@ -36,11 +37,11 @@ describe('[INTEGRATION] - src/middleware.ts', () => {
 
             expect(data).to.include({
                 environment: process.env.npm_lifecycle_event,
-                name: ErrorType.DEFAULT
+                name: ErrorType.DEFAULT,
+                message: errorMessage
             })
 
             expect(data.timestamp).toBeDefined()
-            expect(data.title).toBeUndefined()
             expect(data.error).toBeUndefined()
         }
     })

@@ -21,7 +21,7 @@ app.get('/httpclient-error', async() => {
     try {
         await axios.get(`${BASE_URL}/notFound`)
     } catch (err) {
-        throw new HttpClientError('Any error title..', err)
+        throw new HttpClientError('Any error message..', err)
     }
 })
 
@@ -55,7 +55,7 @@ _________________________________________
 - Will be always HTTP Status 500
 - Passing error is optional
 ```javascript
-throw new BaseError('Your Error Title', new Error('Any Error'))
+throw new BaseError('Your error message', new Error('Any Error'))
 ```
 
 <br><br>
@@ -70,7 +70,7 @@ throw new BaseError('Your Error Title', new Error('Any Error'))
 try {
     await axios.get(`${BASE_URL}/notFound`)
 } catch (e) {
-    throw new HttpClientError('Your Error Title', e)
+    throw new HttpClientError('Your error message', e)
 }
 ```
 
@@ -81,7 +81,7 @@ try {
 - Will be always HTTP Status 400
 - Passing error is optional
 ```javascript
-throw new ValidationError('Your Error Title', { dataThatNotValid }, new Error('Any Error'))
+throw new ValidationError('Your error message', { dataThatNotValid }, new Error('Any Error'))
 ```
 
 <br><br>
@@ -91,7 +91,7 @@ throw new ValidationError('Your Error Title', { dataThatNotValid }, new Error('A
 - Will be always HTTP Status 404
 - Passing error is optional
 ```javascript
-throw new ResourceNotFoundError('Your Error Title', dataThatMissed, new Error('Any Error'))
+throw new ResourceNotFoundError('Your error message', dataThatMissed, new Error('Any Error'))
 ```
 
 <br><br>
@@ -101,7 +101,7 @@ throw new ResourceNotFoundError('Your Error Title', dataThatMissed, new Error('A
 - You can define custom HTTP status
 - Passing error is not optional
 ```javascript
-throw new RuntimeError('Your Error Title', errorHere, customHttpStatus)
+throw new RuntimeError('Your error message', errorHere, customHttpStatus)
 ```
 
 
@@ -123,12 +123,12 @@ _________________________________________
 
 
 ## npm_lifecycle_event 🔧🛠️
-- Some errors may leak sensitive informations in the error itself or by the additional provided data object which you include to your custom error e.g. `throw new ValidationError('Your Error Title', { objectWithPw }, new Error('Any Error'))`.
+- Some errors may leak sensitive informations in the error itself or by the additional provided data object which you include to your custom error e.g. `throw new ValidationError('Your error message', { objectWithPw }, new Error('Any Error'))`.
   - For this reason when you use `npm_lifecycle_event=start` then your provided `error, data and stack trace will be sanitized` and not sended to the client. Sample response:
 ```javascript
 {
     "environment": "start",
-    "title": "collection name 'test!' can not contain special characters",
+    "message": "collection name 'test!' can not contain special characters",
     "error": '[SANITIZED]',
     "data": '[SANITIZED]',
     "stack": '[SANITIZED]'

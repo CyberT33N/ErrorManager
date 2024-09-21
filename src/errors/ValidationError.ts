@@ -30,16 +30,16 @@ export default class ValidationError extends BaseError implements ErrorDataInter
     /**
      * Creates a new instance of `ValidationError`
      * 
-     * @param {string} title - The title or description of the error
+     * @param {string} message - The message or description of the error
      * @param {ErrorDataInterface} data - Additional data related to the validation error
      * @param {Error} [error] - Optional original error that triggered this validation error
      */
     constructor(
-        readonly title: string,
+        readonly message: string,
         readonly data: object,
         readonly error?: Error
     ) {
-        super(title, error)
+        super(message, error)
 
         // Sets the error name to VALIDATION
         this.name = ErrorType.VALIDATION
