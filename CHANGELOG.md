@@ -1,3 +1,12 @@
+# [3.19.0](https://github.com/CyberT33N/ErrorManager/compare/v3.18.0...v3.19.0) (2024-09-21)
+
+
+### Features
+
+* **CCS-001:** included all types to index.ts ([c04edc1](https://github.com/CyberT33N/ErrorManager/commit/c04edc13ce2154a52f7f735cd88219eba33debd0))
+
+
+
 # [3.18.0](https://github.com/CyberT33N/ErrorManager/compare/v3.17.0...v3.18.0) (2024-09-20)
 
 
@@ -34,15 +43,6 @@
 ### Features
 
 * **CCS-001:** Changed some interface types ([9d45c9b](https://github.com/CyberT33N/ErrorManager/commit/9d45c9b8138a53bf6edcb39f1788fc594b029d88))
-
-
-
-## [3.13.1](https://github.com/CyberT33N/ErrorManager/compare/v3.11.0...v3.13.1) (2024-09-15)
-
-
-### Bug Fixes
-
-* **CCS-001:** fixed npm run build ([c371a5a](https://github.com/CyberT33N/ErrorManager/commit/c371a5ad3c7013e9d15a3dc2defa1a3ca9cd5500))
 
 
 
