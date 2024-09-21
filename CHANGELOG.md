@@ -1,3 +1,12 @@
+# [3.21.0](https://github.com/CyberT33N/ErrorManager/compare/v3.20.0...v3.21.0) (2024-09-21)
+
+
+### Features
+
+* **CCS-001:** added CoreError ([ec3ca1b](https://github.com/CyberT33N/ErrorManager/commit/ec3ca1bbbfeb41270c3ca691e4d2696c70f97867))
+
+
+
 # [3.20.0](https://github.com/CyberT33N/ErrorManager/compare/v3.19.0...v3.20.0) (2024-09-21)
 
 
@@ -31,18 +40,6 @@
 ### Features
 
 * removed not needed empty line and updated READMEm.md ([695a45d](https://github.com/CyberT33N/ErrorManager/commit/695a45d127ac7560f98b59bbef40cdca463eec8b))
-
-
-
-# [3.16.0](https://github.com/CyberT33N/ErrorManager/compare/v3.14.0...v3.16.0) (2024-09-18)
-
-
-### Features
-
-* **CCS-001:** added d.ts files ([934afc2](https://github.com/CyberT33N/ErrorManager/commit/934afc2c4086ee178ce20f34be0b8d1e8251b3d1))
-* **CCS-001:** added middleware.d.ts and extended related unit tests ([b217201](https://github.com/CyberT33N/ErrorManager/commit/b217201feb2815e54068d9abc3756fd3c3c73643))
-* **CCS-001:** audit fix ([4398cb7](https://github.com/CyberT33N/ErrorManager/commit/4398cb7ea1d0c67a56819f36b0c6fb3b8a6a36be))
-* **CCS-001:** small changes ([02c6423](https://github.com/CyberT33N/ErrorManager/commit/02c64230961912844e77ed5b7552849e23984567))
 
 
 
