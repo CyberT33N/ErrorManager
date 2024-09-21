@@ -13,8 +13,6 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import type { BaseErrorInterface } from './errors/BaseError'
-
 // ==== ERROR CLASSES ====
 export { default as BaseError } from './errors/BaseError'
 export { default as ValidationError } from './errors/ValidationError'
@@ -25,6 +23,7 @@ export { default as HttpClientError } from './errors/HttpClientError'
 // ==== MIDDLEWARE ====
 export { default as errorMiddleware }  from './middleware'
 
+// ==== ENUM ====
 export enum HttpStatus {
     BAD_REQUEST = 400,
     NOT_FOUND = 404,
@@ -39,6 +38,23 @@ export enum ErrorType {
     RESOURCE_NOT_FOUND = 'ResourceNotFoundError',
     HTTP_CLIENT = 'HttpClientError'
 }
+
+export { SanitizedMessage } from './middleware'
+
+// ==== INTERFACES ====
+import type { BaseErrorInterface } from './errors/BaseError'
+export type { BaseErrorInterface }
+
 export interface ErrorDataInterface extends BaseErrorInterface {
     data?: object
 }
+
+export type {
+    AxiosErrorData, HttpClientErrorDataInterface
+} from './errors/HttpClientError'
+
+export type {
+    ErrorResponseInterface,
+    ErrorResponseFullInterface,
+    ErrorResponseSanitizedInterface
+} from './middleware'
