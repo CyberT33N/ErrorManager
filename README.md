@@ -1,8 +1,6 @@
 # 𝑬𝒓𝒓𝒐𝒓𝑴𝒂𝒏𝒂𝒈𝒆𝒓 🌟💻
 - Express error middleware with custom error types for easy error handling for different use cases. 
 
-
-<br><br>
 <br><br>
 
 ## Init
@@ -72,12 +70,12 @@ console.log(res.response.data)
 
 
 
-<br><br>
+
 <br><br>
 _________________________________________
 _________________________________________
 <br><br>
-<br><br>
+
 
 # 𝐸𝓇𝓇𝑜𝓇𝓈 🌟💻
 
@@ -100,7 +98,6 @@ try {
 }
 ```
 
-<br><br>
 <br><br>
 
 ## 𝐇𝐭𝐭𝐩𝐂𝐥𝐢𝐞𝐧𝐭𝐄𝐫𝐫𝐨𝐫 🌐
@@ -125,7 +122,6 @@ try {
 ```
 
 <br><br>
-<br><br>
 
 ## 𝑽𝒂𝒍𝒊𝒅𝒂𝒕𝒊𝒐𝒏𝑬𝒓𝒓𝒐𝒓 ❌
 - Response HTTP Status 400
@@ -143,7 +139,6 @@ if (test !== 'expectedValue') {
 
 ```
 
-<br><br>
 <br><br>
 
 ## 𝑹𝒆𝒔𝒐𝒖𝒓𝒄𝒆𝑵𝒐𝒕𝑭𝒐𝒖𝒏𝒅𝑬𝒓𝒓𝒐𝒓 🔍
@@ -164,7 +159,6 @@ if (!doc) {
 ```
 
 <br><br>
-<br><br>
 
 ## 𝑹𝒖𝒏𝑻𝒊𝒎𝒆𝑬𝒓𝒓𝒐𝒓 ⏳
 - Response custom defined HTTP status
@@ -180,7 +174,7 @@ import { RuntimeError, StatusCodes } from 'error-manager-helper'
 const res = getKey()
 
 if (res.status === 403) {
-    throw new RuntimeError('Request is forbidden', StatusCodes.FORBIDDEN, new Error('Any error..'))
+    throw new RuntimeError('Request is forbidden', StatusCodes.FORBIDDEN)
 }
 
 ```
@@ -197,16 +191,15 @@ if (res.status === 403) {
 
 
 <br><br>
-<br><br>
 _________________________________________
 _________________________________________
 <br><br>
-<br><br>
+
 
 
 # npm_lifecycle_event 🔧🛠️
-- Some errors may leak sensitive informations in the stack, the message itself or by the additional provided data object which you include to your custom error e.g. `throw new ValidationError('Your error message', { objectWithPw }, new Error('Any Error'))`.
-  - For this reason when you use `npm_lifecycle_event=start` your provided `error, ata and stack trace will be sanitized` and not sended to the client. Sample response:
+- Some errors may leak sensitive informations in the stack, the message itself or by the additional provided data which you include to your custom error.
+  - For this reason when you use `npm_lifecycle_event=start` your provided `error, data and stack trace will be sanitized` and not sended to the client. Sample response:
 ```javascript
 {
     "name": "ValidationError"
@@ -232,17 +225,15 @@ _________________________________________
 
 
 
-<br><br>
+
 <br><br>
 _________________________________________
 _________________________________________
-<br><br>
 <br><br>
 
 
 # Tests ✅
 
-<br><br>
 <br><br>
 
 ## Interfaces
@@ -252,7 +243,6 @@ _________________________________________
 - RuntimeErrorInterface
 - ValidationErrorInterface
 
-<br><br>
 <br><br>
 
 ## Integration Test
