@@ -1,3 +1,12 @@
+# [3.22.0](https://github.com/CyberT33N/ErrorManager/compare/v3.21.0...v3.22.0) (2024-09-22)
+
+
+### Features
+
+* **CCS-001:** changed type of CoreErrorInterface['data'] ([79c4be6](https://github.com/CyberT33N/ErrorManager/commit/79c4be6c25adba67a25e078eb2069fa581558a7f))
+
+
+
 # [3.21.0](https://github.com/CyberT33N/ErrorManager/compare/v3.20.0...v3.21.0) (2024-09-21)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-69:** removed TODO.md ([2fcb9d9](https://github.com/CyberT33N/ErrorManager/commit/2fcb9d98d9b5b95954c16a6857ef81ff3dde1d4b))
-
-
-
-# [3.17.0](https://github.com/CyberT33N/ErrorManager/compare/v3.16.0...v3.17.0) (2024-09-18)
-
-
-### Features
-
-* removed not needed empty line and updated READMEm.md ([695a45d](https://github.com/CyberT33N/ErrorManager/commit/695a45d127ac7560f98b59bbef40cdca463eec8b))
 
 
 
