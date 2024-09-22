@@ -24,7 +24,7 @@ import { StatusCodes } from 'http-status-codes'
  */
 export interface CoreErrorInterface extends Error {
     error?: Error
-    data?: object
+    data?: Record<string, unknown>
     httpStatus?: StatusCodes
 }
 
