@@ -56,12 +56,12 @@ export default class ValidationError extends CoreError implements ValidationErro
      * Creates a new instance of `ValidationError`
      * 
      * @param {string} message - The message or description of the error
-     * @param {CoreErrorInterface} data - Additional data related to the validation error
+     * @param {Record<string, unknown>} data - Additional data related to the validation error
      * @param {Error} [error] - Optional original error that triggered this validation error
      */
     constructor(
         readonly message: string,
-        readonly data: object,
+        readonly data: Record<string, unknown>,
         readonly error?: Error
     ) {
         super(message, error)

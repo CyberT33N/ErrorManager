@@ -32,8 +32,9 @@ describe('[UNIT] - src/middleware.ts', () => {
     let statusStub: sinon.SinonStub
 
     const errMsg = 'Test error'
+    const errMsgOriginal = 'Test error original'
     const errData  = { data: 'test' }    
-    const error: Error = new Error(errMsg)
+    const error: Error = new Error(errMsgOriginal)
     const validationErr: CoreErrorInterface = new ValidationError(errMsg, errData, error)
 
     beforeEach(() => {
@@ -47,30 +48,6 @@ describe('[UNIT] - src/middleware.ts', () => {
     afterEach(() => {
         jsonStub.reset()
         statusStub.reset()
-    })
-
-    describe('[DEFAULT ERROR]', () => {
-        it('should handle normal javascript error', () => {
-            const req = {} as Request
-            const res = { status: statusStub } as unknown as Response
-            const next = {} as NextFunction
-
-            const expectedResponse: ErrorResponseSanitizedInterface = {
-                name: ErrorType.DEFAULT,
-                environment: process.env.npm_lifecycle_event!,
-                timestamp: sinon.match.string as unknown as string,
-                message: errMsg,
-                httpStatus: undefined,
-                error: undefined,
-                data: undefined,
-                stack: undefined
-            }
-
-            errorMiddleware(error, req, res, next)
-
-            expect(statusStub.calledOnceWithExactly(StatusCodes.INTERNAL_SERVER_ERROR)).toBe(true)
-            expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
-        })
     })
 
     describe('[RESPONSE]', () => {
@@ -90,7 +67,7 @@ describe('[UNIT] - src/middleware.ts', () => {
                     timestamp: sinon.match.string as unknown as string,
                     message: errMsg,
                     httpStatus: StatusCodes.BAD_REQUEST,
-                    error: `Error: ${errMsg}` as unknown as string,
+                    error: `Error: ${errMsgOriginal}` as unknown as string,
                     data: errData,
                     stack: sinon.match.string as unknown as string
                 }

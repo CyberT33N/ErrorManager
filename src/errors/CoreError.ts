@@ -26,6 +26,8 @@ export interface CoreErrorInterface extends Error {
     error?: Error
     data?: Record<string, unknown>
     httpStatus?: StatusCodes
+    environment: string
+    timestamp: string
 }
 
 /**
@@ -39,6 +41,20 @@ export interface CoreErrorInterface extends Error {
  */
 export default class CoreError extends Error implements CoreErrorInterface {
     /**
+     * The environment in which the error occurred
+     * 
+     * @type {string}
+     */
+    environment: string
+
+    /**
+     * The timestamp when the error occurred
+     * 
+     * @type {string}
+     */
+    timestamp: string
+
+    /**
      * Creates a new instance of `CoreError`
      * 
      * @param {string} message - The message or description of the error
@@ -50,5 +66,8 @@ export default class CoreError extends Error implements CoreErrorInterface {
         readonly error?: Error
     ) {
         super(message)
+
+        this.environment = process.env.npm_lifecycle_event!
+        this.timestamp = new Date().toISOString()
     }
 }

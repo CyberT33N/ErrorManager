@@ -14,7 +14,7 @@
 */
 
 import axios, { type AxiosError } from 'axios'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, expectTypeOf } from 'vitest'
 
 import type { HttpClientErrorInterface } from '@/src/errors/HttpClientError'
  
@@ -36,13 +36,15 @@ describe('[INTEGRATION] - src/errors/HttpClientError', () => {
             expect(response?.status).to.equal(StatusCodes.NOT_FOUND)
 
             const data = response?.data as HttpClientErrorInterface
+            expectTypeOf(data).toEqualTypeOf<HttpClientErrorInterface>()
 
-            expect(data).to.include({
-                message: errorMessage,
-                environment: process.env.npm_lifecycle_event,
-                name: ErrorType.HTTP_CLIENT,
-                error: 'AxiosError: Request failed with status code 404'
-            })
+            expect(data.message).toBe(errorMessage)
+            expect(data.environment).toBe(process.env.npm_lifecycle_event)
+            expect(data.name).toBe(ErrorType.HTTP_CLIENT)
+            expect(data.error).toBe('AxiosError: Request failed with status code 404')
+            expect(data.httpStatus).toBe(StatusCodes.NOT_FOUND)
+            expect(data.timestamp).toBeDefined()
+            expect(data.stack).toBeDefined()
 
             expect(data.data.errorMessage).toBeDefined()
             expect(data.data.headers).toBeDefined()

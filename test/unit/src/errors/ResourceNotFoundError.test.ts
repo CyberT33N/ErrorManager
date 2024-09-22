@@ -13,39 +13,52 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, expectTypeOf } from 'vitest'
 
 import { ResourceNotFoundError } from '@/src/index'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
-import type { CoreErrorInterface } from '@/src/errors/CoreError'
+import type { ResourceNotFoundErrorInterface } from '@/src/errors/ResourceNotFoundError'
 
 describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
     const errorMsg = 'test'
+    const errorMsgOrig = 'test original'
     const errorData = { test: 'test' }
+    const error = new Error(errorMsgOrig)
         
     it('should create new ResourceNotFoundError without error argument', () => {
-        const resourceNotFoundError: CoreErrorInterface = new ResourceNotFoundError(errorMsg, errorData)
+        const resourceNotFoundError: ResourceNotFoundErrorInterface = new ResourceNotFoundError(errorMsg, errorData)
+        expectTypeOf(resourceNotFoundError).toEqualTypeOf<ResourceNotFoundErrorInterface>()
+
         expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
         expect(resourceNotFoundError.name).toBe(ErrorType.RESOURCE_NOT_FOUND)
         expect(resourceNotFoundError.message).toBe(errorMsg)
         expect(resourceNotFoundError.httpStatus).toBe(StatusCodes.NOT_FOUND)
         expect(resourceNotFoundError.error).toBeUndefined()
+        expect(resourceNotFoundError.stack).toBeDefined()
+        expect(resourceNotFoundError.timestamp).toBeDefined()
+        expect(resourceNotFoundError.environment).toBe(process.env.npm_lifecycle_event)
 
         const { data } = resourceNotFoundError
         expect(data).toBe(errorData)
     })
 
     it('should create new ResourceNotFoundError with error argument', () => {
-        const e = new Error(errorMsg)
+        const resourceNotFoundError: ResourceNotFoundErrorInterface = new ResourceNotFoundError(
+            errorMsg, errorData, error
+        )
 
-        const resourceNotFoundError: CoreErrorInterface = new ResourceNotFoundError(errorMsg, errorData, e)
+        expectTypeOf(resourceNotFoundError).toEqualTypeOf<ResourceNotFoundErrorInterface>()
+
         expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
         expect(resourceNotFoundError.name).toBe(ErrorType.RESOURCE_NOT_FOUND)
         expect(resourceNotFoundError.message).toBe(errorMsg)
         expect(resourceNotFoundError.httpStatus).toBe(StatusCodes.NOT_FOUND)
-        expect(resourceNotFoundError.error).toBe(e)
+        expect(resourceNotFoundError.error).toBe(error)
+        expect(resourceNotFoundError.stack).toBeDefined()
+        expect(resourceNotFoundError.timestamp).toBeDefined()
+        expect(resourceNotFoundError.environment).toBe(process.env.npm_lifecycle_event)
 
         const { data } = resourceNotFoundError
         expect(data).toBe(errorData)

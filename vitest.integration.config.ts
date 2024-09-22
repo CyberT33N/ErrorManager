@@ -25,7 +25,6 @@ const cfg = mergeConfig(vitestConfig, defineConfig({
     }
 }))
 
-
 cfg.test.coverage.include = ['src/middleware.ts', 'src/errors/']
 
 export default cfg

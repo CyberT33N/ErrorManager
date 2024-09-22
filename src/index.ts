@@ -42,8 +42,6 @@ export {
 // ==== MIDDLEWARE ====
 export {
     default as errorMiddleware,
-    type ErrorResponseInterface,
-    type ErrorResponseFullInterface,
     type ErrorResponseSanitizedInterface,
     SanitizedMessage
 }  from './middleware'

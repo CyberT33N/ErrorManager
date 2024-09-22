@@ -14,9 +14,9 @@
 */
 
 import axios, { type AxiosError } from 'axios'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, expectTypeOf } from 'vitest'
 
-import type { CoreErrorInterface } from '@/src/errors/CoreError'
+import type { ValidationErrorInterface } from '@/src/errors/ValidationError'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
@@ -24,7 +24,7 @@ import { ServerDetails, ErrorDetails, ErrorData } from '@/test/integration/prete
 
 describe('[INTEGRATION] - src/errors/ValidationError', () => {
     const { BASE_URL } = ServerDetails
-    const { errorMessage } = ErrorDetails
+    const { errorMessage, errorMessageOriginal } = ErrorDetails
     const errorData = ErrorData.exampleOne
 
     it('should return 400 with ValidationError details - error passed', async() => {
@@ -36,15 +36,16 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
 
             expect(response?.status).to.equal(StatusCodes.BAD_REQUEST)
 
-            const data = response?.data as CoreErrorInterface
+            const data = response?.data as ValidationErrorInterface
+            expectTypeOf(data).toEqualTypeOf<ValidationErrorInterface>()
 
-            expect(data).to.include({
-                message: errorMessage,
-                environment: process.env.npm_lifecycle_event,
-                name: ErrorType.VALIDATION,
-                error: `Error: ${errorMessage}`
-            })
-
+            expect(data.message).to.equal(errorMessage)
+            expect(data.environment).to.equal(process.env.npm_lifecycle_event)
+            expect(data.name).to.equal(ErrorType.VALIDATION)
+            expect(data.error).to.equal(`Error: ${errorMessageOriginal}`)
+            expect(data.httpStatus).to.equal(StatusCodes.BAD_REQUEST)
+            expect(data.timestamp).toBeDefined()
+            expect(data.stack).toBeDefined()
             expect(data.data).to.be.deep.equal(errorData)
         }
     })
@@ -58,18 +59,16 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
 
             expect(response?.status).to.equal(StatusCodes.BAD_REQUEST)
 
-            const data = response?.data as CoreErrorInterface
+            const data = response?.data as ValidationErrorInterface
+            expectTypeOf(data).toEqualTypeOf<ValidationErrorInterface>()
 
-            expect(data).to.include({
-                message: errorMessage,
-                environment: process.env.npm_lifecycle_event,
-                name: ErrorType.VALIDATION
-            })
+            expect(data.message).to.equal(errorMessage)
+            expect(data.environment).to.equal(process.env.npm_lifecycle_event)
+            expect(data.name).to.equal(ErrorType.VALIDATION)
 
-            expect(data).to.not.include({
-                error: `Error: ${errorMessage}`
-            })
-
+            expect(data.timestamp).toBeDefined()
+            expect(data.stack).toBeDefined()
+            expect(data.error).toBeUndefined()
             expect(data.data).to.be.deep.equal(errorData)
         }
     })

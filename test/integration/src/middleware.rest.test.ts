@@ -24,7 +24,7 @@ import { ServerDetails, ErrorDetails } from '@/test/integration/pretestAll'
 
 describe('[INTEGRATION] - src/middleware.ts', () => {
     const { BASE_URL } = ServerDetails
-    const { errorMessage } = ErrorDetails
+    const { errorMessageOriginal } = ErrorDetails
 
     it('should throw a normal javascript error instead of custom error', async() => {
         try {
@@ -36,14 +36,15 @@ describe('[INTEGRATION] - src/middleware.ts', () => {
 
             const data = response?.data as ErrorResponseSanitizedInterface
 
-            expect(data).to.include({
-                environment: process.env.npm_lifecycle_event,
-                name: ErrorType.DEFAULT,
-                message: errorMessage
-            })
+            expect(data.environment).to.equal(process.env.npm_lifecycle_event)
+            expect(data.name).to.equal(ErrorType.DEFAULT)
+            expect(data.message).to.equal(errorMessageOriginal)
 
+            expect(data.stack).toBeDefined()
             expect(data.timestamp).toBeDefined()
+
             expect(data.error).toBeUndefined()
+            expect(data.httpStatus).toBeUndefined()
         }
     })
 })

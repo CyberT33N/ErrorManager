@@ -47,13 +47,13 @@ export default class RuntimeError extends CoreError implements RuntimeErrorInter
      * Creates a new instance of `RuntimeError`
      * 
      * @param {string} message - The message or description of the error
-     * @param {Error} error - The original error that triggered this runtime error
      * @param {StatusCodes} httpStatus - Optional HTTP status code, default is 500 (INTERNAL_SERVER_ERROR)
+     * @param {Error} [error] - The original error that triggered this runtime error
      */
     constructor(
         readonly message: string,
-        readonly error: Error,
-        readonly httpStatus: number = StatusCodes.INTERNAL_SERVER_ERROR
+        readonly httpStatus: number = StatusCodes.INTERNAL_SERVER_ERROR,
+        readonly error?: Error
     ) {
         super(message, error)
 

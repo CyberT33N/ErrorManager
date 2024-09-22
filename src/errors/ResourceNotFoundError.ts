@@ -55,12 +55,12 @@ export default class ResourceNotFoundError extends CoreError implements Resource
      * Creates a new instance of `ResourceNotFoundError`
      * 
      * @param {string} message - The message or description of the error
-     * @param {CoreErrorInterface} data - Additional data related to the error
+     * @param {Record<string, unknown>} data - Additional data related to the error
      * @param {Error} [error] - Optional original error that caused this error
      */
     constructor(
         readonly message: string,
-        readonly data: object,
+        readonly data: Record<string, unknown>,
         readonly error?: Error
     ) {
         super(message, error)

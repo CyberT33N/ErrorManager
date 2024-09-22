@@ -14,9 +14,9 @@
 */
 
 import axios, { type AxiosError } from 'axios'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, expectTypeOf } from 'vitest'
 
-import type { CoreErrorInterface } from '@/src/errors/CoreError'
+import type { ResourceNotFoundErrorInterface } from '@/src/errors/ResourceNotFoundError'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
@@ -24,7 +24,7 @@ import { ServerDetails, ErrorDetails, ErrorData } from '@/test/integration/prete
 
 describe('[INTEGRATION] - src/errors/ResourceNotFoundError', () => {
     const { BASE_URL } = ServerDetails
-    const { errorMessage } = ErrorDetails
+    const { errorMessage, errorMessageOriginal } = ErrorDetails
     const errorData = ErrorData.exampleOne
 
     it('should return 404 with ResourceNotFoundError details - with error', async() => {
@@ -36,14 +36,17 @@ describe('[INTEGRATION] - src/errors/ResourceNotFoundError', () => {
 
             expect(response?.status).to.equal(StatusCodes.NOT_FOUND)
 
-            const data = response?.data as CoreErrorInterface
+            const data = response?.data as ResourceNotFoundErrorInterface
+            expectTypeOf(data).toEqualTypeOf<ResourceNotFoundErrorInterface>()
 
-            expect(data).to.include({
-                message: errorMessage,
-                environment: process.env.npm_lifecycle_event,
-                name: ErrorType.RESOURCE_NOT_FOUND,
-                error: `Error: ${errorMessage}`
-            })
+            expect(data.message).to.equal(errorMessage)
+            expect(data.environment).to.equal(process.env.npm_lifecycle_event)
+            expect(data.name).to.equal(ErrorType.RESOURCE_NOT_FOUND)
+            expect(data.error).to.equal(`Error: ${errorMessageOriginal}`)
+            expect(data.httpStatus).to.equal(StatusCodes.NOT_FOUND)
+
+            expect(data.timestamp).toBeDefined()
+            expect(data.stack).toBeDefined()
 
             expect(data.data).to.be.deep.equal(errorData)
         }
@@ -58,17 +61,16 @@ describe('[INTEGRATION] - src/errors/ResourceNotFoundError', () => {
 
             expect(response?.status).to.equal(StatusCodes.NOT_FOUND)
 
-            const data = response?.data as CoreErrorInterface
+            const data = response?.data as ResourceNotFoundErrorInterface
+            expectTypeOf(data).toEqualTypeOf<ResourceNotFoundErrorInterface>()
 
-            expect(data).to.include({
-                message: errorMessage,
-                environment: process.env.npm_lifecycle_event,
-                name: ErrorType.RESOURCE_NOT_FOUND
-            })
+            expect(data.message).to.equal(errorMessage)
+            expect(data.environment).to.equal(process.env.npm_lifecycle_event)
+            expect(data.name).to.equal(ErrorType.RESOURCE_NOT_FOUND)
 
-            expect(data).to.not.include({
-                error: `Error: ${errorMessage}`
-            })
+            expect(data.stack).toBeDefined()
+            expect(data.timestamp).toBeDefined()
+            expect(data.error).toBeUndefined()
 
             expect(data.data).to.be.deep.equal(errorData)
         }

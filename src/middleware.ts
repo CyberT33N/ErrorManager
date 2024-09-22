@@ -22,21 +22,12 @@ export enum SanitizedMessage {
     DEFAULT = '[SANITIZED]'
 }
 
-export interface ErrorResponseInterface extends CoreErrorInterface {
-    environment: string
-    timestamp: string
-}
-
-export interface ErrorResponseFullInterface extends ErrorResponseInterface {
-    stack: string | undefined
-}
-
 export interface ErrorResponseSanitizedInterface extends Omit<
-    ErrorResponseInterface, 'error' | 'data'
+    CoreErrorInterface, 'error' | 'data'
 > {
      error: string | SanitizedMessage.DEFAULT | CoreErrorInterface['error']
      data: SanitizedMessage.DEFAULT | CoreErrorInterface['data']
-     stack: ErrorResponseFullInterface['stack']
+     stack: SanitizedMessage.DEFAULT | CoreErrorInterface['stack']
 }
 
 /**
@@ -57,31 +48,40 @@ export default function errorMiddleware(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     next: NextFunction
 ): void {
-    const { error, message, data, httpStatus, name } = err
+    const {
+        message, // <-- This is the error message from our custom error classes
+        data,
+        httpStatus,
+        name,
+        stack,
+        timestamp,
+        error // <-- This is the original error that caused the custom error
+    } = err
 
     // Base will be always there does not matter which npm_lifecycle_event
-    const base: ErrorResponseInterface = {
+    const base: CoreErrorInterface = {
         name,
         environment: process.env.npm_lifecycle_event!,
-        timestamp: new Date().toISOString(),
+        timestamp: timestamp || new Date().toISOString(),
         message,
         httpStatus
     }
 
     // Full error with error message and stack
-    const fullError: ErrorResponseFullInterface = {
+    const fullError: CoreErrorInterface = {
         ...base,
         error,
         data,
-        stack: error?.stack
+        stack
     }
 
     // If npm_lifecycle_event is start we sanitize the error message and stacktrace
     const fullErrorSanitized: ErrorResponseSanitizedInterface = {
         ...base,
-        error: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : error?.toString(),
         data: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : data,
-        stack: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : error?.stack
+        stack: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : stack,
+        // We must use toString() because error can be an instance of Error
+        error: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : error?.toString()
     }
 
     console.error('[ErrorManager] Full Error: ', fullError)
