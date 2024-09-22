@@ -1,3 +1,12 @@
+# [3.23.0](https://github.com/CyberT33N/ErrorManager/compare/v3.22.0...v3.23.0) (2024-09-22)
+
+
+### Features
+
+* **CCS-001:** changed interfaces ([071ba47](https://github.com/CyberT33N/ErrorManager/commit/071ba47568d159ea6e6f7af84ccb7a472dc47871))
+
+
+
 # [3.22.0](https://github.com/CyberT33N/ErrorManager/compare/v3.21.0...v3.22.0) (2024-09-22)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-001:** included all types to index.ts ([c04edc1](https://github.com/CyberT33N/ErrorManager/commit/c04edc13ce2154a52f7f735cd88219eba33debd0))
-
-
-
-# [3.18.0](https://github.com/CyberT33N/ErrorManager/compare/v3.17.0...v3.18.0) (2024-09-20)
-
-
-### Features
-
-* **CCS-69:** removed TODO.md ([2fcb9d9](https://github.com/CyberT33N/ErrorManager/commit/2fcb9d98d9b5b95954c16a6857ef81ff3dde1d4b))
 
 
 
