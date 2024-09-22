@@ -1,3 +1,12 @@
+# [3.24.0](https://github.com/CyberT33N/ErrorManager/compare/v3.23.0...v3.24.0) (2024-09-22)
+
+
+### Features
+
+* **CCS-001:** small changes ([de026fb](https://github.com/CyberT33N/ErrorManager/commit/de026fb031586b282008241f3abc7f3dfa71a039))
+
+
+
 # [3.23.0](https://github.com/CyberT33N/ErrorManager/compare/v3.22.0...v3.23.0) (2024-09-22)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-001:** changed title to message ([83f9f53](https://github.com/CyberT33N/ErrorManager/commit/83f9f538094b83d22807adbadfc1d29c5f769a35))
-
-
-
-# [3.19.0](https://github.com/CyberT33N/ErrorManager/compare/v3.18.0...v3.19.0) (2024-09-21)
-
-
-### Features
-
-* **CCS-001:** included all types to index.ts ([c04edc1](https://github.com/CyberT33N/ErrorManager/commit/c04edc13ce2154a52f7f735cd88219eba33debd0))
 
 
 
