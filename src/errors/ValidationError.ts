@@ -19,11 +19,11 @@ import { ErrorType } from '../index'
 import { type CoreErrorInterface, default as CoreError } from './CoreError'
 
 /**
- * @interface ValidationErrorInterface
+ * @interface IValidationError
  * @extends CoreErrorInterface
  * HTTP status code is always 400 (BAD_REQUEST)
  */
-export interface ValidationErrorInterface extends CoreErrorInterface {
+export interface IValidationError extends CoreErrorInterface {
     name: ErrorType.VALIDATION
     httpStatus: StatusCodes.BAD_REQUEST
 }
@@ -36,7 +36,7 @@ export interface ValidationErrorInterface extends CoreErrorInterface {
  * This class represents an error that occurs due to validation failures.
  * It extends the `CoreError` class and includes additional data related to the validation error.
  */
-export default class ValidationError extends CoreError implements ValidationErrorInterface {
+export default class ValidationError extends CoreError implements IValidationError {
     /**
      * Error name associated with this error
      * 

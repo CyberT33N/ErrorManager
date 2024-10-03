@@ -19,7 +19,7 @@ import { BaseError } from '@/src/index'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
-import type { BaseErrorInterface } from '@/src/errors/BaseError'
+import type { IBaseError } from '@/src/errors/BaseError'
 
 describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
     const errorMsg = 'test'
@@ -27,8 +27,8 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
     const error = new Error(errorMsgOrig)
             
     it('should create new Base Error without error argument', () => {
-        const baseError: BaseErrorInterface = new BaseError(errorMsg)
-        expectTypeOf(baseError).toEqualTypeOf<BaseErrorInterface>()
+        const baseError: IBaseError = new BaseError(errorMsg)
+        expectTypeOf(baseError).toEqualTypeOf<IBaseError>()
 
         expect(baseError).toBeInstanceOf(BaseError)
         expect(baseError.name).toBe(ErrorType.BASE)
@@ -41,8 +41,8 @@ describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
     })
 
     it('should create new Base Error with error argument', () => {
-        const baseError: BaseErrorInterface = new BaseError(errorMsg, error)
-        expectTypeOf(baseError).toEqualTypeOf<BaseErrorInterface>()
+        const baseError: IBaseError = new BaseError(errorMsg, error)
+        expectTypeOf(baseError).toEqualTypeOf<IBaseError>()
 
         expect(baseError).toBeInstanceOf(BaseError)
         expect(baseError.name).toBe(ErrorType.BASE)

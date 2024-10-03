@@ -16,7 +16,7 @@
 import axios, { type AxiosError } from 'axios'
 import { describe, it, expect, expectTypeOf } from 'vitest'
 
-import type { RuntimeErrorInterface } from '@/src/errors/RuntimeError'
+import type { IRuntimeError } from '@/src/errors/RuntimeError'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
@@ -35,8 +35,8 @@ describe('[INTEGRATION] - src/errors/RuntimeError', () => {
 
             expect(response?.status).to.equal(StatusCodes.FORBIDDEN)
 
-            const data = response?.data as RuntimeErrorInterface
-            expectTypeOf(data).toEqualTypeOf<RuntimeErrorInterface>()
+            const data = response?.data as IRuntimeError
+            expectTypeOf(data).toEqualTypeOf<IRuntimeError>()
 
             expect(data.message).to.equal(errorMessage)
             expect(data.environment).to.equal(process.env.npm_lifecycle_event)

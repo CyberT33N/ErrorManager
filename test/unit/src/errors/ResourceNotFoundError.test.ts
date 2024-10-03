@@ -19,7 +19,7 @@ import { ResourceNotFoundError } from '@/src/index'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
-import type { ResourceNotFoundErrorInterface } from '@/src/errors/ResourceNotFoundError'
+import type { IResourceNotFoundError } from '@/src/errors/ResourceNotFoundError'
 
 describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
     const errorMsg = 'test'
@@ -28,8 +28,8 @@ describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
     const error = new Error(errorMsgOrig)
         
     it('should create new ResourceNotFoundError without error argument', () => {
-        const resourceNotFoundError: ResourceNotFoundErrorInterface = new ResourceNotFoundError(errorMsg, errorData)
-        expectTypeOf(resourceNotFoundError).toEqualTypeOf<ResourceNotFoundErrorInterface>()
+        const resourceNotFoundError: IResourceNotFoundError = new ResourceNotFoundError(errorMsg, errorData)
+        expectTypeOf(resourceNotFoundError).toEqualTypeOf<IResourceNotFoundError>()
 
         expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
         expect(resourceNotFoundError.name).toBe(ErrorType.RESOURCE_NOT_FOUND)
@@ -45,11 +45,11 @@ describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
     })
 
     it('should create new ResourceNotFoundError with error argument', () => {
-        const resourceNotFoundError: ResourceNotFoundErrorInterface = new ResourceNotFoundError(
+        const resourceNotFoundError: IResourceNotFoundError = new ResourceNotFoundError(
             errorMsg, errorData, error
         )
 
-        expectTypeOf(resourceNotFoundError).toEqualTypeOf<ResourceNotFoundErrorInterface>()
+        expectTypeOf(resourceNotFoundError).toEqualTypeOf<IResourceNotFoundError>()
 
         expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
         expect(resourceNotFoundError.name).toBe(ErrorType.RESOURCE_NOT_FOUND)

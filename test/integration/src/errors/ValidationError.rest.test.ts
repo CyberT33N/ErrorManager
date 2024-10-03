@@ -16,7 +16,7 @@
 import axios, { type AxiosError } from 'axios'
 import { describe, it, expect, expectTypeOf } from 'vitest'
 
-import type { ValidationErrorInterface } from '@/src/errors/ValidationError'
+import type { IValidationError } from '@/src/errors/ValidationError'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
@@ -36,8 +36,8 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
 
             expect(response?.status).to.equal(StatusCodes.BAD_REQUEST)
 
-            const data = response?.data as ValidationErrorInterface
-            expectTypeOf(data).toEqualTypeOf<ValidationErrorInterface>()
+            const data = response?.data as IValidationError
+            expectTypeOf(data).toEqualTypeOf<IValidationError>()
 
             expect(data.message).to.equal(errorMessage)
             expect(data.environment).to.equal(process.env.npm_lifecycle_event)
@@ -59,8 +59,8 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
 
             expect(response?.status).to.equal(StatusCodes.BAD_REQUEST)
 
-            const data = response?.data as ValidationErrorInterface
-            expectTypeOf(data).toEqualTypeOf<ValidationErrorInterface>()
+            const data = response?.data as IValidationError
+            expectTypeOf(data).toEqualTypeOf<IValidationError>()
 
             expect(data.message).to.equal(errorMessage)
             expect(data.environment).to.equal(process.env.npm_lifecycle_event)

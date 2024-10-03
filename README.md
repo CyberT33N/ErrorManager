@@ -237,11 +237,11 @@ _________________________________________
 <br><br>
 
 ## Interfaces
-- BaseErrorInterface
-- HttpClientErrorInterface
-- ResourceNotFoundErrorInterface
-- RuntimeErrorInterface
-- ValidationErrorInterface
+- IBaseError
+- IHttpClientError
+- IResourceNotFoundError
+- IRuntimeError
+- IValidationError
 
 <br><br>
 
@@ -249,7 +249,7 @@ _________________________________________
 - The example below demonstrates an integration test for an internal service that throws a `BaseError`. 
 ```typescript
 import { it, expect, expectTypeOf } from 'vitest'
-import { type BaseErrorInterface, StatusCodes } from 'error-manager-helper'
+import { type IBaseError, StatusCodes } from 'error-manager-helper'
 
 it('should return 500 with BaseError details - error passed', async() => {
     try {
@@ -259,8 +259,8 @@ it('should return 500 with BaseError details - error passed', async() => {
         const { response } = e as AxiosError
         expect(response?.status).to.equal(StatusCodes.INTERNAL_SERVER_ERROR)
 
-        const data = response?.data as BaseErrorInterface
-        expectTypeOf(data).toEqualTypeOf<BaseErrorInterface>()
+        const data = response?.data as IBaseError
+        expectTypeOf(data).toEqualTypeOf<IBaseError>()
 
         expect(data.error).toEqual(`Error: ${errorMessageFromService}`)
         expect(data.message).toBe(errorMessage)
@@ -274,7 +274,7 @@ it('should return 500 with BaseError details - error passed', async() => {
 ## Unit Test
 ```typescript
 import { it, expect, expectTypeOf } from 'vitest'
-import { BaseError, type BaseErrorInterface } from 'error-manager-helper'
+import { BaseError, type IBaseError } from 'error-manager-helper'
 
 describe('Any test block', () => {
     const errMsg = 'Test error'
@@ -290,9 +290,9 @@ describe('Any test block', () => {
             fn()
             throw new Error('Base Error Test - This line should not be called')
         } catch (err: unknown) {
-            const typedErr = err as BaseErrorInterface
+            const typedErr = err as IBaseError
 
-            expectTypeOf(typedErr).toEqualTypeOf<BaseErrorInterface>()
+            expectTypeOf(typedErr).toEqualTypeOf<IBaseError>()
             expect(typedErr).toBeInstanceOf(BaseError)
 
             expect(typedErr.error).toEqual(error)

@@ -19,7 +19,7 @@ import { ValidationError } from '@/src/index'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
-import type { ValidationErrorInterface } from '@/src/errors/ValidationError'
+import type { IValidationError } from '@/src/errors/ValidationError'
 
 describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
     const errorMsg = 'test'
@@ -28,9 +28,9 @@ describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
     const error = new Error(errorMsgOrig)
 
     it('should create new ValidationError without error argument', () => {
-        const validationError: ValidationErrorInterface = new ValidationError(errorMsg, errorData)
+        const validationError: IValidationError = new ValidationError(errorMsg, errorData)
         
-        expectTypeOf(validationError).toEqualTypeOf<ValidationErrorInterface>()
+        expectTypeOf(validationError).toEqualTypeOf<IValidationError>()
 
         expect(validationError).toBeInstanceOf(ValidationError)
         expect(validationError.name).toBe(ErrorType.VALIDATION)
@@ -46,9 +46,9 @@ describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
     })
 
     it('should create new ValidationError without custom http status', () => {
-        const validationError: ValidationErrorInterface = new ValidationError(errorMsg, errorData, error)
+        const validationError: IValidationError = new ValidationError(errorMsg, errorData, error)
 
-        expectTypeOf(validationError).toEqualTypeOf<ValidationErrorInterface>()
+        expectTypeOf(validationError).toEqualTypeOf<IValidationError>()
 
         expect(validationError).toBeInstanceOf(ValidationError)
         expect(validationError.name).toBe(ErrorType.VALIDATION)

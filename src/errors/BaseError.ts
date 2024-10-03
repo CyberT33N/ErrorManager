@@ -19,11 +19,11 @@ import { StatusCodes } from 'http-status-codes'
 import { type CoreErrorInterface, default as CoreError } from './CoreError'
 
 /**
- * @interface BaseErrorInterface
+ * @interface IBaseError
  * @extends CoreErrorInterface
  * HTTP status code is always 500 (INTERNAL_SERVER_ERROR)
  */
-export interface BaseErrorInterface extends CoreErrorInterface {
+export interface IBaseError extends CoreErrorInterface {
     name: ErrorType.BASE
     httpStatus: StatusCodes.INTERNAL_SERVER_ERROR
 }
@@ -31,12 +31,12 @@ export interface BaseErrorInterface extends CoreErrorInterface {
 /**
  * @class BaseError
  * @extends CoreError
- * @implements BaseErrorInterface
+ * @implements IBaseError
  * 
  * This class serves as a base class for creating custom error types.
- * It extends the `CoreError` class and implements the `BaseErrorInterface`.
+ * It extends the `CoreError` class and implements the `IBaseError`.
  */
-export default class BaseError extends CoreError implements BaseErrorInterface {
+export default class BaseError extends CoreError implements IBaseError {
     /**
      * Error name associated with this error
      * 

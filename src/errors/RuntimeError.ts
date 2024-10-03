@@ -19,11 +19,11 @@ import { ErrorType } from '../index'
 import { type CoreErrorInterface, default as CoreError } from './CoreError'
 
 /**
- * @interface RuntimeErrorInterface
+ * @interface IRuntimeError
  * @extends CoreErrorInterface
  * HTTP status code is always 500 (INTERNAL_SERVER_ERROR)
  */
-export interface RuntimeErrorInterface extends CoreErrorInterface {
+export interface IRuntimeError extends CoreErrorInterface {
     name: ErrorType.RUNTIME
     httpStatus: StatusCodes.INTERNAL_SERVER_ERROR
 }
@@ -35,7 +35,7 @@ export interface RuntimeErrorInterface extends CoreErrorInterface {
  * This class represents an error that occurs during the runtime of an application.
  * It extends the `CoreError` class and allows for specifying an HTTP status code.
  */
-export default class RuntimeError extends CoreError implements RuntimeErrorInterface {
+export default class RuntimeError extends CoreError implements IRuntimeError {
     /**
      * Error name associated with this error
      * 

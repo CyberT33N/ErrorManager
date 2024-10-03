@@ -16,7 +16,7 @@
 import axios, { type AxiosError } from 'axios'
 import { describe, it, expect, expectTypeOf } from 'vitest'
 
-import type { BaseErrorInterface } from '@/src/errors/BaseError'
+import type { IBaseError } from '@/src/errors/BaseError'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
@@ -34,8 +34,8 @@ describe('[INTEGRATION] - src/errors/BaseError', () => {
             const { response } = e as AxiosError
             expect(response?.status).to.equal(StatusCodes.INTERNAL_SERVER_ERROR)
 
-            const data = response?.data as BaseErrorInterface
-            expectTypeOf(data).toEqualTypeOf<BaseErrorInterface>()
+            const data = response?.data as IBaseError
+            expectTypeOf(data).toEqualTypeOf<IBaseError>()
 
             expect(data.message).to.equal(errorMessage)
             expect(data.environment).to.equal(process.env.npm_lifecycle_event)
@@ -55,8 +55,8 @@ describe('[INTEGRATION] - src/errors/BaseError', () => {
             const { response } = e as AxiosError
             expect(response?.status).to.equal(StatusCodes.INTERNAL_SERVER_ERROR)
 
-            const data = response?.data as BaseErrorInterface
-            expectTypeOf(data).toEqualTypeOf<BaseErrorInterface>()
+            const data = response?.data as IBaseError
+            expectTypeOf(data).toEqualTypeOf<IBaseError>()
 
             expect(data.message).to.equal(errorMessage)
             expect(data.environment).to.equal(process.env.npm_lifecycle_event)

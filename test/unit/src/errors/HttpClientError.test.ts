@@ -27,7 +27,7 @@ import { HttpClientError } from '@/src/index'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
-import type { HttpClientErrorInterface } from '@/src/errors/HttpClientError'
+import type { IHttpClientError } from '@/src/errors/HttpClientError'
 
 describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
     const errorMsg = 'test'
@@ -59,11 +59,11 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
         } as AxiosError
         
         it('should create new Http Client Error and use fallback for status code', async() => {
-            const httpClientError: HttpClientErrorInterface = new HttpClientError(
+            const httpClientError: IHttpClientError = new HttpClientError(
                 errorMsg, axiosError
             )
 
-            expectTypeOf(httpClientError).toEqualTypeOf<HttpClientErrorInterface>()
+            expectTypeOf(httpClientError).toEqualTypeOf<IHttpClientError>()
 
             expect(httpClientError).toBeInstanceOf(HttpClientError)
             expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
@@ -114,11 +114,11 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
             } catch (err: unknown) {
                 const axiosError = err as AxiosError
 
-                const httpClientError: HttpClientErrorInterface = new HttpClientError(
+                const httpClientError: IHttpClientError = new HttpClientError(
                     errorMsg, axiosError
                 )
 
-                expectTypeOf(httpClientError).toEqualTypeOf<HttpClientErrorInterface>()
+                expectTypeOf(httpClientError).toEqualTypeOf<IHttpClientError>()
 
                 expect(httpClientError).toBeInstanceOf(HttpClientError)
                 expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)
@@ -150,9 +150,9 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
                 throw new Error('HttpClient Error Test - This should not be called')
             } catch (err: unknown) {
                 const axiosError = err as AxiosError
-                const httpClientError: HttpClientErrorInterface = new HttpClientError(errorMsg, axiosError)
+                const httpClientError: IHttpClientError = new HttpClientError(errorMsg, axiosError)
 
-                expectTypeOf(httpClientError).toEqualTypeOf<HttpClientErrorInterface>()
+                expectTypeOf(httpClientError).toEqualTypeOf<IHttpClientError>()
 
                 expect(httpClientError).toBeInstanceOf(HttpClientError)
                 expect(httpClientError.name).toBe(ErrorType.HTTP_CLIENT)

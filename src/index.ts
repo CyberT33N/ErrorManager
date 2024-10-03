@@ -16,27 +16,27 @@
 // ==== ERROR CLASSES ====
 export { 
     default as BaseError,
-    type BaseErrorInterface
+    type IBaseError
 } from './errors/BaseError'
 
 export {
     default as ValidationError,
-    type ValidationErrorInterface
+    type IValidationError
 } from './errors/ValidationError'
 
 export {
     default as RuntimeError,
-    type RuntimeErrorInterface
+    type IRuntimeError
 } from './errors/RuntimeError'
 
 export {
     default as ResourceNotFoundError,
-    type ResourceNotFoundErrorInterface
+    type IResourceNotFoundError
 } from './errors/ResourceNotFoundError'
 
 export {
     default as HttpClientError,
-    type AxiosErrorData, type HttpClientErrorInterface
+    type AxiosErrorData, type IHttpClientError
 } from './errors/HttpClientError'
 
 // ==== MIDDLEWARE ====

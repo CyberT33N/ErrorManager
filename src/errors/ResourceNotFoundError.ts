@@ -19,11 +19,11 @@ import { ErrorType } from '../index'
 import { type CoreErrorInterface, default as CoreError } from './CoreError'
 
 /**
- * @interface ResourceNotFoundErrorInterface
+ * @interface IResourceNotFoundError
  * @extends CoreErrorInterface
  * HTTP status code is always 404 (NOT_FOUND)
  */
-export interface ResourceNotFoundErrorInterface extends CoreErrorInterface {
+export interface IResourceNotFoundError extends CoreErrorInterface {
     name: ErrorType.RESOURCE_NOT_FOUND
     httpStatus: StatusCodes.NOT_FOUND
 }
@@ -31,12 +31,12 @@ export interface ResourceNotFoundErrorInterface extends CoreErrorInterface {
 /**
  * @class ResourceNotFoundError
  * @extends CoreError
- * @implements ResourceNotFoundErrorInterface
+ * @implements IResourceNotFoundError
  * 
  * This class represents an error indicating that a requested resource was not found.
- * It extends `CoreError` and implements the `ResourceNotFoundErrorInterface`.
+ * It extends `CoreError` and implements the `IResourceNotFoundError`.
  */
-export default class ResourceNotFoundError extends CoreError implements ResourceNotFoundErrorInterface {
+export default class ResourceNotFoundError extends CoreError implements IResourceNotFoundError {
     /**
      * Error name associated with this error
      * 

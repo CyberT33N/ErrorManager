@@ -19,7 +19,7 @@ import { RuntimeError } from '@/src/index'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
-import type { RuntimeErrorInterface } from '@/src/errors/RuntimeError'
+import type { IRuntimeError } from '@/src/errors/RuntimeError'
 
 describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
     const errorMsg = 'test'
@@ -27,11 +27,11 @@ describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
     const error = new Error(errorMsgOrig)
 
     it('should create new RuntimeError without error argument', () => {
-        const runtimeError: RuntimeErrorInterface = new RuntimeError(
+        const runtimeError: IRuntimeError = new RuntimeError(
             errorMsg, StatusCodes.NOT_FOUND
         )
 
-        expectTypeOf(runtimeError).toEqualTypeOf<RuntimeErrorInterface>()
+        expectTypeOf(runtimeError).toEqualTypeOf<IRuntimeError>()
 
         expect(runtimeError.error).toBeUndefined()
 
@@ -45,11 +45,11 @@ describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
     })
 
     it('should create new RuntimeError with error argument', () => {
-        const runtimeError: RuntimeErrorInterface = new RuntimeError(
+        const runtimeError: IRuntimeError = new RuntimeError(
             errorMsg, StatusCodes.NOT_FOUND, error
         )
 
-        expectTypeOf(runtimeError).toEqualTypeOf<RuntimeErrorInterface>()
+        expectTypeOf(runtimeError).toEqualTypeOf<IRuntimeError>()
 
         expect(runtimeError.error).toBeInstanceOf(Error)
         expect(runtimeError.error).toBe(error)
@@ -64,11 +64,11 @@ describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
     })
 
     it('should create new RuntimeError without custom http status', () => {
-        const runtimeError: RuntimeErrorInterface = new RuntimeError(
+        const runtimeError: IRuntimeError = new RuntimeError(
             errorMsg
         )
 
-        expectTypeOf(runtimeError).toEqualTypeOf<RuntimeErrorInterface>()
+        expectTypeOf(runtimeError).toEqualTypeOf<IRuntimeError>()
 
         expect(runtimeError).toBeInstanceOf(RuntimeError)
         expect(runtimeError.name).toBe(ErrorType.RUNTIME)

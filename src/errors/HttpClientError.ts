@@ -40,11 +40,11 @@ export type AxiosErrorData = {
 }
 
 /**
- * @interface HttpClientErrorInterface
+ * @interface IHttpClientError
  * @extends CoreErrorInterface
  * HTTP status code is same as response status code
  */
-export interface HttpClientErrorInterface extends CoreErrorInterface {
+export interface IHttpClientError extends CoreErrorInterface {
     data: AxiosErrorData
     name: ErrorType.HTTP_CLIENT
     httpStatus: StatusCodes
@@ -53,12 +53,12 @@ export interface HttpClientErrorInterface extends CoreErrorInterface {
 /**
  * @class HttpClientError
  * @extends CoreError
- * @implements HttpClientErrorInterface
+ * @implements IHttpClientError
  * 
  * This class represents a specific error caused by a failed HTTP request via Axios.
  * It extends the `CoreError` class and implements the `HttpClientErrorDataInterface`.
  */
-export default class HttpClientError extends CoreError implements HttpClientErrorInterface {
+export default class HttpClientError extends CoreError implements IHttpClientError {
     /**
      * Collected error data from the failed request
      * 
