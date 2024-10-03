@@ -16,7 +16,7 @@
 import axios, { type AxiosError } from 'axios'
 import { describe, it, expect } from 'vitest'
 
-import type { ErrorResponseSanitizedInterface } from '@/src/middleware'
+import type { IErrorResponseSanitized } from '@/src/middleware'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
@@ -34,7 +34,7 @@ describe('[INTEGRATION] - src/middleware.ts', () => {
             const { response } = e as AxiosError
             expect(response?.status).to.equal(StatusCodes.INTERNAL_SERVER_ERROR)
 
-            const data = response?.data as ErrorResponseSanitizedInterface
+            const data = response?.data as IErrorResponseSanitized
 
             expect(data.environment).to.equal(process.env.npm_lifecycle_event)
             expect(data.name).to.equal(ErrorType.DEFAULT)

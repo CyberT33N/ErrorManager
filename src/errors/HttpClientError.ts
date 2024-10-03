@@ -16,38 +16,32 @@
 import { ErrorType } from '../index'
 import { StatusCodes } from 'http-status-codes'
 
-import { type CoreErrorInterface, default as CoreError } from './CoreError'
+import { type ICoreError, default as CoreError } from './CoreError'
 
 import type {
     AxiosResponseHeaders,
-    RawAxiosRequestHeaders, AxiosHeaderValue,
     AxiosError
 } from 'axios'
 
-export type AxiosErrorData = {
+export interface IAxiosErrorData {
     url: string | undefined
     method: string | undefined
     payload: unknown
-    headers: AxiosResponseHeaders | Partial<RawAxiosRequestHeaders & {
-        Server: AxiosHeaderValue;
-        'Content-Type': AxiosHeaderValue;
-        'Content-Length': AxiosHeaderValue;
-        'Cache-Control': AxiosHeaderValue;
-        'Content-Encoding': AxiosHeaderValue;
-    }> | undefined;
+    headers: AxiosResponseHeaders | undefined;
     responseData: unknown
     errorMessage: string
 }
 
 /**
  * @interface IHttpClientError
- * @extends CoreErrorInterface
+ * @extends ICoreError
  * HTTP status code is same as response status code
  */
-export interface IHttpClientError extends CoreErrorInterface {
-    data: AxiosErrorData
+export interface IHttpClientError extends ICoreError {
+    data: IAxiosErrorData
     name: ErrorType.HTTP_CLIENT
     httpStatus: StatusCodes
+    error: AxiosError
 }
 
 /**
@@ -56,15 +50,15 @@ export interface IHttpClientError extends CoreErrorInterface {
  * @implements IHttpClientError
  * 
  * This class represents a specific error caused by a failed HTTP request via Axios.
- * It extends the `CoreError` class and implements the `HttpClientErrorDataInterface`.
+ * It extends the `CoreError` class and implements the `IHttpClientError`.
  */
 export default class HttpClientError extends CoreError implements IHttpClientError {
     /**
      * Collected error data from the failed request
      * 
-     * @type {AxiosErrorData}
+     * @type {IAxiosErrorData}
      */
-    data: AxiosErrorData
+    data: IAxiosErrorData
 
     /**
      * Error name associated with this error

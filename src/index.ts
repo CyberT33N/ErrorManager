@@ -36,13 +36,13 @@ export {
 
 export {
     default as HttpClientError,
-    type AxiosErrorData, type IHttpClientError
+    type IAxiosErrorData, type IHttpClientError
 } from './errors/HttpClientError'
 
 // ==== MIDDLEWARE ====
 export {
     default as errorMiddleware,
-    type ErrorResponseSanitizedInterface,
+    type IErrorResponseSanitized,
     SanitizedMessage
 }  from './middleware'
 

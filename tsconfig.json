@@ -47,6 +47,7 @@
     "**/*.tsx" // Include all .tsx (TypeScript + JSX) files
   ],
   "exclude": [
+    "dist", // Exclude the dist directory from compilation
     "node_modules", // Exclude the node_modules directory from compilation
     "**/*.d.ts" // Exclude declaration files from compilation
   ]

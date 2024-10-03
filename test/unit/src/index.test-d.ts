@@ -13,51 +13,51 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import { describe, it, expect } from 'vitest'
-import { StatusCodes } from 'http-status-codes'
+import { describe, it, expectTypeOf } from 'vitest'
 
-import { ErrorType, RuntimeError } from '@/src/index'
-import type { IRuntimeError } from '@/src/errors/RuntimeError'
-import CoreError from '@/src/errors/CoreError'
+import type { 
+    IBaseError,
+    IValidationError,
+    IRuntimeError,
+    IResourceNotFoundError,
+    IHttpClientError,
+    IAxiosErrorData,
 
-describe('[UNIT TEST] - src/errors/RuntimeError.ts', () => {
-    const errorMsg = 'test'
-    const errorMsgOrig = 'test original'
-    const error = new Error(errorMsgOrig)
+    IErrorResponseSanitized
+} from '@/src/index'
 
-    it('should be instance of CoreError and Error', () => {
-        const runtimeError: IRuntimeError = new RuntimeError(errorMsg)
-        expect(runtimeError).toBeInstanceOf(RuntimeError)
-        expect(runtimeError).toBeInstanceOf(Error)
-        expect(runtimeError).toBeInstanceOf(CoreError)
-    })
+describe('[TYPE TEST] - src/index.ts', () => {
+    describe('[INTERFACES]', () => {
+        describe('[MIDDLEWARE]', () => {
+            it('should have the interface IErrorResponseSanitized', () => {
+                expectTypeOf<IErrorResponseSanitized>().not.toBeUndefined()
+            })
+        })
 
-    it('should have correct default properties', () => {
-        const runtimeError: IRuntimeError = new RuntimeError(errorMsg)
+        describe('[ERROR CLASSES]', () => {
+            it('should have the interface IBaseError', () => {
+                expectTypeOf<IBaseError>().not.toBeUndefined()
+            })
 
-        expect(runtimeError.name).toBe(ErrorType.RUNTIME)
-        expect(runtimeError.httpStatus).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
-        expect(runtimeError.message).toBe(errorMsg)
-    })
+            it('should have the interface IValidationError', () => {
+                expectTypeOf<IValidationError>().not.toBeUndefined()
+            })
 
-    it('should create new RuntimeError without error argument', () => {
-        const runtimeError: IRuntimeError = new RuntimeError(errorMsg)
-        expect(runtimeError.error).toBeUndefined()
-    })
+            it('should have the interface IRuntimeError', () => {
+                expectTypeOf<IRuntimeError>().not.toBeUndefined()
+            })
 
-    it('should create new RuntimeError with error argument', () => {
-        const runtimeError: IRuntimeError = new RuntimeError(
-            errorMsg, StatusCodes.NOT_FOUND, error
-        )
+            it('should have the interface IResourceNotFoundError', () => {
+                expectTypeOf<IResourceNotFoundError>().not.toBeUndefined()
+            })
 
-        expect(runtimeError.error).toBe(error)
-    })
+            it('should have the interface IHttpClientError', () => {
+                expectTypeOf<IHttpClientError>().not.toBeUndefined()
+            })
 
-    it('should create new RuntimeError with custom http status', () => {
-        const runtimeError: IRuntimeError = new RuntimeError(
-            errorMsg, StatusCodes.NOT_FOUND
-        )
-
-        expect(runtimeError.httpStatus).toBe(StatusCodes.NOT_FOUND)
+            it('should have the interface IAxiosErrorData', () => {
+                expectTypeOf<IAxiosErrorData>().not.toBeUndefined()
+            })
+        })
     })
 })

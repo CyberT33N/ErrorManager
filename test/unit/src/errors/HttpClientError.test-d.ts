@@ -13,45 +13,67 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import { describe, it, expect } from 'vitest'
+import type { AxiosError, AxiosResponseHeaders } from 'axios'
+ 
+import { describe, it, expectTypeOf } from 'vitest'
 
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '@/src/index'
-
+ 
 import {
-    default as BaseError,
-    type IBaseError
-} from '@/src/errors/BaseError'
+    default as HttpClientError,
+    type IHttpClientError,
+    type IAxiosErrorData
+} from '@/src/errors/HttpClientError'
+ 
+import type { ICoreError} from '@/src/errors/CoreError'
 
-import CoreError from '@/src/errors/CoreError'
-
-describe('[UNIT TEST] - src/errors/BaseError.ts', () => {
+describe('[TYPE TEST] - src/errors/HttpClientError.ts', () => {
     const errorMsg = 'test'
-    const errorMsgOrig = 'test original'
-    const error = new Error(errorMsgOrig)
 
-    it('should be instance of CoreError and Error', () => {
-        const baseError: IBaseError = new BaseError(errorMsg)
-        expect(baseError).toBeInstanceOf(BaseError)
-        expect(baseError).toBeInstanceOf(Error)
-        expect(baseError).toBeInstanceOf(CoreError)
-    })
-
-    it('should have correct default properties', () => {
-        const baseError: IBaseError = new BaseError(errorMsg)
+    // We create a copy of the interface to detect changes in the future
+    interface IAxiosErrorData_Test {
+        url: string | undefined
+        method: string | undefined
+        payload: unknown
+        headers: AxiosResponseHeaders  | undefined;
+        responseData: unknown
+        errorMessage: string
+    }
     
-        expect(baseError.name).toBe(ErrorType.BASE)
-        expect(baseError.httpStatus).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
-        expect(baseError.message).toBe(errorMsg)
-    })
-    
-    it('should create new Base Error without error argument', () => {
-        const baseError: IBaseError = new BaseError(errorMsg)
-        expect(baseError.error).toBeUndefined()
+    // No need to create a copy of ICoreError because it got its own tests
+    interface IHttpClientError_Test extends ICoreError {
+        data: IAxiosErrorData
+        name: ErrorType.HTTP_CLIENT
+        httpStatus: StatusCodes
+        error: AxiosError
+    }
+
+    describe('[INTERFACES]', () => {
+        it('should verify IAxiosErrorData interface types', () => {
+            expectTypeOf<IAxiosErrorData>().toEqualTypeOf<IAxiosErrorData_Test>()
+        })
+
+        it('should verify IHttpClientError interface types', () => {
+            expectTypeOf<IHttpClientError>().toEqualTypeOf<IHttpClientError_Test>()
+        })
     })
 
-    it('should create new Base Error with error argument', () => {
-        const baseError: IBaseError = new BaseError(errorMsg, error)
-        expect(baseError.error).toBe(error)
+    describe('[CLASS]', () => {
+        describe('[CONSTRUCTOR]', () => {
+            it('should correctly handle constructor parameters types', () => {
+                expectTypeOf(HttpClientError).toBeConstructibleWith(errorMsg, {} as AxiosError)
+            })
+        })
+
+        describe('[INSTANCE]', () => {
+            it('should verify instance type', () => {
+                const httpClientError: IHttpClientError = new HttpClientError(
+                    errorMsg, {} as AxiosError
+                )
+
+                expectTypeOf(httpClientError).toEqualTypeOf<IHttpClientError_Test>()
+            })
+        })
     })
 })

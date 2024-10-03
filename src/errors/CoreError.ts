@@ -16,15 +16,15 @@
 import { StatusCodes } from 'http-status-codes'
 
 /**
- * @interface CoreErrorInterface
+ * @interface ICoreError
  * @extends Error
  * 
  * Interface for custom error classes. Because the middleware is handling aswell normal javascript errors,
  * the properties listed below must be optional.
  */
-export interface CoreErrorInterface extends Error {
+export interface ICoreError extends Error {
     error?: Error
-    data?: Record<string, unknown>
+    data?: object
     httpStatus?: StatusCodes
     environment: string
     timestamp: string
@@ -33,13 +33,13 @@ export interface CoreErrorInterface extends Error {
 /**
  * @class CoreError
  * @extends Error
- * @implements CoreErrorInterface
+ * @implements ICoreError
  * 
  * This class serves as a base class for creating custom error types.
- * It extends the native `Error` class and implements the `CoreErrorInterface`.
+ * It extends the native `Error` class and implements the `ICoreError`.
  * Only difference compared to error is this.error
  */
-export default class CoreError extends Error implements CoreErrorInterface {
+export default class CoreError extends Error implements ICoreError {
     /**
      * The environment in which the error occurred
      * 

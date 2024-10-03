@@ -13,13 +13,12 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import { describe, it, expect, expectTypeOf } from 'vitest'
-
-import { ValidationError } from '@/src/index'
-
+import { describe, it, expect } from 'vitest'
 import { StatusCodes } from 'http-status-codes'
-import { ErrorType } from '@/src/index'
+
+import { ErrorType, ValidationError } from '@/src/index'
 import type { IValidationError } from '@/src/errors/ValidationError'
+import CoreError from '@/src/errors/CoreError'
 
 describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
     const errorMsg = 'test'
@@ -27,39 +26,31 @@ describe('[UNIT TEST] - src/errors/ValidationError.ts', () => {
     const errorData = { test: 'test' }
     const error = new Error(errorMsgOrig)
 
-    it('should create new ValidationError without error argument', () => {
+    it('should be instance of Error and ValidationError', () => {
         const validationError: IValidationError = new ValidationError(errorMsg, errorData)
-        
-        expectTypeOf(validationError).toEqualTypeOf<IValidationError>()
-
         expect(validationError).toBeInstanceOf(ValidationError)
+        expect(validationError).toBeInstanceOf(Error)
+        expect(validationError).toBeInstanceOf(CoreError)
+    })
+
+    it('should have correct default properties', () => {
+        const validationError: IValidationError = new ValidationError(errorMsg, errorData)
+    
         expect(validationError.name).toBe(ErrorType.VALIDATION)
-        expect(validationError.message).toBe(errorMsg)
         expect(validationError.httpStatus).toBe(StatusCodes.BAD_REQUEST)
-        expect(validationError.error).toBeUndefined()
-        expect(validationError.stack).toBeDefined()
-        expect(validationError.timestamp).toBeDefined()
-        expect(validationError.environment).toBe(process.env.npm_lifecycle_event)
+        expect(validationError.message).toBe(errorMsg)
 
         const { data } = validationError
         expect(data).toEqual(errorData)
     })
 
-    it('should create new ValidationError without custom http status', () => {
+    it('should create new ValidationError without error argument', () => {
+        const validationError: IValidationError = new ValidationError(errorMsg, errorData)
+        expect(validationError.error).toBeUndefined()
+    })
+
+    it('should create new ValidationError without error argument', () => {
         const validationError: IValidationError = new ValidationError(errorMsg, errorData, error)
-
-        expectTypeOf(validationError).toEqualTypeOf<IValidationError>()
-
-        expect(validationError).toBeInstanceOf(ValidationError)
-        expect(validationError.name).toBe(ErrorType.VALIDATION)
-        expect(validationError.message).toBe(errorMsg)
-        expect(validationError.httpStatus).toBe(StatusCodes.BAD_REQUEST)
         expect(validationError.error).toBe(error)
-        expect(validationError.stack).toBeDefined()
-        expect(validationError.timestamp).toBeDefined()
-        expect(validationError.environment).toBe(process.env.npm_lifecycle_event)
-
-        const { data } = validationError
-        expect(data).toEqual(errorData)
     })
 })

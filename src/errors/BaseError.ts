@@ -16,14 +16,14 @@
 import { ErrorType } from '../index'
 import { StatusCodes } from 'http-status-codes'
 
-import { type CoreErrorInterface, default as CoreError } from './CoreError'
+import { type ICoreError, default as CoreError } from './CoreError'
 
 /**
  * @interface IBaseError
- * @extends CoreErrorInterface
+ * @extends ICoreError
  * HTTP status code is always 500 (INTERNAL_SERVER_ERROR)
  */
-export interface IBaseError extends CoreErrorInterface {
+export interface IBaseError extends ICoreError {
     name: ErrorType.BASE
     httpStatus: StatusCodes.INTERNAL_SERVER_ERROR
 }

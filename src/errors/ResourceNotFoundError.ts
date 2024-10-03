@@ -16,14 +16,14 @@
 import { StatusCodes } from 'http-status-codes'
 import { ErrorType } from '../index'
 
-import { type CoreErrorInterface, default as CoreError } from './CoreError'
+import { type ICoreError, default as CoreError } from './CoreError'
 
 /**
  * @interface IResourceNotFoundError
- * @extends CoreErrorInterface
+ * @extends ICoreError
  * HTTP status code is always 404 (NOT_FOUND)
  */
-export interface IResourceNotFoundError extends CoreErrorInterface {
+export interface IResourceNotFoundError extends ICoreError {
     name: ErrorType.RESOURCE_NOT_FOUND
     httpStatus: StatusCodes.NOT_FOUND
 }

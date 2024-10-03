@@ -13,67 +13,63 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import { describe, it, expect } from 'vitest'
+import {
+    describe, it, expectTypeOf
+} from 'vitest'
+
+import type { ICoreError } from '@/src/errors/CoreError'
 
 import {
-    BaseError,
-    ValidationError,
-    RuntimeError,
-    ResourceNotFoundError,
-    HttpClientError,
-    
-    errorMiddleware,
+    default as ErrorMiddleware,
+    type IErrorResponseSanitized, type IErrorMiddleware,
+    SanitizedMessage
+} from '@/src/middleware'
 
-    StatusCodes, ErrorType, SanitizedMessage
-} from '@/src/index'
+import type { Request, Response, NextFunction } from 'express'
 
-describe('[UNIT TEST] - src/index.ts', () => {
-    describe('[ENUM]', () => {
-        enum ErrorType_Test {
-            DEFAULT = 'Error',
-            BASE = 'BaseError',
-            VALIDATION = 'ValidationError',
-            RUNTIME = 'RuntimeError',
-            RESOURCE_NOT_FOUND = 'ResourceNotFoundError',
-            HTTP_CLIENT = 'HttpClientError'
-        }
+describe('[TYPE TEST] - src/middleware.ts', () => {
+    interface IErrorResponseSanitized_Test extends Omit<
+        ICoreError, 'error' | 'data'
+    > {
+        error: string | SanitizedMessage.DEFAULT | ICoreError['error']
+        data: SanitizedMessage.DEFAULT | ICoreError['data']
+        stack: SanitizedMessage.DEFAULT | ICoreError['stack']
+    }
 
-        it('should have StatusCodes enum', () => {
-            expect(StatusCodes).toBeDefined()
-        })
+    interface IErrorMiddleware_Test {
+        (
+            err: ICoreError,
+            req: Request,
+            res: Response,
+            next: NextFunction
+        ): void
+    }
 
-        it('should have ErrorType enum', () => {
-            expect(ErrorType).toEqual(ErrorType_Test)
-        })
-
-        it('should have SanitizedMessage enum', () => {
-            expect(SanitizedMessage).toBeDefined()
+    describe('[FUNCTION]', () => {
+        it('should verify function type', () => {
+            expectTypeOf(ErrorMiddleware).toEqualTypeOf<IErrorMiddleware_Test>()
         })
     })
 
-    describe('[CODE]', () => {
-        it('should have errorMiddleware function', () => {
-            expect(errorMiddleware).toBeDefined()
+    describe('[INTERFACES]', () => {
+        it('should test types of interface IErrorResponseSanitized', () => {
+            expectTypeOf<IErrorResponseSanitized>().toEqualTypeOf<IErrorResponseSanitized_Test>()
         })
 
-        it('should have BaseError class', () => {
-            expect(BaseError).toBeDefined()
-        })
+        it('[IErrorMiddleware]', () => {
+            it('should test types of interface IErrorMiddleware', () => {
+                expectTypeOf<IErrorMiddleware>().toEqualTypeOf<IErrorMiddleware_Test>()
+            })
 
-        it('should have ValidationError class', () => {
-            expect(ValidationError).toBeDefined()
-        })
+            it('should test parameters of interface IErrorMiddleware', () => {
+                expectTypeOf<IErrorMiddleware>().parameters.toEqualTypeOf<[
+                    ICoreError, Request, Response, NextFunction
+                ]>()
+            })
 
-        it('should have RuntimeError class', () => {
-            expect(RuntimeError).toBeDefined()
-        })
-
-        it('should have ResourceNotFoundError class', () => {
-            expect(ResourceNotFoundError).toBeDefined()
-        })
-
-        it('should have HttpClientError class', () => {
-            expect(HttpClientError).toBeDefined()
+            it('should test return type of interface IErrorMiddleware', () => {
+                expectTypeOf(ErrorMiddleware).returns.toBeVoid()
+            })
         })
     })
 })

@@ -35,7 +35,7 @@
 
 ### Features
 
-* **CCS-001:** changed type of CoreErrorInterface['data'] ([79c4be6](https://github.com/CyberT33N/ErrorManager/commit/79c4be6c25adba67a25e078eb2069fa581558a7f))
+* **CCS-001:** changed type of ICoreError['data'] ([79c4be6](https://github.com/CyberT33N/ErrorManager/commit/79c4be6c25adba67a25e078eb2069fa581558a7f))
 
 
 

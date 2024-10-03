@@ -13,49 +13,61 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expectTypeOf } from 'vitest'
+
 import { StatusCodes } from 'http-status-codes'
+import { ErrorType } from '@/src/index'
 
-import { ResourceNotFoundError, ErrorType } from '@/src/index'
-import type { IResourceNotFoundError } from '@/src/errors/ResourceNotFoundError'
-import CoreError from '@/src/errors/CoreError'
+import {
+    default as ResourceNotFoundError,
+    type IResourceNotFoundError
+} from '@/src/errors/ResourceNotFoundError'
 
-describe('[UNIT TEST] - src/errors/ResourceNotFoundError.ts', () => {
+import type { ICoreError} from '@/src/errors/CoreError'
+
+describe('[TYPE TEST] - src/errors/ResourceNotFoundError.ts', () => {
     const errorMsg = 'test'
     const errorMsgOrig = 'test original'
     const errorData = { test: 'test' }
     const error = new Error(errorMsgOrig)
-        
-    it('should be instance of CoreError and Error', () => {
-        const resourceNotFoundError: IResourceNotFoundError = new ResourceNotFoundError(errorMsg, errorData)
+     
+    // We create a copy of the interface to detect changes in the future
+    // No need to create a copy of ICoreError because it got its own tests
+    interface IResourceNotFoundError_Test extends ICoreError {
+        name: ErrorType.RESOURCE_NOT_FOUND
+        httpStatus: StatusCodes.NOT_FOUND
+    }
 
-        expect(resourceNotFoundError).toBeInstanceOf(ResourceNotFoundError)
-        expect(resourceNotFoundError).toBeInstanceOf(Error)
-        expect(resourceNotFoundError).toBeInstanceOf(CoreError)
+    describe('[INTERFACES]', () => {
+        it('should verify IResourceNotFoundError interface type', () => {
+            expectTypeOf<IResourceNotFoundError>().toEqualTypeOf<IResourceNotFoundError_Test>()
+        })
     })
 
-    it('should have correct default properties', () => {
-        const resourceNotFoundError: IResourceNotFoundError = new ResourceNotFoundError(errorMsg, errorData)
-        
-        expect(resourceNotFoundError.name).toBe(ErrorType.RESOURCE_NOT_FOUND)
-        expect(resourceNotFoundError.httpStatus).toBe(StatusCodes.NOT_FOUND)
-        expect(resourceNotFoundError.message).toBe(errorMsg)
+    describe('[CLASS]', () => {
+        describe('[CONSTRUCTOR]', () => {
+            it('should correctly handle constructor parameters types', () => {
+                expectTypeOf(ResourceNotFoundError).toBeConstructibleWith(errorMsg, errorData)
+                expectTypeOf(ResourceNotFoundError).toBeConstructibleWith(errorMsg, errorData, error)
+            })
+        })
 
-        const { data } = resourceNotFoundError
-        expect(data).toBe(errorData)
-    })
+        describe('[INSTANCE]', () => {
+            it('should verify instance type without error', () => {
+                const resourceNotFoundError: IResourceNotFoundError = new ResourceNotFoundError(
+                    errorMsg, errorData
+                )
 
-    it('should create new ResourceNotFoundError without error argument', () => {
-        const resourceNotFoundError: IResourceNotFoundError = new ResourceNotFoundError(errorMsg, errorData)
+                expectTypeOf(resourceNotFoundError).toEqualTypeOf<IResourceNotFoundError_Test>()
+            })
 
-        expect(resourceNotFoundError.error).toBeUndefined()
-    })
-
-    it('should create new ResourceNotFoundError with error argument', () => {
-        const resourceNotFoundError: IResourceNotFoundError = new ResourceNotFoundError(
-            errorMsg, errorData, error
-        )
-
-        expect(resourceNotFoundError.error).toBe(error)
+            it('should verify instance type with error', () => {
+                const resourceNotFoundError: IResourceNotFoundError = new ResourceNotFoundError(
+                    errorMsg, errorData, error
+                )
+     
+                expectTypeOf(resourceNotFoundError).toEqualTypeOf<IResourceNotFoundError_Test>()
+            })
+        })
     })
 })

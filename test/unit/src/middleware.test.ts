@@ -14,96 +14,112 @@
 */
 
 import sinon from 'sinon'
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
-import { ValidationError } from '@/src/index'
-import errorMiddleware from '@/src/middleware'
+import {
+    describe, it, expect, beforeEach, afterEach
+} from 'vitest'
 
-import type { CoreErrorInterface } from '@/src/errors/CoreError'
-import type { ErrorResponseSanitizedInterface } from '@/src/middleware'
+import {
+    ValidationError, type IValidationError,
+    ErrorType
+} from '@/src/index'
+
+import {
+    default as errorMiddleware,
+    SanitizedMessage,
+    type IErrorResponseSanitized
+} from '@/src/middleware'
+
 import type { Request, Response, NextFunction } from 'express'
 
 import { StatusCodes } from 'http-status-codes'
-import { ErrorType } from '@/src/index'
-import { SanitizedMessage } from '@/src/middleware'
 
-describe('[UNIT] - src/middleware.ts', () => {
-    let jsonStub: sinon.SinonStub
-    let statusStub: sinon.SinonStub
-
-    const errMsg = 'Test error'
-    const errMsgOriginal = 'Test error original'
-    const errData  = { data: 'test' }    
-    const error: Error = new Error(errMsgOriginal)
-    const validationErr: CoreErrorInterface = new ValidationError(errMsg, errData, error)
-
-    beforeEach(() => {
-        jsonStub = sinon.stub()
-
-        statusStub = sinon.stub().callsFake(() => ({
-            json: jsonStub
-        }))
+describe('[UNIT TEST] - src/middleware.ts', () => {
+    describe('[ENUM]', () => {
+        it('should test types of SanitizedMessage enum', () => {
+            expect(SanitizedMessage.DEFAULT).toBe('[SANITIZED]')
+        })
     })
 
-    afterEach(() => {
-        jsonStub.reset()
-        statusStub.reset()
-    })
+    describe('[CODE]', () => {
+        let jsonStub: sinon.SinonStub
+        let statusStub: sinon.SinonStub
 
-    describe('[RESPONSE]', () => {
-        describe('[NOT SANITIZED]', () => {
-            beforeEach(() => {
-                process.env.npm_lifecycle_event = 'test'
-            })
+        const errMsg = 'Test error'
+        const errMsgOriginal = 'Test error original'
+        const errData  = { data: 'test' }    
+        const error: Error = new Error(errMsgOriginal)
+        const validationErr: IValidationError = new ValidationError(errMsg, errData, error)
 
-            it('should handle ValidationError and send a not sanitized JSON response because of NLE', () => {
-                const req = {} as Request
-                const res = { status: statusStub } as unknown as Response
-                const next = {} as NextFunction
+        beforeEach(() => {
+            jsonStub = sinon.stub()
 
-                const expectedResponse: ErrorResponseSanitizedInterface = {
-                    name: ErrorType.VALIDATION,
-                    environment: process.env.npm_lifecycle_event!,
-                    timestamp: sinon.match.string as unknown as string,
-                    message: errMsg,
-                    httpStatus: StatusCodes.BAD_REQUEST,
-                    error: `Error: ${errMsgOriginal}` as unknown as string,
-                    data: errData,
-                    stack: sinon.match.string as unknown as string
-                }
-
-                errorMiddleware(validationErr, req, res, next)
-
-                expect(statusStub.calledOnceWithExactly(StatusCodes.BAD_REQUEST)).toBe(true)
-                expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
-            })
+            statusStub = sinon.stub().callsFake(() => ({
+                json: jsonStub
+            }))
         })
 
-        describe('[SANITIZED]', () => {
-            beforeEach(() => {
-                process.env.npm_lifecycle_event = 'start'
+        afterEach(() => {
+            jsonStub.reset()
+            statusStub.reset()
+        })
+
+        describe('[RESPONSE]', () => {
+            describe('[NOT SANITIZED]', () => {
+                beforeEach(() => {
+                    process.env.npm_lifecycle_event = 'test'
+                })
+
+                it('should handle ValidationError and send a not sanitized JSON response because of NLE', () => {
+                    const req = {} as Request
+                    const res = { status: statusStub } as unknown as Response
+                    const next = {} as NextFunction
+
+                    const expectedResponse: IErrorResponseSanitized = {
+                        name: ErrorType.VALIDATION,
+                        environment: process.env.npm_lifecycle_event!,
+                        timestamp: sinon.match.string as unknown as string,
+                        message: errMsg,
+                        httpStatus: StatusCodes.BAD_REQUEST,
+                        error: `Error: ${errMsgOriginal}` as unknown as string,
+                        data: errData,
+                        stack: sinon.match.string as unknown as string
+                    }
+
+                    errorMiddleware(validationErr, req, res, next)
+
+                    expect(statusStub.calledOnceWithExactly(StatusCodes.BAD_REQUEST)).toBe(true)
+                    expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
+                })
             })
 
-            it('should handle errors and send a sanitized JSON response because of NLE', () => {
-                const req = {} as Request
-                const res = { status: statusStub } as unknown as Response
-                const next = {} as NextFunction
+            describe('[SANITIZED]', () => {
+            // Wull be reseted in the pretestEach.ts
+                beforeEach(() => {
+                    process.env.npm_lifecycle_event = 'start'
+                })
 
-                const expectedResponse: ErrorResponseSanitizedInterface = {
-                    name: ErrorType.VALIDATION,
-                    environment: process.env.npm_lifecycle_event!,
-                    timestamp: sinon.match.string as unknown as string,
-                    message: errMsg,
-                    httpStatus: StatusCodes.BAD_REQUEST,
-                    error: SanitizedMessage.DEFAULT,
-                    data: SanitizedMessage.DEFAULT,
-                    stack: SanitizedMessage.DEFAULT
-                }
+                it('should handle errors and send a sanitized JSON response because of NLE', () => {
+                    const req = {} as Request
+                    const res = { status: statusStub } as unknown as Response
+                    const next = {} as NextFunction
 
-                errorMiddleware(validationErr, req, res, next)
+                    const expectedResponse: IErrorResponseSanitized = {
+                        name: ErrorType.VALIDATION,
+                        environment: process.env.npm_lifecycle_event!,
+                        timestamp: sinon.match.string as unknown as string,
+                        message: errMsg,
+                        httpStatus: StatusCodes.BAD_REQUEST,
+                        error: SanitizedMessage.DEFAULT,
+                        data: SanitizedMessage.DEFAULT,
+                        stack: SanitizedMessage.DEFAULT
+                    }
 
-                expect(statusStub.calledOnceWithExactly(StatusCodes.BAD_REQUEST)).toBe(true)
-                expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
+                    errorMiddleware(validationErr, req, res, next)
+
+                    expect(statusStub.calledOnceWithExactly(StatusCodes.BAD_REQUEST)).toBe(true)
+                    expect(jsonStub.calledOnceWithExactly(expectedResponse)).toBe(true)
+                })
             })
         })
     })

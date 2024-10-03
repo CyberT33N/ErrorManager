@@ -37,7 +37,7 @@ export default defineConfig({
             /**
              * Specifies the files or directories to exclude from coverage.
              */
-            //exclude: ['src/legacy/', 'utils/helpers.ts'],
+            exclude: ['dist/'],
             /**
              * Specifies the coverage reporters to use.
              */
