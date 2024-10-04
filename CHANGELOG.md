@@ -1,3 +1,12 @@
+# [4.2.0](https://github.com/CyberT33N/ErrorManager/compare/v4.1.0...v4.2.0) (2024-10-04)
+
+
+### Features
+
+* **CCS-001:** updated vitest ([72826cd](https://github.com/CyberT33N/ErrorManager/commit/72826cd08092d82a09b66fdceb18ca2314295a77))
+
+
+
 # [4.1.0](https://github.com/CyberT33N/ErrorManager/compare/v4.0.0...v4.1.0) (2024-10-03)
 
 
@@ -36,15 +45,6 @@
 ### Features
 
 * **CCS-001:** changed interfaces ([071ba47](https://github.com/CyberT33N/ErrorManager/commit/071ba47568d159ea6e6f7af84ccb7a472dc47871))
-
-
-
-# [3.22.0](https://github.com/CyberT33N/ErrorManager/compare/v3.21.0...v3.22.0) (2024-09-22)
-
-
-### Features
-
-* **CCS-001:** changed type of CoreErrorInterface['data'] ([79c4be6](https://github.com/CyberT33N/ErrorManager/commit/79c4be6c25adba67a25e078eb2069fa581558a7f))
 
 
 
