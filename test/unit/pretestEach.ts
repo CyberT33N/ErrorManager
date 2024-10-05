@@ -13,10 +13,8 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import { beforeEach } from 'vitest'
-
-const NLE: string = process.env.npm_lifecycle_event!
+import { beforeEach, vi } from 'vitest'
 
 beforeEach((): void => {
-    process.env.npm_lifecycle_event = NLE
+    vi.unstubAllEnvs()
 })

@@ -16,6 +16,7 @@
 import sinon from 'sinon'
 
 import {
+    vi,
     describe, it, expect, beforeEach, afterEach
 } from 'vitest'
 
@@ -66,8 +67,9 @@ describe('[UNIT TEST] - src/middleware.ts', () => {
 
         describe('[RESPONSE]', () => {
             describe('[NOT SANITIZED]', () => {
+                // Will be reseted in the pretestEach.ts
                 beforeEach(() => {
-                    process.env.npm_lifecycle_event = 'test'
+                    vi.stubEnv('npm_lifecycle_event', 'test')
                 })
 
                 it('should handle ValidationError and send a not sanitized JSON response because of NLE', () => {
@@ -94,9 +96,9 @@ describe('[UNIT TEST] - src/middleware.ts', () => {
             })
 
             describe('[SANITIZED]', () => {
-            // Wull be reseted in the pretestEach.ts
+                // Will be reseted in the pretestEach.ts
                 beforeEach(() => {
-                    process.env.npm_lifecycle_event = 'start'
+                    vi.stubEnv('npm_lifecycle_event', 'start')
                 })
 
                 it('should handle errors and send a sanitized JSON response because of NLE', () => {
