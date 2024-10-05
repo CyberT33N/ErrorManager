@@ -93,8 +93,8 @@ import { BaseError } from 'error-manager-helper'
 try {
      const chatCompletion = await this.client.chat.completions.create(params)
      return chatCompletion
-} catch (err: unknown) {
-     throw new BaseError('Can not create chat completion', err as Error)
+} catch (err) {
+    throw new BaseError('Can not create chat completion', err as Error)
 }
 ```
 
@@ -116,7 +116,7 @@ import { HttpClientError } from 'error-manager-helper'
 try {
      const response = await axios.request(config)
      return response
-} catch (err: unknown) {
+} catch (err) {
      throw new HttpClientError('Can not send request', err as AxiosError)
 }
 ```
@@ -248,22 +248,28 @@ _________________________________________
 ## Integration Test
 - The example below demonstrates an integration test for an internal service that throws a `BaseError`. 
 ```typescript
-import { it, expect, expectTypeOf } from 'vitest'
+import axios, { AxiosError } from 'axios'
+import { it, expect, expectTypeOf, assert } from 'vitest'
 import { type IBaseError, StatusCodes } from 'error-manager-helper'
 
 it('should return 500 with BaseError details - error passed', async() => {
     try {
         await axios.get('https://localhost:3000/base-error?param=wrong')
-        throw new Error('Base Error Test - This line should not be called')
-    } catch (e: unknown) {
-        const { response } = e as AxiosError
-        expect(response?.status).to.equal(StatusCodes.INTERNAL_SERVER_ERROR)
+        assert.fail('This line should not be reached')
+    } catch (err) {
+        if (err instanceof AxiosError) {
+            expect(err.status).to.equal(StatusCodes.INTERNAL_SERVER_ERROR)
 
-        const data = response?.data as IBaseError
-        expectTypeOf(data).toEqualTypeOf<IBaseError>()
+            const data: IBaseError = err.response?.data
+            expectTypeOf(data).toEqualTypeOf<IBaseError>()
 
-        expect(data.error).toEqual(`Error: ${errorMessageFromService}`)
-        expect(data.message).toBe(errorMessage)
+            expect(data.error).toEqual(`Error: ${errorMessageFromService}`)
+            expect(data.message).toBe(errorMessage)
+
+            return
+        }
+
+        assert.fail('This line should not be reached')
     }
 })
 ```
@@ -273,7 +279,7 @@ it('should return 500 with BaseError details - error passed', async() => {
 
 ## Unit Test
 ```typescript
-import { it, expect, expectTypeOf } from 'vitest'
+import { it, expect, expectTypeOf, assert } from 'vitest'
 import { BaseError, type IBaseError } from 'error-manager-helper'
 
 describe('Any test block', () => {
@@ -288,15 +294,20 @@ describe('Any test block', () => {
     it('should throw BaseError', () => {
         try {
             fn()
-            throw new Error('Base Error Test - This line should not be called')
-        } catch (err: unknown) {
-            const typedErr = err as IBaseError
+            assert.fail('This line should not be reached')
+        } catch (err) {
+            if (err instanceof BaseError) {
+                const typedErr: BaseError = err
 
-            expectTypeOf(typedErr).toEqualTypeOf<IBaseError>()
-            expect(typedErr).toBeInstanceOf(BaseError)
+                expectTypeOf(typedErr).toEqualTypeOf<IBaseError>()
 
-            expect(typedErr.error).toEqual(error)
-            expect(typedErr.message).toBe(errMsg)
+                expect(typedErr.error).toEqual(error)
+                expect(typedErr.message).toBe(errMsg)
+
+                return
+            }
+
+            assert.fail('This line should not be reached')
         }
     })
 })

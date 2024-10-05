@@ -90,7 +90,7 @@ export async function setup(): Promise<void> {
     app.get('/httpclient-error', async() => {
         try {
             await axios.get(`${BASE_URL}/notFound`)
-        } catch (e: unknown) {
+        } catch (e) {
             throw new HttpClientError(errorMessage, e as AxiosError)
         }
     })

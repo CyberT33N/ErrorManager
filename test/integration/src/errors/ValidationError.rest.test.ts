@@ -13,8 +13,8 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import axios, { type AxiosError } from 'axios'
-import { describe, it, expect, expectTypeOf } from 'vitest'
+import axios, { AxiosError } from 'axios'
+import { describe, it, expect, expectTypeOf, assert } from 'vitest'
 
 import type { IValidationError } from '@/src/errors/ValidationError'
 
@@ -30,46 +30,54 @@ describe('[INTEGRATION] - src/errors/ValidationError', () => {
     it('should return 400 with ValidationError details - error passed', async() => {
         try {
             await axios.get(`${BASE_URL}/validation-error?error=true`)
-            throw new Error('Validation Error Test - This should not be called')
-        } catch (e: unknown) {
-            const { response } = e as AxiosError
+            assert.fail('This line should not be reached')
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                expect(err.status).to.equal(StatusCodes.BAD_REQUEST)
 
-            expect(response?.status).to.equal(StatusCodes.BAD_REQUEST)
+                const data: IValidationError = err.response?.data
+                expectTypeOf(data).toEqualTypeOf<IValidationError>()
 
-            const data = response?.data as IValidationError
-            expectTypeOf(data).toEqualTypeOf<IValidationError>()
+                expect(data.message).to.equal(errorMessage)
+                expect(data.environment).to.equal(process.env.npm_lifecycle_event)
+                expect(data.name).to.equal(ErrorType.VALIDATION)
+                expect(data.error).to.equal(`Error: ${errorMessageOriginal}`)
+                expect(data.httpStatus).to.equal(StatusCodes.BAD_REQUEST)
+                expect(data.timestamp).toBeDefined()
+                expect(data.stack).toBeDefined()
+                expect(data.data).to.be.deep.equal(errorData)
 
-            expect(data.message).to.equal(errorMessage)
-            expect(data.environment).to.equal(process.env.npm_lifecycle_event)
-            expect(data.name).to.equal(ErrorType.VALIDATION)
-            expect(data.error).to.equal(`Error: ${errorMessageOriginal}`)
-            expect(data.httpStatus).to.equal(StatusCodes.BAD_REQUEST)
-            expect(data.timestamp).toBeDefined()
-            expect(data.stack).toBeDefined()
-            expect(data.data).to.be.deep.equal(errorData)
+                return
+            }
+
+            assert.fail('This line should not be reached')
         }
     })
 
     it('should return 400 with ValidationError details - no error passed', async() => {
         try {
             await axios.get(`${BASE_URL}/validation-error`)
-            throw new Error('Validation Error Test - This should not be called')
-        } catch (e: unknown) {
-            const { response } = e as AxiosError
+            assert.fail('This line should not be reached')
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                expect(err.status).to.equal(StatusCodes.BAD_REQUEST)
 
-            expect(response?.status).to.equal(StatusCodes.BAD_REQUEST)
+                const data: IValidationError = err.response?.data
+                expectTypeOf(data).toEqualTypeOf<IValidationError>()
 
-            const data = response?.data as IValidationError
-            expectTypeOf(data).toEqualTypeOf<IValidationError>()
+                expect(data.message).to.equal(errorMessage)
+                expect(data.environment).to.equal(process.env.npm_lifecycle_event)
+                expect(data.name).to.equal(ErrorType.VALIDATION)
 
-            expect(data.message).to.equal(errorMessage)
-            expect(data.environment).to.equal(process.env.npm_lifecycle_event)
-            expect(data.name).to.equal(ErrorType.VALIDATION)
+                expect(data.timestamp).toBeDefined()
+                expect(data.stack).toBeDefined()
+                expect(data.error).toBeUndefined()
+                expect(data.data).to.be.deep.equal(errorData)
 
-            expect(data.timestamp).toBeDefined()
-            expect(data.stack).toBeDefined()
-            expect(data.error).toBeUndefined()
-            expect(data.data).to.be.deep.equal(errorData)
+                return
+            }
+
+            assert.fail('This line should not be reached')
         }
     })
 })

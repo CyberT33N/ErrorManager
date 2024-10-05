@@ -13,8 +13,8 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import axios, { type AxiosError } from 'axios'
-import { describe, it, expect, expectTypeOf } from 'vitest'
+import axios, { AxiosError } from 'axios'
+import { describe, it, expect, expectTypeOf, assert } from 'vitest'
 
 import type { IRuntimeError } from '@/src/errors/RuntimeError'
 
@@ -29,23 +29,27 @@ describe('[INTEGRATION] - src/errors/RuntimeError', () => {
     it('should return 403 with RuntimeError details', async() => {
         try {
             await axios.get(`${BASE_URL}/runtime-error`)
-            throw new Error('Runtime Error Test - This should not be called')
-        } catch (err: unknown) {
-            const { response } = err as AxiosError
+            assert.fail('This line should not be reached')
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                expect(err.status).to.equal(StatusCodes.FORBIDDEN)
 
-            expect(response?.status).to.equal(StatusCodes.FORBIDDEN)
+                const data: IRuntimeError = err.response?.data
+                expectTypeOf(data).toEqualTypeOf<IRuntimeError>()
 
-            const data = response?.data as IRuntimeError
-            expectTypeOf(data).toEqualTypeOf<IRuntimeError>()
+                expect(data.message).to.equal(errorMessage)
+                expect(data.environment).to.equal(process.env.npm_lifecycle_event)
+                expect(data.name).to.equal(ErrorType.RUNTIME)
+                expect(data.error).to.equal(`Error: ${errorMessageOriginal}`)
+                expect(data.httpStatus).to.equal(StatusCodes.FORBIDDEN)
+                expect(data.timestamp).toBeDefined()
 
-            expect(data.message).to.equal(errorMessage)
-            expect(data.environment).to.equal(process.env.npm_lifecycle_event)
-            expect(data.name).to.equal(ErrorType.RUNTIME)
-            expect(data.error).to.equal(`Error: ${errorMessageOriginal}`)
-            expect(data.httpStatus).to.equal(StatusCodes.FORBIDDEN)
-            expect(data.timestamp).toBeDefined()
+                expect(data.stack).toBeDefined()
 
-            expect(data.stack).toBeDefined()
+                return
+            }
+
+            assert.fail('This line should not be reached')
         }
     })
 })

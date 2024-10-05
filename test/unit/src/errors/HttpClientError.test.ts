@@ -13,10 +13,10 @@
 ███████████████████████████████████████████████████████████████████████████████
 */
 
-import axios, { type AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 
 import {
-    describe, it, expect, beforeAll, afterAll
+    describe, it, expect, beforeAll, afterAll, assert
 } from 'vitest'
 
 import express from 'express'
@@ -114,24 +114,28 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
         it('should create new HttpClientError with original axios error', async() => {
             try {
                 await axios.get(url)
-                throw new Error('HttpClient Error Test - This should not be called')
-            } catch (err: unknown) {
-                const axiosError = err as AxiosError
+                assert.fail('This line should not be reached')
+            } catch (err) {
+                if (err instanceof AxiosError) {
+                    const httpClientError: IHttpClientError = new HttpClientError(
+                        errorMsg, err
+                    )
 
-                const httpClientError: IHttpClientError = new HttpClientError(
-                    errorMsg, axiosError
-                )
+                    expect(httpClientError.httpStatus).toBe(err?.response?.status)
+                    expect(httpClientError?.error).toBe(err)
 
-                expect(httpClientError.httpStatus).toBe(axiosError?.response?.status)
-                expect(httpClientError?.error).toBe(axiosError)
+                    const { data } = httpClientError
+                    expect(data.errorMessage).toBe(err.message)
+                    expect(data.headers).toBe(err?.config?.headers)
+                    expect(data.method).toBe(err?.config?.method)
+                    expect(data.payload).toBe(err?.config?.data)
+                    expect(data.responseData).toBe(err?.response?.data)
+                    expect(data.url).toBe(err?.config?.url)
 
-                const { data } = httpClientError
-                expect(data.errorMessage).toBe(axiosError.message)
-                expect(data.headers).toBe(axiosError?.config?.headers)
-                expect(data.method).toBe(axiosError?.config?.method)
-                expect(data.payload).toBe(axiosError?.config?.data)
-                expect(data.responseData).toBe(axiosError?.response?.data)
-                expect(data.url).toBe(axiosError?.config?.url)
+                    return
+                }
+
+                assert.fail('Error should be instance of Error')
             }
         })
     })
