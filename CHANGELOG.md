@@ -1,3 +1,12 @@
+# [4.3.0](https://github.com/CyberT33N/ErrorManager/compare/v4.2.0...v4.3.0) (2024-10-05)
+
+
+### Features
+
+* **CCS-001:** using stubEnv of vitest ([ed7c215](https://github.com/CyberT33N/ErrorManager/commit/ed7c21594692a200a82f87951369d0514a72568b))
+
+
+
 # [4.2.0](https://github.com/CyberT33N/ErrorManager/compare/v4.1.0...v4.2.0) (2024-10-04)
 
 
@@ -36,15 +45,6 @@
 ### Features
 
 * **CCS-001:** small changes ([de026fb](https://github.com/CyberT33N/ErrorManager/commit/de026fb031586b282008241f3abc7f3dfa71a039))
-
-
-
-# [3.23.0](https://github.com/CyberT33N/ErrorManager/compare/v3.22.0...v3.23.0) (2024-09-22)
-
-
-### Features
-
-* **CCS-001:** changed interfaces ([071ba47](https://github.com/CyberT33N/ErrorManager/commit/071ba47568d159ea6e6f7af84ccb7a472dc47871))
 
 
 
