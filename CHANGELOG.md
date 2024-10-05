@@ -1,3 +1,12 @@
+# [4.4.0](https://github.com/CyberT33N/ErrorManager/compare/v4.3.0...v4.4.0) (2024-10-05)
+
+
+### Features
+
+* **CCS-001:** added vitest option typecheck ([7a79adb](https://github.com/CyberT33N/ErrorManager/commit/7a79adbe7697e6efe6a7981f5ccfd88aa7ec0e31))
+
+
+
 # [4.3.0](https://github.com/CyberT33N/ErrorManager/compare/v4.2.0...v4.3.0) (2024-10-05)
 
 
@@ -36,15 +45,6 @@
 ### BREAKING CHANGES
 
 * renamed error interfaces
-
-
-
-# [3.24.0](https://github.com/CyberT33N/ErrorManager/compare/v3.23.0...v3.24.0) (2024-09-22)
-
-
-### Features
-
-* **CCS-001:** small changes ([de026fb](https://github.com/CyberT33N/ErrorManager/commit/de026fb031586b282008241f3abc7f3dfa71a039))
 
 
 
