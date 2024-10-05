@@ -1,3 +1,12 @@
+# [4.5.0](https://github.com/CyberT33N/ErrorManager/compare/v4.4.0...v4.5.0) (2024-10-05)
+
+
+### Features
+
+* **CCS-001:** changed try catch typescript logic ([38305db](https://github.com/CyberT33N/ErrorManager/commit/38305db124040087d4722a80aba8f2fb50dadfc0))
+
+
+
 # [4.4.0](https://github.com/CyberT33N/ErrorManager/compare/v4.3.0...v4.4.0) (2024-10-05)
 
 
@@ -31,20 +40,6 @@
 ### Features
 
 * **CCS-001:** added vitest type tests ([ec80863](https://github.com/CyberT33N/ErrorManager/commit/ec8086384000bd4650faf5fc84c9a348b7d5f5fb))
-
-
-
-# [4.0.0](https://github.com/CyberT33N/ErrorManager/compare/v3.24.0...v4.0.0) (2024-10-03)
-
-
-### Features
-
-* renamed error interfaces ([ec9fa26](https://github.com/CyberT33N/ErrorManager/commit/ec9fa2614f0de194134cd9a56e38c28749d3e002))
-
-
-### BREAKING CHANGES
-
-* renamed error interfaces
 
 
 
