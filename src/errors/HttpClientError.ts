@@ -27,7 +27,7 @@ export interface IAxiosErrorData {
     url: string | undefined
     method: string | undefined
     payload: unknown
-    headers: AxiosResponseHeaders | undefined;
+    headers: AxiosResponseHeaders | undefined
     responseData: unknown
     errorMessage: string
 }
@@ -88,7 +88,7 @@ export default class HttpClientError extends CoreError implements IHttpClientErr
 
         const { config, response } = error
 
-        const data = {
+        const data: IAxiosErrorData = {
             url: config?.url,
             method: config?.method,
             payload: config?.data,
@@ -101,7 +101,7 @@ export default class HttpClientError extends CoreError implements IHttpClientErr
         this.name = ErrorType.HTTP_CLIENT
 
         // HTTP status code (if available), default is 500 (INTERNAL_SERVER_ERROR)
-        this.httpStatus = response?.status || StatusCodes.INTERNAL_SERVER_ERROR
+        this.httpStatus = response?.status ?? StatusCodes.INTERNAL_SERVER_ERROR
 
         // Stores all relevant information in the data object
         this.data = data

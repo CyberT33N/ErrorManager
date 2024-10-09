@@ -30,14 +30,12 @@ export interface IErrorResponseSanitized extends Omit<
      stack: SanitizedMessage.DEFAULT | ICoreError['stack']
 }
 
-export interface IErrorMiddleware {
-    (
-        err: ICoreError,
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ): void
-}
+export type IErrorMiddleware = (
+    err: ICoreError,
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => void
 
 /**
  * @function errorMiddleware
@@ -49,7 +47,10 @@ export interface IErrorMiddleware {
  * 
  * Middleware function for handling and formatting errors in an Express application.
  * It logs the full error details and sends a sanitized version of the error response to the client.
- */
+ *
+ * In order to get detected as error middleware, the function must have 4 parameters.
+ * For this reason we disable the eslint rule (no-unused-vars).
+*/
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const errorMiddleware: IErrorMiddleware = (err, req, res, next) => {
     const {
@@ -90,7 +91,7 @@ const errorMiddleware: IErrorMiddleware = (err, req, res, next) => {
 
     console.error('[ErrorManager] Full Error: ', fullError)
 
-    const status = httpStatus || StatusCodes.INTERNAL_SERVER_ERROR
+    const status = httpStatus ?? StatusCodes.INTERNAL_SERVER_ERROR
     res.status(status).json(fullErrorSanitized)
 }
 
