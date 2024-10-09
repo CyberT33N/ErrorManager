@@ -1,3 +1,12 @@
+# [4.6.0](https://github.com/CyberT33N/ErrorManager/compare/v4.5.0...v4.6.0) (2024-10-09)
+
+
+### Features
+
+* **CCS-001:** added tseslint stylisticTypeChecked & recommendedTypeChecked ([c83b366](https://github.com/CyberT33N/ErrorManager/commit/c83b366662c615761a24e70a9672fa10351b9851))
+
+
+
 # [4.5.0](https://github.com/CyberT33N/ErrorManager/compare/v4.4.0...v4.5.0) (2024-10-05)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-001:** updated vitest ([72826cd](https://github.com/CyberT33N/ErrorManager/commit/72826cd08092d82a09b66fdceb18ca2314295a77))
-
-
-
-# [4.1.0](https://github.com/CyberT33N/ErrorManager/compare/v4.0.0...v4.1.0) (2024-10-03)
-
-
-### Features
-
-* **CCS-001:** added vitest type tests ([ec80863](https://github.com/CyberT33N/ErrorManager/commit/ec8086384000bd4650faf5fc84c9a348b7d5f5fb))
 
 
 
