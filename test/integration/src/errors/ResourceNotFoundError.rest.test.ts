@@ -14,7 +14,7 @@
 */
 
 import axios, { AxiosError } from 'axios'
-import { describe, it, expect, expectTypeOf, assert } from 'vitest'
+import { describe, it, expect, assert } from 'vitest'
 
 import type { IResourceNotFoundError } from '@/src/errors/ResourceNotFoundError'
 
@@ -35,8 +35,7 @@ describe('[INTEGRATION] - src/errors/ResourceNotFoundError', () => {
             if (err instanceof AxiosError) {
                 expect(err.status).to.equal(StatusCodes.NOT_FOUND)
 
-                const data: IResourceNotFoundError = err.response?.data
-                expectTypeOf(data).toEqualTypeOf<IResourceNotFoundError>()
+                const data = err.response?.data as IResourceNotFoundError
 
                 expect(data.message).to.equal(errorMessage)
                 expect(data.environment).to.equal(process.env.npm_lifecycle_event)
@@ -64,8 +63,7 @@ describe('[INTEGRATION] - src/errors/ResourceNotFoundError', () => {
             if (err instanceof AxiosError) {
                 expect(err.status).to.equal(StatusCodes.NOT_FOUND)
 
-                const data: IResourceNotFoundError = err.response?.data
-                expectTypeOf(data).toEqualTypeOf<IResourceNotFoundError>()
+                const data = err.response?.data as IResourceNotFoundError
 
                 expect(data.message).to.equal(errorMessage)
                 expect(data.environment).to.equal(process.env.npm_lifecycle_event)

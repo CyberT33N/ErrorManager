@@ -94,7 +94,7 @@ describe('[UNIT TEST] - src/errors/HttpClientError.ts', () => {
         const PORT = 3871
         const url = `http://localhost:${PORT}/found`
 
-        beforeAll(async() => {
+        beforeAll(() => {
             const app = express()
 
             app.get('/found', () => {

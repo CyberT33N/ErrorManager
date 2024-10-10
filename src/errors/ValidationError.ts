@@ -50,8 +50,7 @@ export default class ValidationError extends CoreError implements IValidationErr
      * @type {StatusCodes.BAD_REQUEST}
      */
     httpStatus: StatusCodes.BAD_REQUEST
-  
-    
+
     /**
      * Creates a new instance of `ValidationError`
      * 

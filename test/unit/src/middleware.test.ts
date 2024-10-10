@@ -21,7 +21,7 @@ import {
 } from 'vitest'
 
 import {
-    ValidationError, type IValidationError,
+    ValidationError,
     ErrorType
 } from '@/src/index'
 
@@ -50,7 +50,7 @@ describe('[UNIT TEST] - src/middleware.ts', () => {
         const errMsgOriginal = 'Test error original'
         const errData  = { data: 'test' }    
         const error: Error = new Error(errMsgOriginal)
-        const validationErr: IValidationError = new ValidationError(errMsg, errData, error)
+        const validationErr = new ValidationError(errMsg, errData, error)
 
         beforeEach(() => {
             jsonStub = sinon.stub()

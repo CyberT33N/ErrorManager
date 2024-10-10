@@ -14,7 +14,7 @@
 */
 
 import axios, { AxiosError } from 'axios'
-import { describe, it, expect, expectTypeOf, assert } from 'vitest'
+import { describe, it, expect, assert } from 'vitest'
 
 import type { IHttpClientError } from '@/src/errors/HttpClientError'
  
@@ -34,8 +34,7 @@ describe('[INTEGRATION] - src/errors/HttpClientError', () => {
             if (err instanceof AxiosError) {
                 expect(err.status).to.equal(StatusCodes.NOT_FOUND)
 
-                const data: IHttpClientError = err.response?.data
-                expectTypeOf(data).toEqualTypeOf<IHttpClientError>()
+                const data = err.response?.data as IHttpClientError
 
                 expect(data.message).toBe(errorMessage)
                 expect(data.environment).toBe(process.env.npm_lifecycle_event)

@@ -14,7 +14,7 @@
 */
 
 import axios, { AxiosError } from 'axios'
-import { describe, it, expect, expectTypeOf, assert } from 'vitest'
+import { describe, it, expect, assert } from 'vitest'
 
 import type { IBaseError } from '@/src/errors/BaseError'
 
@@ -34,9 +34,7 @@ describe('[INTEGRATION] - src/errors/BaseError', () => {
             if (err instanceof AxiosError) {
                 expect(err.status).to.equal(StatusCodes.INTERNAL_SERVER_ERROR)
 
-                const data: IBaseError = err.response?.data
-                expectTypeOf(data).toEqualTypeOf<IBaseError>()
-
+                const data = err.response?.data as IBaseError
                 expect(data.message).to.equal(errorMessage)
                 expect(data.environment).to.equal(process.env.npm_lifecycle_event)
                 expect(data.name).to.equal(ErrorType.BASE)
@@ -60,9 +58,7 @@ describe('[INTEGRATION] - src/errors/BaseError', () => {
             if (err instanceof AxiosError) {
                 expect(err.status).to.equal(StatusCodes.INTERNAL_SERVER_ERROR)
 
-                const data: IBaseError = err.response?.data
-                expectTypeOf(data).toEqualTypeOf<IBaseError>()
-
+                const data = err.response?.data as IBaseError
                 expect(data.message).to.equal(errorMessage)
                 expect(data.environment).to.equal(process.env.npm_lifecycle_event)
                 expect(data.name).to.equal(ErrorType.BASE)

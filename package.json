@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npx eslint src && tsup",
+    "build": "npx eslint src test && tsup",
     "test-only": "bash test-only.sh",
     "test": "vitest --typecheck --coverage --disable-console-intercept --watch=false",
     "test:watch": "vitest --typecheck --watch",

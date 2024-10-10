@@ -54,9 +54,9 @@ const { PORT, BASE_URL } = ServerDetails
 let server: Server
 /**
  * Sets up the server and defines routes to trigger different types of errors.
- * @returns {Promise<void>} A promise that resolves when the server is set up.
+ * @returns {void} A promise that resolves when the server is set up.
  */
-export async function setup(): Promise<void> {
+export function setup(): void {
     const app = express()
 
     app.get('/found', (req, res) => {
@@ -94,7 +94,7 @@ export async function setup(): Promise<void> {
             throw new HttpClientError(errorMessage, e as AxiosError)
         }
     })
-       
+
     // Sample route to trigger ResourceNotFoundError
     app.get('/resource-not-found', req => {
         if (req.query.error) {
@@ -119,6 +119,6 @@ export async function setup(): Promise<void> {
 /**
  * Closes the server.
  */
-export async function teardown(): Promise<void> {
+export function teardown(): void {
     server.close()
 }

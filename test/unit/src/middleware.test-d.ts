@@ -36,14 +36,12 @@ describe('[TYPE TEST] - src/middleware.ts', () => {
         stack: SanitizedMessage.DEFAULT | ICoreError['stack']
     }
 
-    interface IErrorMiddleware_Test {
-        (
-            err: ICoreError,
-            req: Request,
-            res: Response,
-            next: NextFunction
-        ): void
-    }
+    type IErrorMiddleware_Test = (
+        err: ICoreError,
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => void
 
     describe('[FUNCTION]', () => {
         it('should verify function type', () => {

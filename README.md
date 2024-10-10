@@ -14,12 +14,11 @@ import { errorMiddleware, HttpClientError } from 'error-manager-helper'
 
 const app = express()
 
-// Sample route to trigger custom error HttpClientError with axios
-app.get('/httpclient-error', async() => {
+app.get('/httpclient-error', () => {
     try {
         await axios.get('https://anySample.website/notFound')
-    } catch (err) {
-        throw new HttpClientError('Test error', err as AxiosError)
+    } catch (e) {
+        throw new HttpClientError(errorMessage, e as AxiosError)
     }
 })
 
@@ -35,7 +34,7 @@ console.log(`Server is running on port ${port}`)
 
 Response:
 ```javascript
-const res = await axios.get('http://localhost:3000/httpclient-error')
+const res = await axios.get('http://127.0.0.1:3000/httpclient-error')
 console.log(res.response.data)
 
 {
@@ -249,7 +248,7 @@ _________________________________________
 - The example below demonstrates an integration test for an internal service that throws a `BaseError`. 
 ```typescript
 import axios, { AxiosError } from 'axios'
-import { it, expect, expectTypeOf, assert } from 'vitest'
+import { it, expect, assert } from 'vitest'
 import { type IBaseError, StatusCodes } from 'error-manager-helper'
 
 it('should return 500 with BaseError details - error passed', async() => {
@@ -260,9 +259,7 @@ it('should return 500 with BaseError details - error passed', async() => {
         if (err instanceof AxiosError) {
             expect(err.status).to.equal(StatusCodes.INTERNAL_SERVER_ERROR)
 
-            const data: IBaseError = err.response?.data
-            expectTypeOf(data).toEqualTypeOf<IBaseError>()
-
+            const data = err.response?.data as IBaseError
             expect(data.error).toEqual(`Error: ${errorMessageFromService}`)
             expect(data.message).toBe(errorMessage)
 
@@ -279,12 +276,12 @@ it('should return 500 with BaseError details - error passed', async() => {
 
 ## Unit Test
 ```typescript
-import { it, expect, expectTypeOf, assert } from 'vitest'
+import { it, expect, assert, describe } from 'vitest'
 import { BaseError, type IBaseError } from 'error-manager-helper'
 
 describe('Any test block', () => {
     const errMsg = 'Test error'
-    const errMsgOriginal 'Test error original'
+    const errMsgOriginal = 'Test error original'
     const error = new Error(errMsgOriginal)
 
     const fn = () => {
@@ -298,8 +295,6 @@ describe('Any test block', () => {
         } catch (err) {
             if (err instanceof BaseError) {
                 const typedErr: BaseError = err
-
-                expectTypeOf(typedErr).toEqualTypeOf<IBaseError>()
 
                 expect(typedErr.error).toEqual(error)
                 expect(typedErr.message).toBe(errMsg)

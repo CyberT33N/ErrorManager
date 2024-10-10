@@ -76,6 +76,13 @@ export default tseslint.config(
             // '@typescript-eslint/no-var-requires': 'off',
             // '@typescript-eslint/explicit-module-boundary-types': 'off',
             // '@typescript-eslint/no-empty-function   ': 'off',
+
+            '@typescript-eslint/no-misused-promises': [
+                'error',
+                {
+                    'checksVoidReturn': false
+                }
+            ]
         }
     }
 )

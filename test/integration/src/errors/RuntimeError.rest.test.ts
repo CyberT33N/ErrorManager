@@ -14,7 +14,7 @@
 */
 
 import axios, { AxiosError } from 'axios'
-import { describe, it, expect, expectTypeOf, assert } from 'vitest'
+import { describe, it, expect, assert } from 'vitest'
 
 import type { IRuntimeError } from '@/src/errors/RuntimeError'
 
@@ -34,8 +34,7 @@ describe('[INTEGRATION] - src/errors/RuntimeError', () => {
             if (err instanceof AxiosError) {
                 expect(err.status).to.equal(StatusCodes.FORBIDDEN)
 
-                const data: IRuntimeError = err.response?.data
-                expectTypeOf(data).toEqualTypeOf<IRuntimeError>()
+                const data = err.response?.data as IRuntimeError
 
                 expect(data.message).to.equal(errorMessage)
                 expect(data.environment).to.equal(process.env.npm_lifecycle_event)

@@ -29,9 +29,6 @@ export default defineConfig({
         setupFiles: 'test/unit/pretestEach.ts',
         globalSetup: 'test/integration/pretestAll.ts',
         environment: 'node',
-        typecheck: {
-            include: ['**/*.{test,spec}.?(c|m)[jt]s?(x)']
-        },
         coverage: {
             /**
              * Specifies the directories to include for coverage.
