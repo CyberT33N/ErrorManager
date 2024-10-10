@@ -1,3 +1,12 @@
+# [4.7.0](https://github.com/CyberT33N/ErrorManager/compare/v4.6.0...v4.7.0) (2024-10-10)
+
+
+### Features
+
+* **CCS-001:** fixed some tseslint errors ([3efa2af](https://github.com/CyberT33N/ErrorManager/commit/3efa2afd44c4f702945d6d4e3158fb8514c96620))
+
+
+
 # [4.6.0](https://github.com/CyberT33N/ErrorManager/compare/v4.5.0...v4.6.0) (2024-10-09)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-001:** using stubEnv of vitest ([ed7c215](https://github.com/CyberT33N/ErrorManager/commit/ed7c21594692a200a82f87951369d0514a72568b))
-
-
-
-# [4.2.0](https://github.com/CyberT33N/ErrorManager/compare/v4.1.0...v4.2.0) (2024-10-04)
-
-
-### Features
-
-* **CCS-001:** updated vitest ([72826cd](https://github.com/CyberT33N/ErrorManager/commit/72826cd08092d82a09b66fdceb18ca2314295a77))
 
 
 
