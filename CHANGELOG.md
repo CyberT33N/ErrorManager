@@ -1,3 +1,12 @@
+# [4.8.0](https://github.com/CyberT33N/ErrorManager/compare/v4.7.0...v4.8.0) (2024-10-10)
+
+
+### Features
+
+* **CCS-001:** updated README.md ([c45ef7c](https://github.com/CyberT33N/ErrorManager/commit/c45ef7c2f3c37693fe2e671c6f74c7db0b34d7d4))
+
+
+
 # [4.7.0](https://github.com/CyberT33N/ErrorManager/compare/v4.6.0...v4.7.0) (2024-10-10)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-001:** added vitest option typecheck ([7a79adb](https://github.com/CyberT33N/ErrorManager/commit/7a79adbe7697e6efe6a7981f5ccfd88aa7ec0e31))
-
-
-
-# [4.3.0](https://github.com/CyberT33N/ErrorManager/compare/v4.2.0...v4.3.0) (2024-10-05)
-
-
-### Features
-
-* **CCS-001:** using stubEnv of vitest ([ed7c215](https://github.com/CyberT33N/ErrorManager/commit/ed7c21594692a200a82f87951369d0514a72568b))
 
 
 
