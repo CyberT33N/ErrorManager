@@ -1,3 +1,12 @@
+# [4.11.0](https://github.com/CyberT33N/ErrorManager/compare/v4.10.0...v4.11.0) (2024-10-13)
+
+
+### Features
+
+* **CCS-001:** style changes for errorMiddleware ([32bffdf](https://github.com/CyberT33N/ErrorManager/commit/32bffdf9738e4ea6d6ce0aec747ed55ac560c88e))
+
+
+
 # [4.10.0](https://github.com/CyberT33N/ErrorManager/compare/v4.9.0...v4.10.0) (2024-10-12)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-001:** fixed some tseslint errors ([3efa2af](https://github.com/CyberT33N/ErrorManager/commit/3efa2afd44c4f702945d6d4e3158fb8514c96620))
-
-
-
-# [4.6.0](https://github.com/CyberT33N/ErrorManager/compare/v4.5.0...v4.6.0) (2024-10-09)
-
-
-### Features
-
-* **CCS-001:** added tseslint stylisticTypeChecked & recommendedTypeChecked ([c83b366](https://github.com/CyberT33N/ErrorManager/commit/c83b366662c615761a24e70a9672fa10351b9851))
 
 
 
