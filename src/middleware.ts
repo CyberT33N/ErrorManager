@@ -54,25 +54,26 @@ export type IErrorMiddleware = (
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const errorMiddleware: IErrorMiddleware = (err, req, res, next) => {
     const {
-        message, // <-- This is the error message from our custom error classes
+        message,
         data,
         httpStatus,
         name,
         stack,
         timestamp,
-        error // <-- This is the original error that caused the custom error
+        error
     } = err
 
-    // Base will be always there does not matter which npm_lifecycle_event
+    const npmLifecycleEvent = process.env.npm_lifecycle_event
+    const isSanitized = npmLifecycleEvent === 'start'
+
     const base: ICoreError = {
         name,
-        environment: process.env.npm_lifecycle_event!,
+        environment: npmLifecycleEvent!,
         timestamp: timestamp || new Date().toISOString(),
         message,
         httpStatus
     }
 
-    // Full error with error message and stack
     const fullError: ICoreError = {
         ...base,
         error,
@@ -80,19 +81,16 @@ const errorMiddleware: IErrorMiddleware = (err, req, res, next) => {
         stack
     }
 
-    // If npm_lifecycle_event is start we sanitize the error message and stacktrace
     const fullErrorSanitized: IErrorResponseSanitized = {
         ...base,
-        data: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : data,
-        stack: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : stack,
-        // We must use toString() because error can be an instance of Error
-        error: process.env.npm_lifecycle_event === 'start' ? SanitizedMessage.DEFAULT : error?.toString()
+        data: isSanitized ? SanitizedMessage.DEFAULT : data,
+        stack: isSanitized ? SanitizedMessage.DEFAULT : stack,
+        error: isSanitized ? SanitizedMessage.DEFAULT : error?.toString()
     }
 
     console.error('[ErrorManager] Full Error: ', fullError)
-
-    const status = httpStatus ?? StatusCodes.INTERNAL_SERVER_ERROR
-    res.status(status).json(fullErrorSanitized)
+    res.status(httpStatus ?? StatusCodes.INTERNAL_SERVER_ERROR).json(fullErrorSanitized)
 }
+
 
 export default errorMiddleware
