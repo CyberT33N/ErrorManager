@@ -338,11 +338,8 @@ describe('Any test block', () => {
             assert.fail('This line should not be reached');
         } catch (err) {
             if (err instanceof BaseError) {
-                const typedErr = err;
-
-                expect(typedErr.error).toEqual(error);
-                expect(typedErr.message).toBe(errMsg);
-
+                expect(err.error).toEqual(error);
+                expect(err.message).toBe(errMsg);
                 return;
             }
 
