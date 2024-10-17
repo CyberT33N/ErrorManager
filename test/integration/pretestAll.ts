@@ -29,18 +29,30 @@ import {
     ResourceNotFoundError,
     HttpClientError,
     StatusCodes
-}  from '@/src/index'
+} from '@/src/index'
 
+/**
+ * 🌐 Enum representing server configuration details.
+ * @enum {number|string}
+ */
 export enum ServerDetails {
     PORT = 3876,
     BASE_URL = 'http://localhost:3876'
 }
 
+/**
+ * 🌐 Enum representing error messages for testing purposes.
+ * @enum {string}
+ */
 export enum ErrorDetails {
     errorMessage = 'Test error',
     errorMessageOriginal = 'Test error original'
 }
 
+/**
+ * 📦 Constant object holding example error data.
+ * @constant {Object}
+ */
 export const ErrorData = {
     exampleOne: { field: 'value' }
 } as const
@@ -52,23 +64,26 @@ const error = new Error(errorMessageOriginal)
 const { PORT, BASE_URL } = ServerDetails
 
 let server: Server
+
 /**
- * Sets up the server and defines routes to trigger different types of errors.
+ * 🔧 Sets up the server and defines routes to trigger different types of errors.
+ * 
  * @returns {void} A promise that resolves when the server is set up.
  */
 export function setup(): void {
     const app = express()
 
+    // 🌍 Route to respond with a greeting message.
     app.get('/found', (req, res) => {
         res.send('Hello World!')
     })
 
-    // Sample route to trigger BaseError
+    // ⚠️ Sample route to trigger BaseError.
     app.get('/normal-error', () => {
         throw error
     })
 
-    // Sample route to trigger BaseError
+    // ⚠️ Sample route to trigger BaseError with custom error handling.
     app.get('/base-error', req => {
         if (req.query.error) {
             throw new BaseError(errorMessage, error)
@@ -77,7 +92,7 @@ export function setup(): void {
         }
     })
 
-    // Sample route to trigger ValidationError
+    // ⚠️ Sample route to trigger ValidationError with optional error data.
     app.get('/validation-error', req => {
         if (req.query.error) {
             throw new ValidationError(errorMessage, errorData, error)
@@ -86,7 +101,7 @@ export function setup(): void {
         }
     })
 
-    // Sample route to trigger HttpClientError
+    // ⚠️ Sample route to trigger HttpClientError by making an API call.
     app.get('/httpclient-error', async() => {
         try {
             await axios.get(`${BASE_URL}/notFound`)
@@ -95,7 +110,7 @@ export function setup(): void {
         }
     })
 
-    // Sample route to trigger ResourceNotFoundError
+    // ⚠️ Sample route to trigger ResourceNotFoundError with optional error data.
     app.get('/resource-not-found', req => {
         if (req.query.error) {
             throw new ResourceNotFoundError(errorMessage, errorData, error)
@@ -103,13 +118,13 @@ export function setup(): void {
             throw new ResourceNotFoundError(errorMessage, errorData)
         }
     })
-       
-    // Sample route to trigger RuntimeError
+
+    // ⚠️ Sample route to trigger RuntimeError.
     app.get('/runtime-error', () => {
         throw new RuntimeError(errorMessage, StatusCodes.FORBIDDEN, error)
     })
 
-    // Middleware should be the last of all..
+    // 🛡️ Middleware should be the last of all.
     app.use(errorMiddleware)
 
     server = app.listen(PORT)
@@ -117,7 +132,9 @@ export function setup(): void {
 }
 
 /**
- * Closes the server.
+ * 🔒 Closes the server.
+ * 
+ * @returns {void} A promise that resolves when the server is closed.
  */
 export function teardown(): void {
     server.close()

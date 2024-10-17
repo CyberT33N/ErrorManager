@@ -21,10 +21,11 @@ const cfg = mergeConfig(vitestConfig, defineConfig({
     test: {
         include: ['test/integration/**/*.test.ts'],
         globalSetup: 'test/integration/pretestAll.ts',
-        watch: false
+        watch: false,
+        coverage: {
+            include: ['src/middleware.ts', 'src/errors/']
+        }
     }
 }))
-
-cfg.test.coverage.include = ['src/middleware.ts', 'src/errors/']
 
 export default cfg
