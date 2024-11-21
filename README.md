@@ -1,4 +1,4 @@
-# 𝑬𝒓𝒓𝒐𝒓𝑴𝒂𝒏𝒂𝒈𝒆𝒓 🌟💻
+# 𝑬𝒓𝒓𝒐𝒓 𝑴𝒂𝒏𝒂𝒈𝒆𝒓 💻
 
 An Express error middleware that provides custom error types for efficient error handling across various use cases.
 
