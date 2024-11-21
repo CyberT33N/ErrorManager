@@ -1,3 +1,12 @@
+# [4.14.0](https://github.com/CyberT33N/ErrorManager/compare/v4.13.0...v4.14.0) (2024-11-21)
+
+
+### Features
+
+* **CCS-001:** updated README.md ([df279f8](https://github.com/CyberT33N/ErrorManager/commit/df279f8dd24d56535b348fe61ad65a0846b0b2f4))
+
+
+
 # [4.13.0](https://github.com/CyberT33N/ErrorManager/compare/v4.12.0...v4.13.0) (2024-10-17)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-001:** fixed package.json export ([ce034f2](https://github.com/CyberT33N/ErrorManager/commit/ce034f291f187d1172663654516f82c2b7459c9a))
-
-
-
-# [4.9.0](https://github.com/CyberT33N/ErrorManager/compare/v4.8.0...v4.9.0) (2024-10-10)
-
-
-### Features
-
-* **CCS-001:** updated README.md ([50c6408](https://github.com/CyberT33N/ErrorManager/commit/50c64088af376a903b0369e2af800914c5ba3d6d))
 
 
 
