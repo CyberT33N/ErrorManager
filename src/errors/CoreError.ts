@@ -81,5 +81,6 @@ export default class CoreError extends Error implements ICoreError {
 
         this.environment = process.env.npm_lifecycle_event!
         this.timestamp = new Date().toISOString()
+        console.error(this)
     }
 }
