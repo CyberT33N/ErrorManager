@@ -1,3 +1,12 @@
+# [4.16.0](https://github.com/CyberT33N/ErrorManager/compare/v4.15.0...v4.16.0) (2025-06-01)
+
+
+### Features
+
+* npm audit fix ([e363c10](https://github.com/CyberT33N/ErrorManager/commit/e363c101cc3f881dd560cd65b5ef727fc5d7de48))
+
+
+
 # [4.15.0](https://github.com/CyberT33N/ErrorManager/compare/v4.14.0...v4.15.0) (2025-06-01)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-001:** updated README.md ([3c13b3d](https://github.com/CyberT33N/ErrorManager/commit/3c13b3de55cdbcc09893b2377f2c7174d50e2942))
-
-
-
-# [4.11.0](https://github.com/CyberT33N/ErrorManager/compare/v4.10.0...v4.11.0) (2024-10-13)
-
-
-### Features
-
-* **CCS-001:** style changes for errorMiddleware ([32bffdf](https://github.com/CyberT33N/ErrorManager/commit/32bffdf9738e4ea6d6ce0aec747ed55ac560c88e))
 
 
 
