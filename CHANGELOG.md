@@ -1,3 +1,12 @@
+# [4.15.0](https://github.com/CyberT33N/ErrorManager/compare/v4.14.0...v4.15.0) (2025-06-01)
+
+
+### Features
+
+* Added console.error to CoreError ([5b276b4](https://github.com/CyberT33N/ErrorManager/commit/5b276b4a15efe659041edd0cbd295a59d11d8600))
+
+
+
 # [4.14.0](https://github.com/CyberT33N/ErrorManager/compare/v4.13.0...v4.14.0) (2024-11-21)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-001:** style changes for errorMiddleware ([32bffdf](https://github.com/CyberT33N/ErrorManager/commit/32bffdf9738e4ea6d6ce0aec747ed55ac560c88e))
-
-
-
-# [4.10.0](https://github.com/CyberT33N/ErrorManager/compare/v4.9.0...v4.10.0) (2024-10-12)
-
-
-### Features
-
-* **CCS-001:** fixed package.json export ([ce034f2](https://github.com/CyberT33N/ErrorManager/commit/ce034f291f187d1172663654516f82c2b7459c9a))
 
 
 
