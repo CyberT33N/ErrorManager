@@ -1,3 +1,12 @@
+# [4.17.0](https://github.com/CyberT33N/ErrorManager/compare/v4.16.0...v4.17.0) (2025-06-28)
+
+
+### Features
+
+* Fixed object type ([3c600a0](https://github.com/CyberT33N/ErrorManager/commit/3c600a0602415f008a266d2947442701be2208e4))
+
+
+
 # [4.16.0](https://github.com/CyberT33N/ErrorManager/compare/v4.15.0...v4.16.0) (2025-06-01)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **CCS-001:** changed jsdocs ([0c5ffaa](https://github.com/CyberT33N/ErrorManager/commit/0c5ffaa53c9ac0be75576311bdef43007353a192))
-
-
-
-# [4.12.0](https://github.com/CyberT33N/ErrorManager/compare/v4.11.0...v4.12.0) (2024-10-16)
-
-
-### Features
-
-* **CCS-001:** updated README.md ([3c13b3d](https://github.com/CyberT33N/ErrorManager/commit/3c13b3de55cdbcc09893b2377f2c7174d50e2942))
 
 
 
