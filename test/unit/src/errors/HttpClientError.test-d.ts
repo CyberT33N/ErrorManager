@@ -41,7 +41,7 @@ describe('[TYPE TEST] - src/errors/HttpClientError.ts', () => {
      * @property {unknown} responseData - The data received in the response.
      * @property {string} errorMessage - A descriptive error message.
      */
-    interface IAxiosErrorData_Test {
+    interface IAxiosErrorData_Test extends Record<string, unknown> {
         url: string | undefined
         method: string | undefined
         payload: unknown

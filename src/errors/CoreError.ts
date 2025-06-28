@@ -32,7 +32,7 @@ import { StatusCodes } from 'http-status-codes'
  */
 export interface ICoreError extends Error {
     error?: Error
-    data?: object
+    data?: Record<string, unknown>
     httpStatus?: StatusCodes
     environment: string
     timestamp: string

@@ -33,7 +33,7 @@ import {
  */
 export interface ICoreError_Test extends Error {
     error?: Error
-    data?: object
+    data?: Record<string, unknown>
     httpStatus?: StatusCodes
     environment: string
     timestamp: string

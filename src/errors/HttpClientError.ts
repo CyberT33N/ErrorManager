@@ -29,7 +29,7 @@ import type { AxiosResponseHeaders, AxiosError } from 'axios'
  * @property {unknown} responseData - The response data from the server.
  * @property {string} errorMessage - The error message returned by Axios.
  */
-export interface IAxiosErrorData {
+export interface IAxiosErrorData extends Record<string, unknown> {
     url: string | undefined
     method: string | undefined
     payload: unknown
